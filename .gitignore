@@ -1,5 +1,6 @@
 .cljs_rhino_repl
 /resources/public/js/compiled/**
+!/resources/public/js/compiled/swaggerdown.js
 figwheel_server.log
 pom.xml
 *jar
