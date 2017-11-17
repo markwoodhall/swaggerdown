@@ -8,7 +8,6 @@
 
 (defonce url-validation [:url clova/required? clova/url?])
 
-(defonce api-url "/api")
 (defonce app-state 
   (atom {:title "Swaggerdown" 
          :tagline "Generate documentation from your swagger!"
@@ -19,6 +18,14 @@
                       {:title "Markdown" :ext ".md" :content-type "application/markdown"}
                       {:title "PDF" :ext ".pdf" :content-type "application/pdf" :coming-soon? true}
                       {:title "Asciidoc" :ext ".adoc" :content-type "text/asciidoc" :coming-soon? true}]}))
+
+(defn api-url
+  []
+  (if (s/includes? (.-href (.-location js/window)) "http://localhost:3449") ;; figwheel
+    "http://localhost:3080/api"
+    "/api"))
+
+(.-href (.-location js/window))
 
 (defn generate-handler
   [content-type ev] 
@@ -39,7 +46,7 @@
     (swap! app-state assoc :loading? true)
     (doto
       (new js/XMLHttpRequest)
-      (.open "POST" (str api-url "/documentation"))
+      (.open "POST" (str (api-url) "/documentation"))
       (.setRequestHeader "Accept" content-type)
       (.setRequestHeader "Content-Type" "application/x-www-form-urlencoded")
       (.addEventListener "load" (partial generate-handler content-type))
