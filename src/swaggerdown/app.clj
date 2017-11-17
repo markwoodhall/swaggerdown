@@ -1,7 +1,8 @@
 (ns swaggerdown.app
   (:require [com.stuartsierra.component :as component]
             [swaggerdown.resources :refer [documentation access-control]]
-            [yada.yada :refer [listener resource as-resource]])
+            [yada.yada :refer [listener resource]]
+            [yada.resources.classpath-resource :refer [new-classpath-resource]])
   (:gen-class))
 
 (defrecord Server [port]
@@ -10,11 +11,17 @@
     (println "Starting server on port" port)
     (let [srv (listener
                 ["/"
-                 [["documentation" 
-                   (-> ["http://petstore.swagger.io/v2/swagger.json"] 
-                       documentation
-                       (merge access-control)
-                       resource)]]]
+                 [ 
+                  ["api/" 
+                   [
+                    ["documentation" 
+                     (-> ["http://petstore.swagger.io/v2/swagger.json"] 
+                         documentation
+                         (merge access-control)
+                         resource)]]]
+                  ["" (new-classpath-resource "public")]
+                  ]
+                 ]
                  {:port port})]
       (assoc this :server srv)))
   (stop [{:keys [port server] :as this}]

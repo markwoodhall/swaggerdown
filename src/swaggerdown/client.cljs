@@ -8,7 +8,7 @@
 
 (defonce url-validation [:url clova/required? clova/url?])
 
-(defonce api-url "http://localhost:3080")
+(defonce api-url "/api")
 (defonce app-state 
   (atom {:title "Swaggerdown" 
          :tagline "Generate documentation from your swagger!"
@@ -20,6 +20,19 @@
                       {:title "PDF" :ext ".pdf" :content-type "application/pdf" :coming-soon? true}
                       {:title "Asciidoc" :ext ".adoc" :content-type "text/asciidoc" :coming-soon? true}]}))
 
+(defn generate-handler
+  [content-type ev] 
+  (when (= ev.target.status 200)
+    (swap! app-state assoc :downloadable {:content-type content-type :data (b64/encodeString ev.currentTarget.responseText)})
+    (->> (if (= content-type "application/markdown")
+           (-> ev.currentTarget.responseText
+               (s/replace  " " "&nbsp;")
+               (s/replace "\n" "<br />"))
+           ev.currentTarget.responseText)
+         (swap! app-state assoc :preview))
+    (swap! app-state assoc :error? (not= ev.target.status 200))
+    (swap! app-state assoc :loading? false)))
+
 (defn generate [generator app e]
   (let [{:keys [url]} app
         {:keys [content-type]} generator]
@@ -29,19 +42,7 @@
       (.open "POST" (str api-url "/documentation"))
       (.setRequestHeader "Accept" content-type)
       (.setRequestHeader "Content-Type" "application/x-www-form-urlencoded")
-      (.addEventListener
-        "load"
-        (fn [ev]
-          (when (= ev.target.status 200)
-            (swap! app-state assoc :downloadable {:content-type content-type :data (b64/encodeString ev.currentTarget.responseText)})
-            (->> (if (= content-type "application/markdown")
-                   (-> ev.currentTarget.responseText
-                       (s/replace  " " "&nbsp;")
-                       (s/replace "\n" "<br />"))
-                   ev.currentTarget.responseText)
-                 (swap! app-state assoc :preview)))
-          (swap! app-state assoc :error? (not= ev.target.status 200))
-          (swap! app-state assoc :loading? false)))
+      (.addEventListener "load" (partial generate-handler content-type))
       (.send (str "url=" url)))))
 
 (defn generator 
@@ -60,7 +61,7 @@
 (defn what-is-swagger
   []
   [:div#intro
-   [:img#swagger {:src "img/swagger.png" :width "120px" :height "120px"}]
+   [:img.swagger {:src "img/swagger.png" :width "120px" :height "120px"}]
    [:h3 "What is Swagger?"]
    [:p "\"Swagger is an open source software framework backed by a large ecosystem of tools that helps developers design, build, document, and consume RESTful Web services.\""]
    [:p "\"While most users identify Swagger by the Swagger UI tool, the Swagger toolset includes support for automated documentation, code generation, and test case generation.\""]])
@@ -82,9 +83,12 @@
              :placeholder "Enter swagger.json url"
              :value url
              :on-change (fn [ev] 
-                          (let [url (.-value (.-target ev))]
-                            (swap! app-state assoc :url url)
-                            (swap! app-state assoc :generators-visible? (clova/valid? url-validation @app-state))))}))])
+                          (let [entered-url (.-value (.-target ev))
+                                generators-visible (clova/valid? url-validation {:url entered-url})]
+                            (println entered-url)
+                            (println generators-visible)
+                            (swap! app-state assoc :url entered-url)
+                            (swap! app-state assoc :generators-visible? generators-visible)))}))])
 
 (defn expand-preview
   [e]
@@ -109,11 +113,15 @@
 (defn developer
   []
   [:div.outro.blue
-   [:img#swagger {:src "img/profile.jpeg" :width "120px" :height "120px"}]
+   [:img#profile {:src "img/profile.jpeg" :width "120px" :height "120px"}]
    [:h3 "Who created this?"]
    [:p 
     [:a {:href "http://markw.xyz"} "Mark"] 
-    " is a software developer living in Birmingham, England. During the day Mark develops software for a logistics and supply chain management company. In his spare time he enjoys running."]])
+    " is a software developer living in Birmingham, England. During the day Mark develops software for a logistics and supply chain management company. In his spare time he enjoys running."]
+   [:img#cog {:src "img/cog.png" :width "120px" :height "120px"}]
+   [:h3 "Other projects!"] 
+   [:p [:a {:href "http://github.com/markwoodhall/clova"} "clova"] " and "
+    [:a {:href "http://github.com/markwoodhall/marge"} "marge"] " are validation and markdown libraries for Clojure and ClojureScript and are both used by this application."]])
 
 (defn open-source
   []
@@ -123,7 +131,14 @@
    [:h3 "Open Source"]
    [:p "Swaggerdown is open source and available on " 
     [:a {:href "http://github.com/markwoodhall/swaggerdown"} "GitHub"] 
-    ". It is made up of this client UI app and an API. It is developed using Clojure and ClojureScript."]])
+    ". It is made up of this client UI app and an API. It is developed using Clojure and ClojureScript."]
+   [:p ""]
+   [:a {:href "https://clojure.org/"} 
+    [:img.clojure {:src "img/clojure.png" :title "Clojure" :alt "Clojure" :width "80px" :height "80px"}]]
+   [:a {:href "https://clojurescript.org/"} 
+    [:img.clojurescript {:src "img/cljs.png" :title "ClojureScript" :alt "ClojureScript" :width "82px" :height "82px"}]]
+   [:a {:href "https://swagger.io"} 
+    [:img.swagger {:src "img/swagger.png" :title "Swagger" :alt "Swagger" :width "82px" :height "82px"}]]])
 
 (defn start 
   [app]

@@ -15,7 +15,7 @@
                  [bidi "2.1.2"]
                  [com.stuartsierra/component "0.3.1"]
                  [cheshire "5.6.3"]
-                 [clova "0.35.0"]
+                 [clova "0.35.1-SNAPSHOT"]
                  [marge "0.10.0"]
                  [markdown-clj "1.0.1"]]
 
@@ -47,6 +47,7 @@
                            :output-to "resources/public/js/compiled/swaggerdown.js"
                            :output-dir "resources/public/js/compiled/out"
                            :source-map-timestamp true
+                           :verbose true
                            ;; To console.log CLJS data-structures make sure you enable devtools in Chrome
                            ;; https://github.com/binaryage/cljs-devtools
                            :preloads [devtools.preload]}}
