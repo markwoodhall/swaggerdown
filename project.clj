@@ -17,6 +17,7 @@
                  [cheshire "5.6.3"]
                  [clova "0.35.1-SNAPSHOT"]
                  [marge "0.10.0"]
+                 [io.forward/yaml "1.0.6"]
                  [markdown-clj "1.0.1"]]
 
   :plugins [[lein-figwheel "0.5.14"]

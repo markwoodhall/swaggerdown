@@ -168,7 +168,7 @@ svg > path {
 
 
 #generators {
-  width: 450px;
+  width: 70%;
   margin-left: auto;
   margin-right: auto;
   margin-top: 20px;
@@ -178,13 +178,12 @@ svg > path {
 .generator {
   float:left;
   width: 90px;
-  height: 90px;
+  height: 140px;
   margin: 4px;
   padding: 0px;
   cursor: hand;
   cursor: pointer;
   color: #fff;
-  text-align: center;
 }
 
 .generator > div {

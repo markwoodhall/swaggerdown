@@ -3,6 +3,7 @@
             [swaggerdown.coercion :refer [->markdown markdown->str]]
             [markdown.core :refer [md-to-html-string]]
             [schema.core :as s]
+            [yaml.core :as y]
             [yada.yada :as yada]))
 
 (def access-control
@@ -21,10 +22,12 @@
     {:consumes "application/x-www-form-urlencoded"
      :parameters
      {:form {(s/optional-key :url) String}}
-     :produces #{"application/markdown" "text/html"}
+     :produces #{"application/x-yaml" "application/markdown" "text/html"}
      :response (fn [ctx] 
                  (let [url (or (get-in ctx [:parameters :form :url]) url)]
                    (case (yada/content-type ctx)
+                     ("application/x-yaml") (-> (swagger url)
+                                                (y/generate-string :dumper-options {:flow-style :block}))
                      ("application/markdown") (->> (swagger url)
                                                    ->markdown
                                                    markdown->str)
