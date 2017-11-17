@@ -22,7 +22,7 @@
   :plugins [[lein-figwheel "0.5.14"]
             [lein-cljsbuild "1.1.7" :exclusions [[org.clojure/clojure]]]]
 
-  :main ^:skip-aot swaggerdown.app
+  :main swaggerdown.app
   :target-path "target/%s"
   :uberjar-name "swaggerdown.jar"
 
