@@ -1,1 +1,1 @@
-lein clean && lein cljsbuild once min && lein uberjar
+lein clean && lein cljsbuild once min && lein with-profile prod uberjar
