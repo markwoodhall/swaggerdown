@@ -240,3 +240,10 @@ svg > path {
   margin-top: 40px;
   background-color: #fff;
 }
+
+@keyframes pulse {
+  to {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
