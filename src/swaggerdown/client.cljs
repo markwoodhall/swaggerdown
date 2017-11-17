@@ -81,7 +81,7 @@
    [:img#help {:src "img/s.png" :width "120px" :height "120px"}]
    [:h3 "How does it work?"]
    [:p "Swaggerdown parses your swagger.json and generates documentation in a static form, this is particularly useful when you want to distribute something physical to complement the Swagger UI."]
-   [:p "You can see an exmaple for the Swagger Pet Store below, change the url to a swagger.json definition and click on one of the generators to preview the documentation. Click \"Download\" to download the documentation."]])
+   [:p "You can see an exmaple for the Swagger Pet Store below, change the url to a swagger.json definition and click on one of the generators to preview the documentation."]])
 
 (defn url-input
   [{:keys [url loading?]}]
@@ -119,7 +119,7 @@
        (if expanded? 
          [:h3 "Hide"]
          [:h3 "Show More"])]
-      [:a {:name "swaggerdown" :href (str "data:" (:content-type downloadable) ";base64," (:data downloadable))} "Download"]]]))
+      [:a {:download "swaggerdown" :href (str "data:" (:content-type downloadable) ";base64," (:data downloadable))} "Download"]]]))
 
 (defn developer
   []
