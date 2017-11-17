@@ -1,1 +1,1 @@
-lein clean && lein uberjar && lein cljsbuild once min
+lein clean && lein cljsbuild once min && lein uberjar
