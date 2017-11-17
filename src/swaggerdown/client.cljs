@@ -32,7 +32,8 @@
   [content-type ev] 
   (when (= ev.target.status 200)
     (swap! app-state assoc :downloadable {:content-type content-type :data (b64/encodeString ev.currentTarget.responseText)})
-    (->> (if (= content-type "application/markdown")
+    (->> (if (or (= content-type "application/markdown")
+                 (= content-type "application/x-yaml"))
            (-> ev.currentTarget.responseText
                (s/replace  " " "&nbsp;")
                (s/replace "\n" "<br />"))
