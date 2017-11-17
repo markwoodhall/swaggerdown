@@ -59,7 +59,7 @@ svg > path {
   background-color: #333;
   color: #fff;
   padding: 10px;
-  height: 490px;
+  min-height: 490px;
   margin-left: auto;
   margin-right: auto;
   text-align: center;
@@ -73,7 +73,7 @@ svg > path {
 }
 
 #intro > p, .outro > p {
-  width: 600px;
+  max-width: 600px;
   margin-left: auto;
   margin-right: auto;
   padding: 8px;
