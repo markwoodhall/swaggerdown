@@ -17,8 +17,9 @@
          :generators [{:title "HTML" :ext ".html" :content-type "text/html"}
                       {:title "Markdown" :ext ".md" :content-type "application/markdown"}
                       {:title "Yaml" :ext ".yml" :content-type "application/x-yaml"}
+                      {:title "Api Blueprint" :ext ".apib" :content-type "application/mson" :coming-soon? true}
                       {:title "PDF" :ext ".pdf" :content-type "application/pdf" :coming-soon? true}
-                      {:title "Asciidoc" :ext ".adoc" :content-type "text/asciidoc" :coming-soon? true}]}))
+                      {:title "Ascii Doc" :ext ".adoc" :content-type "text/asciidoc" :coming-soon? true}]}))
 
 (defn api-url
   []
@@ -56,16 +57,15 @@
 
 (defn generator 
   [app g]
-  (if (:generators-visible? app)
-    (let [{:keys [title content-type]} g]
-      (if (:coming-soon? g)
-        [:div.generator.coming {:id title :key title}
-         [:img {:src "img/s.png" :width "80px" :height "80px"}]
-         [:div (str title " Coming Soon..")]]
-        [:div.generator {:id title :key title :on-click (partial generate g app)}
-         [:img {:src "img/swagger.png" :width "80px" :height "80px"}]
-         [:div
-          "Generate " (str title)]]))))
+  (let [{:keys [title content-type]} g]
+    (if (:coming-soon? g)
+      [:div.generator.coming {:id title :key title}
+       [:img {:src "img/s.png" :width "80px" :height "80px"}]
+       [:div (str title)]]
+      [:div.generator {:id title :key title :on-click (partial generate g app)}
+       [:img {:src "img/swagger.png" :width "80px" :height "80px"}]
+       [:div
+        (str title)]])))
 
 (defn what-is-swagger
   []
@@ -149,9 +149,15 @@
    [:a {:href "https://swagger.io"} 
     [:img.swagger {:src "img/swagger.png" :title "Swagger" :alt "Swagger" :width "82px" :height "82px"}]]])
 
+(defn generators
+  [app]
+  (if (:generators-visible? app)
+    (map (partial generator app) (:generators app))
+    [:div.outro.grey [:h4 "Enter a valid swagger json url to generate documentation!"]]))
+
 (defn start 
   [app]
-  (let [{:keys [title tagline url loading? error? expanded? generators preview]} @app]
+  (let [{:keys [title tagline url loading? error? expanded? preview]} @app]
     [:div
      [:div#bar 
       [:a {:href "/"} 
@@ -163,7 +169,7 @@
      [:div#main
       (url-input @app)
       [:div#generators 
-       (map (partial generator @app) generators)]
+       (generators @app)]
       (preview-pane @app)]
      (developer)
      (open-source)]))

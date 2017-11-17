@@ -25,13 +25,14 @@ svg > path {
 }
 
 .header {
+  float: left;
+  width: 100%;
   font-size:2.3em;
   background-color: #677;
   color: #fff;
   padding: 8px;
   margin: 0;
   text-align: center;
-  height: 290px;
   background-color: #333;
 }
 
@@ -55,6 +56,8 @@ svg > path {
 }
 
 #intro {
+  float: left;
+  clear: both;
   width: 100%;
   background-color: #333;
   color: #fff;
@@ -81,6 +84,7 @@ svg > path {
 }
 
 .outro {
+  float: left;
   clear: both;
   width: 100%;
   background-color: #333;
@@ -105,7 +109,7 @@ svg > path {
 
 #url {
   display: block;
-  width: 70%;
+  width: 80%;
   margin-top: 20px;
   margin-left: auto;
   margin-right: auto;
@@ -120,7 +124,7 @@ svg > path {
 #preview-header, #preview-footer {
   clear: both;
   margin-top: 160px;
-  width: 70%;
+  width: 80%;
   margin-left: auto;
   margin-right: auto;
   padding: 2px;
@@ -147,7 +151,7 @@ svg > path {
 }
 
 #preview {
-  width: 70%;
+  width: 80%;
   margin-top:-2px;
   margin-left: auto;
   margin-right: auto;
@@ -188,6 +192,8 @@ svg > path {
 
 .generator > div {
   padding-top: 10px;
+  text-align: center;
+  margin-left: -11px;
 }
 .generator > img {
   border-radius: 60px 60px 60px 60px;
