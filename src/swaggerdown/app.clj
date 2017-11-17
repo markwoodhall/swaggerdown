@@ -1,7 +1,7 @@
 (ns swaggerdown.app
   (:require [com.stuartsierra.component :as component]
             [swaggerdown.resources :refer [documentation access-control]]
-            [yada.yada :refer [listener resource]]
+            [yada.yada :refer [listener resource as-resource redirect]]
             [yada.resources.classpath-resource :refer [new-classpath-resource]])
   (:gen-class))
 
@@ -19,9 +19,11 @@
                          documentation
                          (merge access-control)
                          resource)]]]
-                  ["" (new-classpath-resource "public")]
-                  ]
-                 ]
+                  ["js" (new-classpath-resource "public/js")]
+                  ["img" (new-classpath-resource "public/img")]
+                  ["css" (new-classpath-resource "public/css")]
+                  ["" (as-resource (clojure.java.io/resource "public/index.html"))]
+                 ]]
                  {:port port})]
       (assoc this :server srv)))
   (stop [{:keys [port server] :as this}]
