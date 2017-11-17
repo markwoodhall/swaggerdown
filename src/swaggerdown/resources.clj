@@ -24,7 +24,6 @@
      :produces #{"application/markdown" "text/html"}
      :response (fn [ctx] 
                  (let [url (or (get-in ctx [:parameters :form :url]) url)]
-                   (println (yada/content-type ctx))
                    (case (yada/content-type ctx)
                      ("application/markdown") (->> (swagger url)
                                                    ->markdown
