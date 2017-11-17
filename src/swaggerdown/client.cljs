@@ -16,7 +16,7 @@
          :expanded? false
          :generators [{:title "HTML" :ext ".html" :content-type "text/html"}
                       {:title "Markdown" :ext ".md" :content-type "application/markdown"}
-                      {:title "yaml" :ext ".yml" :content-type "application/x-yaml"}
+                      {:title "Yaml" :ext ".yml" :content-type "application/x-yaml"}
                       {:title "PDF" :ext ".pdf" :content-type "application/pdf" :coming-soon? true}
                       {:title "Asciidoc" :ext ".adoc" :content-type "text/asciidoc" :coming-soon? true}]}))
 
