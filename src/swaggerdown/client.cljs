@@ -107,7 +107,9 @@
   [{:keys [preview loading? error? expanded? downloadable]}]
   (if preview 
     [:div 
-     [:div#preview-header [:h3 (if loading?  "Loading..." (if error? "Error Loading" "Preview"))]]
+     [:div#preview-header 
+      {:on-click expand-preview}
+      [:h3 (if loading?  "Loading..." (if error? "Error Loading" "Preview"))]]
      (if expanded? 
        [:div#preview.expanded [:div {:style {:width "10000px"} :dangerouslySetInnerHTML {:__html preview}}]]
        [:div#preview.collapsed [:div {:style {:width "10000px"} :dangerouslySetInnerHTML {:__html preview}}]])
