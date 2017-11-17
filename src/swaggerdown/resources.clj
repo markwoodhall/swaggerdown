@@ -26,12 +26,12 @@
      :response (fn [ctx] 
                  (let [url (or (get-in ctx [:parameters :form :url]) url)]
                    (case (yada/content-type ctx)
-                     ("application/x-yaml") (-> (swagger url)
+                     ("application/x-yaml") (-> (swagger url false)
                                                 (y/generate-string :dumper-options {:flow-style :block}))
-                     ("application/markdown") (->> (swagger url)
+                     ("application/markdown") (->> (swagger url true)
                                                    ->markdown
                                                    markdown->str)
-                     ("text/html") (->> (swagger url)
+                     ("text/html") (->> (swagger url true)
                                         ->markdown
                                         markdown->str
                                         md-to-html-string)

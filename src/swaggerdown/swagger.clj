@@ -3,7 +3,8 @@
             [cheshire.core :refer [parse-string]]))
 
 (defn swagger
-  [url]
+  [url keywords?]
   (let [raw-response (slurp url)
-        parsed (parse-string raw-response true)]
+        parsed (parse-string raw-response keywords?)]
     parsed))
+

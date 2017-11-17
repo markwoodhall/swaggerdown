@@ -30,9 +30,9 @@
 (.-href (.-location js/window))
 
 (defn generate-handler
-  [content-type ev] 
+  [ext content-type ev] 
   (when (= ev.target.status 200)
-    (swap! app-state assoc :downloadable {:content-type content-type :data (b64/encodeString ev.currentTarget.responseText)})
+    (swap! app-state assoc :downloadable {:ext ext :content-type content-type :data (b64/encodeString ev.currentTarget.responseText)})
     (->> (if (or (= content-type "application/markdown")
                  (= content-type "application/x-yaml"))
            (-> ev.currentTarget.responseText
@@ -45,14 +45,14 @@
 
 (defn generate [generator app e]
   (let [{:keys [url]} app
-        {:keys [content-type]} generator]
+        {:keys [ext content-type]} generator]
     (swap! app-state assoc :loading? true)
     (doto
       (new js/XMLHttpRequest)
       (.open "POST" (str (api-url) "/documentation"))
       (.setRequestHeader "Accept" content-type)
       (.setRequestHeader "Content-Type" "application/x-www-form-urlencoded")
-      (.addEventListener "load" (partial generate-handler content-type))
+      (.addEventListener "load" (partial generate-handler ext content-type))
       (.send (str "url=" url)))))
 
 (defn generator 
@@ -119,7 +119,8 @@
        (if expanded? 
          [:h3 "Hide"]
          [:h3 "Show More"])]
-      [:a {:download "swaggerdown" :href (str "data:" (:content-type downloadable) ";base64," (:data downloadable))} "Download"]]]))
+      [:a {:download (str "swaggerdown" "." (:ext downloadable)) 
+           :href (str "data:" (:content-type downloadable) ";base64," (:data downloadable))} "Download"]]]))
 
 (defn developer
   []
