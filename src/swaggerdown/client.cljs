@@ -81,7 +81,7 @@
    [:img#help {:src "img/s.png" :width "120px" :height "120px"}]
    [:h3 "How does it work?"]
    [:p "Swaggerdown parses your swagger.json and generates documentation in a static form, this is particularly useful when you want to distribute something physical to complement the Swagger UI."]
-   [:p "You can see an exmaple for the Swagger Pet Store below, change the url to a swagger.json definition and click on one of the generators to preview the documentation."]])
+   [:p "You can see an example for the Swagger Pet Store below, change the url to a swagger.json definition and click on one of the generators to preview the documentation."]])
 
 (defn url-input
   [{:keys [url loading?]}]
@@ -171,8 +171,9 @@
      (how-it-works)
      [:div#main
       (url-input @app)
-      [:div#generators 
-       (generators @app)]
+      [:div#generators-container 
+       [:div#generators 
+       (generators @app)]]
       (preview-pane @app)]
      (developer)
      (open-source)]))

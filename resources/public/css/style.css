@@ -7,6 +7,13 @@ p {
   font-size: 1.3em;
 }
 
+#generators-container {
+  float:left;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 #bar {
   height: 70px;
   width: 100%;
@@ -172,11 +179,17 @@ svg > path {
 
 
 #generators {
-  width: 70%;
-  margin-left: auto;
+  width: fit-content;
   margin-right: auto;
-  margin-top: 20px;
+  margin-left: 45px;
+  margin-top: 40px;
   margin-bottom: 180px;
+}
+
+@media (min-width: 450px) { 
+  #generators {
+    margin-left: auto;
+  }
 }
 
 .generator {
