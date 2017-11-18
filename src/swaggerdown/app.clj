@@ -19,6 +19,7 @@
                          documentation
                          (merge access-control)
                          resource)]]]
+                  ["ping" (as-resource {:status :ok})]
                   ["js" (new-classpath-resource "public/js")]
                   ["img" (new-classpath-resource "public/img")]
                   ["css" (new-classpath-resource "public/css")]
