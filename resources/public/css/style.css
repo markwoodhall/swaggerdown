@@ -29,7 +29,7 @@ p {
 }
 
 #bar > a > h1 {
-  width: 250px;
+  width: 245px;
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -109,7 +109,7 @@ svg > path {
   margin-left: auto;
   margin-right: auto;
   padding-top: 60px;
-  padding-bottom: 30px;
+  padding-bottom: 60px;
   text-align: center;
 }
 
@@ -120,7 +120,6 @@ svg > path {
 
 #main {
   background-color: #444;
-  padding: 8px;
 }
 
 #url {
@@ -139,7 +138,6 @@ svg > path {
 
 #preview-header, #preview-footer {
   clear: both;
-  margin-top: 160px;
   width: 80%;
   margin-left: auto;
   margin-right: auto;
@@ -155,7 +153,6 @@ svg > path {
 
 #preview-footer {
   margin-top:0px;
-  margin-bottom: 20px;
   border-radius: 0px 0px 5px 5px;
   cursor: hand;
   cursor: pointer;
@@ -176,6 +173,7 @@ svg > path {
   background-color: #fff;
   overflow: hidden;
   font-family: "Courier New", Courier, monospace;
+  color: #333;
 }
 
 .expanded {

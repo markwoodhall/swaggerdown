@@ -25,7 +25,7 @@
   []
   (if (s/includes? (.-href (.-location js/window)) "http://localhost:3449") ;; figwheel
     "http://localhost:3080/api"
-    "/api"))
+    (str (.-origin (.-location js/window)) "/api")))
 
 (.-href (.-location js/window))
 
@@ -122,6 +122,19 @@
       [:a {:download (str "swaggerdown" "." (:ext downloadable)) 
            :href (str "data:" (:content-type downloadable) ";base64," (:data downloadable))} "Download"]]]))
 
+(defn api-pane
+  [{:keys [preview url downloadable]}]
+  (if preview 
+    [:div.outro.grey
+     [:img#help {:src "img/api.png" :width "120px" :height "120px"}]
+     [:h3 "Use the API!"]
+     [:p "If you need to convert your swagger json in a more automated fashion or don't want to use this interface then you can make use of the api."]
+     [:p]
+     [:div#preview-header 
+      [:h3 "Terminal"]]
+     [:div#preview.collapsed " curl -X POST -v -H \"Accept: " (:content-type downloadable) "\"  " (api-url) "/documentation -H \"Content-Type: application/x-www-form-urlencoded\" -d \"url=" url]
+     [:div#preview-footer]]))
+
 (defn developer
   []
   [:div.outro.blue
@@ -175,7 +188,8 @@
       [:div#generators-container 
        [:div#generators 
        (generators @app)]]
-      (preview-pane @app)]
+      (preview-pane @app)
+      (api-pane @app)]
      (developer)
      (open-source)]))
 
