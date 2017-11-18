@@ -130,6 +130,7 @@ svg > path {
   padding: 8px;
   font-size: 2em;
   text-align: center;
+  background-color: #fff;
 }
 
 #preview-header, #preview-footer {
@@ -183,6 +184,7 @@ svg > path {
 
 #generators {
   width: fit-content;
+  width: -moz-fit-content;
   margin-right: auto;
   margin-left: 45px;
   margin-top: 40px;
