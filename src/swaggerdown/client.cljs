@@ -164,7 +164,8 @@
     [:div
      [:div#bar 
       [:a {:href "/"} 
-       [:img#logo {:alt title :title title :src "img/s.png" :width "50px" :height "50px"}]]]
+       [:img#logo {:alt title :title title :src "img/s.png" :width "50px" :height "50px"}]
+       [:h1 "waggerdown"]]]
      [:div.header 
       [:h3 tagline]]
      (what-is-swagger)     
