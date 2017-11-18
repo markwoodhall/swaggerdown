@@ -15,21 +15,25 @@ p {
 }
 
 #bar {
-  height: 70px;
+  height: 120px;
   width: 100%;
   padding: 14px;
   margin-bottom: 6px;
 }
 
-#bar > a > h1 {
-  margin: 0;
-  margin-top: 7px;
+#logo {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 80px;
 }
 
-#logo {
-  float: left;
-  border-radius: 80px;
-  margin-right: 3px;
+#bar > a > h1 {
+  width: 250px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 7px;
 }
 
 svg > path {
@@ -191,7 +195,7 @@ svg > path {
   margin-bottom: 180px;
 }
 
-@media (min-width: 450px) { 
+@media (min-width: 550px) { 
   #generators {
     margin-left: auto;
   }
