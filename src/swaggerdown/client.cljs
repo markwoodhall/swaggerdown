@@ -132,7 +132,7 @@
      [:p]
      [:div#preview-header 
       [:h3 "Terminal"]]
-     [:div#preview.collapsed " curl -X POST -v -H \"Accept: " (:content-type downloadable) "\"  " (api-url) "/documentation -H \"Content-Type: application/x-www-form-urlencoded\" -d \"url=" url]
+     [:div#preview.collapsed " curl -X POST -v -H \"Accept: " (:content-type downloadable) "\"  " (api-url) "/documentation -H \"Content-Type: application/x-www-form-urlencoded\" -d \"url=" url "\""]
      [:div#preview-footer]]))
 
 (defn developer
