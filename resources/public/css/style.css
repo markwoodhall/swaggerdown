@@ -72,8 +72,6 @@ svg > path {
 }
 
 #intro {
-  float: left;
-  clear: both;
   width: 100%;
   background-color: #333;
   color: #fff;
@@ -100,8 +98,6 @@ svg > path {
 }
 
 .outro {
-  float: left;
-  clear: both;
   width: 100%;
   background-color: #333;
   color: #fff;
@@ -119,13 +115,13 @@ svg > path {
 
 
 #main {
+  margin-top: -10px;
   background-color: #444;
 }
 
 #url {
   display: block;
   width: 80%;
-  margin-top: 20px;
   margin-left: auto;
   margin-right: auto;
   height: 40px;
