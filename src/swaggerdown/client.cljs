@@ -156,7 +156,7 @@
    [:h3 "Open Source"]
    [:p "Swaggerdown is open source and available on " 
     [:a {:href "http://github.com/markwoodhall/swaggerdown"} "GitHub"] 
-    ". It is made up of this client UI app and an API. It is developed using Clojure and ClojureScript."]
+    ". It is made up of this app and an API. It is developed using Clojure and ClojureScript."]
    [:p ""]
    [:a {:href "https://clojure.org/"} 
     [:img.clojure {:src "img/clojure.png" :title "Clojure" :alt "Clojure" :width "80px" :height "80px"}]]
