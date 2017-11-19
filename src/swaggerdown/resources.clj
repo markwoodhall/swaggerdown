@@ -22,10 +22,11 @@
     {:consumes "application/x-www-form-urlencoded"
      :parameters
      {:form {(s/optional-key :url) String}}
-     :produces #{"application/x-yaml" "application/markdown" "text/html"}
+     :produces #{"application/edn" "application/x-yaml" "application/markdown" "text/html"}
      :response (fn [ctx] 
                  (let [url (or (get-in ctx [:parameters :form :url]) url)]
                    (case (yada/content-type ctx)
+                     ("application/edn") (swagger url true)
                      ("application/x-yaml") (-> (swagger url false)
                                                 (y/generate-string :dumper-options {:flow-style :block}))
                      ("application/markdown") (->> (swagger url true)

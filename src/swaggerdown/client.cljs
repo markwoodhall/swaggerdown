@@ -17,6 +17,7 @@
          :generators [{:title "HTML" :ext ".html" :content-type "text/html"}
                       {:title "Markdown" :ext ".md" :content-type "application/markdown"}
                       {:title "Yaml" :ext ".yml" :content-type "application/x-yaml"}
+                      {:title "EDN" :ext ".edn" :content-type "application/edn"}
                       {:title "Api Blueprint" :ext ".apib" :content-type "application/mson" :coming-soon? true}
                       {:title "PDF" :ext ".pdf" :content-type "application/pdf" :coming-soon? true}
                       {:title "Ascii Doc" :ext ".adoc" :content-type "text/asciidoc" :coming-soon? true}]}))
@@ -118,7 +119,7 @@
        (if expanded? 
          [:h3 "Hide"]
          [:h3 "Show More"])]
-      [:a {:download (str "swaggerdown" "." (:ext downloadable)) 
+      [:a {:download (str "swaggerdown" (:ext downloadable)) 
            :href (str "data:" (:content-type downloadable) ";base64," (:data downloadable))} "Download"]]]))
 
 (defn api-pane
