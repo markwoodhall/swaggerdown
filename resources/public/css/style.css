@@ -100,7 +100,7 @@ svg > path {
   font-style: italic;
 }
 
-.outro, .what-is-swagger, .what-is-it{
+.outro, .error, .what-is-swagger, .what-is-it{
   width: ;
   background-color: #444;
   color: #fff;
@@ -114,6 +114,12 @@ svg > path {
 
 .what-is-swagger {
   padding-top: 30px;
+}
+
+.error {
+  padding-top: 9px;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
 }
 
 #main {
@@ -192,7 +198,7 @@ svg > path {
   margin-right: auto;
   margin-left: 40px;
   margin-top: 40px;
-  margin-bottom: 180px;
+  margin-bottom: 20px;
 }
 
 @media (min-width: 550px) { 

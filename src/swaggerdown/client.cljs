@@ -39,9 +39,9 @@
                (s/replace  " " "&nbsp;")
                (s/replace "\n" "<br />"))
            ev.currentTarget.responseText)
-         (swap! app-state assoc :preview))
-    (swap! app-state assoc :error? (not= ev.target.status 200))
-    (swap! app-state assoc :loading? false)))
+         (swap! app-state assoc :preview)))
+  (swap! app-state assoc :error? (not= ev.target.status 200))
+  (swap! app-state assoc :loading? false))
 
 (defn generate [generator app e]
   (let [{:keys [url]} app
@@ -53,6 +53,7 @@
       (.setRequestHeader "Accept" content-type)
       (.setRequestHeader "Content-Type" "application/x-www-form-urlencoded")
       (.addEventListener "load" (partial generate-handler ext content-type))
+      (.addEventListener "error" (partial generate-handler ext content-type))
       (.send (str "url=" url)))))
 
 (defn generator 
@@ -94,8 +95,6 @@
              :on-change (fn [ev] 
                           (let [entered-url (.-value (.-target ev))
                                 generators-visible (clova/valid? url-validation {:url entered-url})]
-                            (println entered-url)
-                            (println generators-visible)
                             (swap! app-state assoc :url entered-url)
                             (swap! app-state assoc :generators-visible? generators-visible)))}))])
 
@@ -169,7 +168,9 @@
   [app]
   (if (:generators-visible? app)
     (map (partial generator app) (:generators app))
-    [:div.outro.grey [:h4 "Enter a valid swagger json url to generate documentation!"]]))
+    [:div.error.grey 
+     [:img {:src "img/error.png" :height "90px" :width "90px"}]
+     [:h4 "Enter a valid swagger json url to generate documentation!"]]))
 
 (defn start 
   [app]
