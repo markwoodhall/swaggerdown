@@ -69,17 +69,17 @@
 
 (defn what-is-swagger
   []
-  [:div#intro
+  [:div.what-is-swagger.dark-grey
    [:img.swagger {:src "img/swagger.png" :width "120px" :height "120px"}]
    [:h3 "What is Swagger?"]
-   [:p "\"Swagger is an open source software framework backed by a large ecosystem of tools that helps developers design, build, document, and consume RESTful Web services.\""]
-   [:p "\"While most users identify Swagger by the Swagger UI tool, the Swagger toolset includes support for automated documentation, code generation, and test case generation.\""]])
+   [:p.italic "\"Swagger is an open source software framework backed by a large ecosystem of tools that helps developers design, build, document, and consume RESTful Web services.\""]
+   [:p.italic "\"While most users identify Swagger by the Swagger UI tool, the Swagger toolset includes support for automated documentation, code generation, and test case generation.\""]])
 
-(defn how-it-works
+(defn what-is-it
   []
-  [:div.outro.grey
+  [:div.what-is-it.dark-grey
    [:img#help {:src "img/s.png" :width "120px" :height "120px"}]
-   [:h3 "How does it work?"]
+   [:h3 "What is Swaggerdown"]
    [:p "Swaggerdown parses your swagger.json and generates documentation in a static form, this is particularly useful when you want to distribute something physical to complement the Swagger UI."]
    [:p "You can see an example for the Swagger Pet Store below, change the url to a swagger.json definition and click on one of the generators to preview the documentation."]])
 
@@ -150,7 +150,7 @@
 
 (defn open-source
   []
-  [:div.outro.light-grey
+  [:div.outro.dark-grey
    [:svg {:aria-hidden "true"  :height "114" :view-box "0 0 16 16" :width "114"}
     [:path {:fill-rule "evenodd" :d "M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"}]]
    [:h3 "Open Source"]
@@ -175,14 +175,10 @@
   [app]
   (let [{:keys [title tagline url loading? error? expanded? preview]} @app]
     [:div
-     [:div#bar 
-      [:a {:href "/"} 
-       [:img#logo {:alt title :title title :src "img/s.png" :width "50px" :height "50px"}]
-       [:h1 "Swaggerdown"]]]
+     
      [:div.header 
       [:h3 tagline]]
-     (what-is-swagger)     
-     (how-it-works)
+     (what-is-it)
      [:div#main
       (url-input @app)
       [:div#generators-container 
@@ -190,6 +186,7 @@
        (generators @app)]]
       (preview-pane @app)
       (api-pane @app)]
+     (what-is-swagger)     
      (developer)
      (open-source)]))
 
