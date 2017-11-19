@@ -120,4 +120,6 @@
                  :clean-targets ^{:protect false} ["resources/public/js/compiled"
                                                    :target-path]}
            :prod {:uberjar {:aot :all}
-                  :source-paths ["src"]}})
+                  :source-paths ["src"]}
+           :uberjar {:aot :all
+                     :source-paths ["src"]}})
