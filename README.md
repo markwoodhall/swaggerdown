@@ -1,39 +1,31 @@
-# swaggerdown
-
-FIXME: Write a one-line description of your library/project.
+# Swaggerdown
 
 ## Overview
 
-FIXME: Write a paragraph about the library/project and highlight its goals.
+Swaggerdown is an open source tool for converting swagger json definitions to static 
+documentation formats such as markdown. 
 
-## Setup
+You can use it for free at [swaggerdown.io](http://swaggerdown.io). Common use cases include:
 
-To get an interactive development environment run:
+1. Generate static markdown from a swagger.json.
+2. Generate static html from a swagger.json.
+3. Generate yaml from a swagger.json.
+  + It is easy to import yaml into other api documentation tools such as [apiary](http://apiary.io).
 
-    lein figwheel
+## Thanks
 
-and open your browser at [localhost:3449](http://localhost:3449/).
-This will auto compile and send all changes to the browser without the
-need to reload. After the compilation process is complete, you will
-get a Browser Connected REPL. An easy way to try it is:
+Swaggerdown is built on top of a number of Clojure and ClojureScript open source projects.
 
-    (js/alert "Am I connected?")
+1. [yada](https://github.com/juxt/yada)
+2. [Reagent]()
+3. [clova](http://github.com/markwoodhall/clova)
+4. [marge](http://github.com/markwoodhall/marge)
+5. [io.forward/yaml](https://github.com/owainlewis/yaml)
+6. [markdown-clj](https://github.com/yogthos/markdown-clj)
 
-and you should see an alert in the browser window.
-
-To clean all compiled files:
-
-    lein clean
-
-To create a production build run:
-
-    lein do clean, cljsbuild once min
-
-And open your browser in `resources/public/index.html`. You will not
-get live reloading, nor a REPL. 
 
 ## License
 
-Copyright © 2014 FIXME
+Copyright © 2017 Mark Woodhall
 
-Distributed under the Eclipse Public License either version 1.0 or (at your option) any later version.
+https://opensource.org/licenses/MIT

@@ -1,8 +1,8 @@
 (defproject swaggerdown "0.1.0-SNAPSHOT"
-  :description "FIXME: write this!"
-  :url "http://example.com/FIXME"
-  :license {:name "Eclipse Public License"
-            :url "http://www.eclipse.org/legal/epl-v10.html"}
+  :description "An application for producing static documentation from json"
+  :url "http://github.com/markwoodhall/swaggerdown"
+  :license {:name "MIT"
+            :url "https://opensource.org/licenses/MIT"}
 
   :min-lein-version "2.7.1"
 
