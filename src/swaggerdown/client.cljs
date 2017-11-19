@@ -62,10 +62,10 @@
   (let [{:keys [title content-type]} g]
     (if (:coming-soon? g)
       [:div.generator.coming {:id title :key title}
-       [:img {:src "img/s.png" :width "80px" :height "80px"}]
+       [:img {:src "img/s.png" :title (str title " Coming Soon") :width "80px" :height "80px"}]
        [:div (str title)]]
       [:div.generator {:id title :key title :on-click (partial generate g app)}
-       [:img {:src "img/swagger.png" :width "80px" :height "80px"}]
+       [:img {:src "img/swagger.png":title (str "Generate " title)  :width "80px" :height "80px"}]
        [:div
         (str title)]])))
 
