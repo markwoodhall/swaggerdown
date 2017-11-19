@@ -186,16 +186,20 @@ svg > path {
 
 
 #generators {
+  width: 300px;
   width: fit-content;
   width: -moz-fit-content;
   margin-right: auto;
-  margin-left: 45px;
+  margin-left: 40px;
   margin-top: 40px;
   margin-bottom: 180px;
 }
 
 @media (min-width: 550px) { 
   #generators {
+    width: 50%;
+    width: fit-content;
+    width: -moz-fit-content;
     margin-left: auto;
   }
 }
