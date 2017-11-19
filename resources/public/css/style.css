@@ -14,30 +14,6 @@ p {
   margin-right: auto;
 }
 
-#bar {
-  height: 130px;
-  width: 100%;
-  padding: 14px;
-  background-color: #333;
-}
-
-#logo {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  border-radius: 80px;
-  border: 4px solid #fff;
-}
-
-#bar > a > h1 {
-  width: 245px;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 7px;
-  color: #fff;
-}
-
 svg > path {
   fill: #fff;
 }
