@@ -251,8 +251,9 @@ svg > path {
   background-color: #3B88C3;
 }
 
-.blue a {
+.blue a, .blue a:hover {
   color: #fff;
+  font-weight: bold;
 }
 
 .grey {
