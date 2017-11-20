@@ -129,17 +129,17 @@
 
 (defn start 
   [app]
-  (let [{:keys [title tagline url loading? error? expanded? preview]} @app]
-    [:div
-     [:div#main
-      (url-input @app)
-      [:div#generators-container 
-       [:div#generators 
-       (generators @app)]]
-      (preview-pane @app)
-      (api-pane @app)]]))
+  [:div
+   [:div#main
+    (url-input @app)
+    [:div#generators-container 
+     [:div#generators 
+      (generators @app)]]
+    (preview-pane @app)
+    (api-pane @app)]])
+
+(generate (first (:generators @app-state)) @app-state nil)
 
 (reagent/render-component [start app-state]
                           (. js/document (getElementById "app")))
 
-(generate (first (:generators @app-state)) @app-state nil)
