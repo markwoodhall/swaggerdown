@@ -102,6 +102,7 @@ svg > path {
   margin-top: -10px;
   padding-top: 40px;
   background-color: #444;
+  min-height: 120px;
 }
 
 #url {
