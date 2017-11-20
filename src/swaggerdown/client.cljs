@@ -65,25 +65,9 @@
        [:img {:src "img/s.png" :title (str title " Coming Soon") :width "80px" :height "80px"}]
        [:div (str title)]]
       [:div.generator {:id title :key title :on-click (partial generate g app)}
-       [:img {:src "img/swagger.png":title (str "Generate " title)  :width "80px" :height "80px"}]
+       [:img {:src "img/swagger.png":title (str "Generate " title " Coming Soon")  :width "80px" :height "80px"}]
        [:div
         (str title)]])))
-
-(defn what-is-swagger
-  []
-  [:div.what-is-swagger.dark-grey
-   [:img.swagger {:src "img/swagger.png" :width "120px" :height "120px"}]
-   [:h3 "What is Swagger?"]
-   [:p.italic "\"Swagger is an open source software framework backed by a large ecosystem of tools that helps developers design, build, document, and consume RESTful Web services.\""]
-   [:p.italic "\"While most users identify Swagger by the Swagger UI tool, the Swagger toolset includes support for automated documentation, code generation, and test case generation.\""]])
-
-(defn what-is-it
-  []
-  [:div.what-is-it.dark-grey
-   [:img#help {:src "img/s.png" :width "120px" :height "120px"}]
-   [:h3 "What is Swaggerdown"]
-   [:p "Swaggerdown parses your swagger.json and generates documentation in a static form, this is particularly useful when you want to distribute something physical to complement the Swagger UI."]
-   [:p "You can see an example for the Swagger Pet Store below, change the url to a swagger.json definition and click on one of the generators to preview the documentation."]])
 
 (defn url-input
   [{:keys [url loading?]}]
@@ -135,36 +119,6 @@
      [:div#preview.collapsed " curl -X POST -v -H \"Accept: " (:content-type downloadable) "\"  " (api-url) "/documentation -H \"Content-Type: application/x-www-form-urlencoded\" -d \"url=" url "\""]
      [:div#preview-footer]]))
 
-(defn developer
-  []
-  [:div.outro.blue
-   [:img#profile {:src "img/profile.jpeg" :width "120px" :height "120px"}]
-   [:h3 "Who created this?"]
-   [:p 
-    [:a {:href "http://markw.xyz"} "Mark"] 
-    " is a software developer living in Birmingham, England. During the day Mark develops software for a logistics and supply chain management company. In his spare time he enjoys running."]
-   [:img#cog {:src "img/cog.png" :width "120px" :height "120px"}]
-   [:h3 "Other projects!"] 
-   [:p [:a {:href "http://github.com/markwoodhall/clova"} "clova"] " and "
-    [:a {:href "http://github.com/markwoodhall/marge"} "marge"] " are validation and markdown libraries for Clojure and ClojureScript and are both used by this application."]])
-
-(defn open-source
-  []
-  [:div.outro.dark-grey
-   [:svg {:aria-hidden "true"  :height "114" :view-box "0 0 16 16" :width "114"}
-    [:path {:fill-rule "evenodd" :d "M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"}]]
-   [:h3 "Open Source"]
-   [:p "Swaggerdown is open source and available on " 
-    [:a {:href "http://github.com/markwoodhall/swaggerdown"} "GitHub"] 
-    ". It is made up of this app and an API. It is developed using Clojure and ClojureScript."]
-   [:p ""]
-   [:a {:href "https://clojure.org/"} 
-    [:img.clojure {:src "img/clojure.png" :title "Clojure" :alt "Clojure" :width "80px" :height "80px"}]]
-   [:a {:href "https://clojurescript.org/"} 
-    [:img.clojurescript {:src "img/cljs.png" :title "ClojureScript" :alt "ClojureScript" :width "82px" :height "82px"}]]
-   [:a {:href "https://swagger.io"} 
-    [:img.swagger {:src "img/swagger.png" :title "Swagger" :alt "Swagger" :width "82px" :height "82px"}]]])
-
 (defn generators
   [app]
   (if (:generators-visible? app)
@@ -177,20 +131,13 @@
   [app]
   (let [{:keys [title tagline url loading? error? expanded? preview]} @app]
     [:div
-     
-     [:div.header 
-      [:h3 tagline]]
-     (what-is-it)
      [:div#main
       (url-input @app)
       [:div#generators-container 
        [:div#generators 
        (generators @app)]]
       (preview-pane @app)
-      (api-pane @app)]
-     (what-is-swagger)     
-     (developer)
-     (open-source)]))
+      (api-pane @app)]]))
 
 (reagent/render-component [start app-state]
                           (. js/document (getElementById "app")))
