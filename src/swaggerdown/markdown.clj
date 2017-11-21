@@ -1,4 +1,4 @@
-(ns swaggerdown.coercion
+(ns swaggerdown.markdown
   (:require [marge.core :as marge]
             [clojure.string :as s]))
 

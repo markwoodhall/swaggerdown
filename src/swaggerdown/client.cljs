@@ -18,6 +18,7 @@
                       {:title "Markdown" :ext ".md" :content-type "application/markdown"}
                       {:title "Yaml" :ext ".yml" :content-type "application/x-yaml"}
                       {:title "EDN" :ext ".edn" :content-type "application/edn"}
+                      {:title "Fractal HTML" :ext ".html" :content-type "application/html" :coming-soon? true}
                       {:title "Api Blueprint" :ext ".apib" :content-type "application/mson" :coming-soon? true}
                       {:title "PDF" :ext ".pdf" :content-type "application/pdf" :coming-soon? true}
                       {:title "Ascii Doc" :ext ".adoc" :content-type "text/asciidoc" :coming-soon? true}]}))

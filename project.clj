@@ -16,6 +16,7 @@
                  [com.stuartsierra/component "0.3.1"]
                  [cheshire "5.6.3"]
                  [clova "0.35.1-SNAPSHOT"]
+                 [selmer "1.11.3"]
                  [marge "0.10.0"]
                  [io.forward/yaml "1.0.6"]
                  [markdown-clj "1.0.1"]]

@@ -1,6 +1,7 @@
 (ns swaggerdown.resources
   (:require [swaggerdown.swagger :refer [swagger]]
-            [swaggerdown.coercion :refer [->markdown markdown->str]]
+            [swaggerdown.markdown :refer [->markdown markdown->str]]
+            [swaggerdown.html :refer [->html]]
             [markdown.core :refer [md-to-html-string]]
             [schema.core :as s]
             [yaml.core :as y]
@@ -22,7 +23,7 @@
     {:consumes "application/x-www-form-urlencoded"
      :parameters
      {:form {(s/optional-key :url) String}}
-     :produces #{"application/edn" "application/x-yaml" "application/markdown" "text/html"}
+     :produces #{"application/edn" "application/x-yaml" "application/markdown" "text/html" "application/html"}
      :response (fn [ctx] 
                  (let [url (or (get-in ctx [:parameters :form :url]) url)]
                    (case (yada/content-type ctx)
@@ -36,4 +37,8 @@
                                         ->markdown
                                         markdown->str
                                         md-to-html-string)
+                     ("application/html") (try (->> (swagger url true)
+                                                    ->html)
+                                               (catch Exception e
+                                                 (println e)))
                      (assoc (:response ctx) :status 406 :body "Unexpected Content-Type"))))}}})
