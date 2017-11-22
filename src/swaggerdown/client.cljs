@@ -89,23 +89,23 @@
   (swap! app-state update :expanded? not))
 
 (defn preview-pane
-  [{:keys [preview loading? error? expanded? downloadable]}]
-  (if preview 
-    [:div 
-     [:div#preview-header 
-      {:on-click expand-preview}
-      [:h3 (if loading?  "Loading..." (if error? "Error Loading" "Preview"))]]
-     (if expanded? 
-       [:div#preview.expanded [:div {:style {:width "10000px"} :dangerouslySetInnerHTML {:__html preview}}]]
-       [:div#preview.collapsed [:div {:style {:width "10000px"} :dangerouslySetInnerHTML {:__html preview}}]])
-     [:div#preview-footer 
+  [{:keys [url preview loading? error? expanded? downloadable]}]
+  (let [content-type (:content-type downloadable)]
+    (if preview 
       [:div 
-       {:on-click expand-preview}
+       [:div#preview-header 
+        {:on-click expand-preview}
+        [:h3 (if loading?  "Loading..." (if error? "Error Loading" "Preview"))]]
        (if expanded? 
-         [:h3 "Hide"]
-         [:h3 "Show More"])]
-      [:a {:download (str "swaggerdown" (:ext downloadable)) 
-           :href (str "data:" (:content-type downloadable) ";base64," (:data downloadable))} "Download"]]]))
+         [:div#preview.expanded [:div {:style {:width "10000px"} :dangerouslySetInnerHTML {:__html preview}}]]
+         [:div#preview.collapsed [:div {:style {:width "10000px"} :dangerouslySetInnerHTML {:__html preview}}]])
+       [:div#preview-footer 
+        [:div 
+         {:on-click expand-preview}
+         (if expanded? 
+           [:h3 "Hide"]
+           [:h3 "Show More"])]
+        [:a {:href (str (api-url) "/documentation?url=" (.encodeURIComponent js/window url) "&content-type=" (.encodeURIComponent js/window content-type))} "Open"]]])))
 
 (defn api-pane
   [{:keys [preview url downloadable]}]
