@@ -105,7 +105,10 @@
          (if expanded? 
            [:h3 "Hide"]
            [:h3 "Show More"])]
-        [:a {:href (str (api-url) "/documentation?url=" (.encodeURIComponent js/window url) "&content-type=" (.encodeURIComponent js/window content-type))} "Open"]]])))
+        [:a {:href (str (api-url) "/documentation?url=" (.encodeURIComponent js/window url) "&content-type=" (.encodeURIComponent js/window content-type))} "View"]
+        " | "
+        [:a {:download (str "swaggerdown" (:ext downloadable)) 
+             :href (str "data:" (:content-type downloadable) ";base64," (:data downloadable))} "Download"]]])))
 
 (defn api-pane
   [{:keys [preview url downloadable]}]
