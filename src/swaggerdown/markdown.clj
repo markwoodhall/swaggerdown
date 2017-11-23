@@ -19,17 +19,28 @@
        {:text short-text :url (s/lower-case short-link)}])
     t))
 
+(defn cols-or-none
+  [col]
+  (if (empty? col) ["None"] col))
+
 (defn- produces
   [col]
   [:br
    :h3 "Content Types Produced"
-   :table ["Produces" (if (empty? col) ["None"] col)]])
+   :table ["Produces" (cols-or-none col)]])
 
 (defn- consumes
   [col]
   [:br
    :h3 "Content Types Consumed"
-   :table ["Consumes" (if (empty? col) ["None"] col)]])
+   :table ["Consumes" (cols-or-none col)]])
+
+(defn- secures
+  [col]
+  [:br
+   :h3 "Security"
+   :table ["Id" (cols-or-none (map name (flatten (map keys col))))
+           "Scopes" (cols-or-none (map vals col))]])
 
 (defn- responses
   [responses]
@@ -68,7 +79,8 @@
             (concat (responses (:responses (m path))))
             (concat (params (:parameters (m path))))
             (concat (produces (:produces (m path))))
-            (concat (consumes (:consumes (m path))))))) []
+            (concat (consumes (:consumes (m path))))
+            (concat (secures (:security (m path))))))) []
     (keys path)))
 
 (defn- paths
@@ -77,7 +89,7 @@
     (fn [a k v]
       (-> a 
           (concat [:h2 (name k)])
-          (concat (verbs v)))) [] paths))
+          (concat (verbs v)))) [:h2 "Endpoints"] paths))
 
 (defn- key-or-empty
   [k m]
@@ -108,7 +120,7 @@
           :h3 (str (name k) " Definition") 
           :table ["Property" (map :property properties) 
                   "Type" (definition-types properties)
-                  "Format" (map :format properties)]))) [] definitions))
+                  "Format" (map :format properties)]))) [:h2 "Definitions"] definitions))
 
 (defn- schemes
   [{:keys [schemes]}]
@@ -126,11 +138,12 @@
         token-urls (map (partial key-or-empty :tokenUrl) defs)
         auth-urls (map (partial key-or-empty :authorizationUrl) defs)
         scopes (map (partial key-or-empty :scopes) defs)
-        scope-names (map keys scopes)
+        scope-names (map #(if (keyword? %) (name %)  %) (flatten (map keys scopes)))
         scopes-combined (map #(if (empty? (keys %)) "" (clojure.string/join ", " (keys %))) scopes)
         scope-vals (map vals scopes) ]
-    [:h3 "Security Definitions"
-     :table ["Type" types
+    [:h2 "Security Definitions"
+     :table ["Id" (map name (keys securityDefinitions))
+             "Type" types
              "Flow" flows
              "Authorization Url" auth-urls
              "Name" names
@@ -157,13 +170,11 @@
                  [:link {:text termsOfService :url termsOfService :title "Terms of Service"}]
                  "License"
                  [:link {:text (:name license) :url (:url license) :title "License"}]]
-         :br
-         :h2 "Api"]
+         :br]
         (concat (schemes swagger))
         (concat (paths swagger))
-        (concat [:h2 "Definitions"])
-        (concat (definitions swagger))
         (concat (security swagger))
+        (concat (definitions swagger))
         (concat [:h2 "Additional Resources"
                  :link {:text (:description externalDocs) :url (:url externalDocs) :title "External Documentation"}]))))
 
