@@ -4192,15 +4192,45 @@
                             {% with opval=op|val %}
                                 <div class="content">
                                     <h3>{{op|key|name}}</h3>
+                                    <h4>{{opval.operationId}}</h4>
                                     <h4>{{opval.summary}}</h4>
                                     <p>{{opval.description}}</p>
-                                    Operation Name: <b>{{opval.operationId}}</b>
+
+                                    {% if opval.consumes|not-empty? %}
+                                      <h4>Consumes</h4>
+                                      <ul>
+                                         {% for consume in opval.consumes %}
+                                           <li>{{consume}}</li>
+                                         {% endfor %}
+                                      </ul>
+                                    {% endif %}
+
+                                    {% if opval.produces|not-empty? %}
+                                      <h4>Produces</h4>
+                                      <ul>
+                                         {% for produce in opval.produces %}
+                                           <li>{{produce}}</li>
+                                         {% endfor %}
+                                      </ul>
+                                    {% endif %}
+
+                                    {% if opval.responses|not-empty? %}
+                                      <h4>Responses</h4>
+                                      <ul>
+                                         {% for response in opval.responses %}
+                                           {% with responseval=response|val %}
+                                             <li>{{response|key|name}} - {{responseval.description}}</li>
+                                           {% endwith %}
+                                         {% endfor %}
+                                      </ul>
+                                    {% endif %}
                                 </div>
                             {% endwith %}
                         {% endfor %}
                     </div>
                 </section>
             {% endfor %}
+            {% debug %}
 
             <!-- Footer -->
             <footer id="footer">

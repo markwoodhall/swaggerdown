@@ -6,4 +6,5 @@
   [swagger]
   (add-filter! :key key)
   (add-filter! :val val)
+  (add-filter! :not-empty? (complement empty?))
   (render-file "templates/fractal/index.html" swagger))
