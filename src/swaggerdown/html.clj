@@ -1,6 +1,7 @@
 (ns swaggerdown.html
   (:require [selmer.parser :refer [render-file]]
-            [selmer.filters :refer [add-filter!]]))
+            [selmer.filters :refer [add-filter!]]
+            [clojure.string :refer [upper-case]]))
 
 (defn ->html
   [swagger]
@@ -10,4 +11,5 @@
   (add-filter! :vals vals)
   (add-filter! :not-empty? (complement empty?))
   (add-filter! :rest rest)
+  (add-filter! :upper upper-case)
   (render-file "templates/fractal/index.html" swagger))

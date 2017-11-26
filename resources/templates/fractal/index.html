@@ -4207,39 +4207,57 @@
                         {% for op in path|val %}
                             {% with opval=op|val %}
                                 <div class="content">
-                                    <h3>{{op|key|name}}</h3>
+                                    <h3>{{op|key|name|upper}}</h3>
                                     <h4>{{opval.operationId}}</h4>
                                     <h4>{{opval.summary}}</h4>
                                     <p>{{opval.description}}</p>
 
                                     {% if opval.consumes|not-empty? %}
+
                                       <h4>Consumes</h4>
-                                      <ul>
-                                         {% for consume in opval.consumes %}
-                                           <li>{{consume}}</li>
+                                      <table>
+                                        <tbody>
+                                         {% for consumer in opval.consumes %}
+                                           <tr>
+                                             <td>{{consumer}}</td>
+                                           </tr>
                                          {% endfor %}
-                                      </ul>
+                                        </tbody>
+                                      </table>
                                     {% endif %}
 
                                     {% if opval.produces|not-empty? %}
 
                                       <h4>Produces</h4>
-                                      <ul>
+                                      <table>
+                                        <tbody>
                                          {% for produce in opval.produces %}
-                                           <li>{{produce}}</li>
+                                           <tr>
+                                             <td>{{produce}}</td>
+                                           </tr>
                                          {% endfor %}
-                                      </ul>
+                                        </tbody>
+                                      </table>
                                     {% endif %}
 
                                     {% if opval.responses|not-empty? %}
                                       <h4>Responses</h4>
-                                      <ul>
-                                         {% for response in opval.responses %}
-                                           {% with responseval=response|val %}
-                                             <li>{{response|key|name}} - {{responseval.description}}</li>
-                                           {% endwith %}
-                                         {% endfor %}
-                                      </ul>
+                                      <table>
+                                        <thead>
+                                          <th>Status</th>
+                                          <th>Description</th>
+                                        </thead>
+                                        <tbody>
+                                             {% for response in opval.responses %}
+                                               {% with responseval=response|val %}
+                                               <tr>
+                                                 <td>{{response|key|name}}</td> 
+                                                 <td>{{responseval.description}}</td>
+                                               </tr>
+                                               {% endwith %}
+                                             {% endfor %}
+                                        </tbody>
+                                      </table>
                                     {% endif %}
                                 </div>
                             {% endwith %}
@@ -4266,7 +4284,7 @@
                     <div class="inner alt">
                         <section class="spotlight">
                             <div class="content">
-                                <h2>{{definition|key|name}}</h2>
+                                <h2>{{definition|key|name|capitalize}}</h2>
                             </div>
                         </section>
                         <table>
@@ -4275,6 +4293,8 @@
                               <th>Type</th>
                               <th>Format</th>
                               <th>Enum</th>
+                              <th>Description</th>
+                              <th>Example</th>
                             </thead>
                             <tbody>
                             {% with definitionval=definition|val %}
@@ -4285,6 +4305,8 @@
                                     <td>{{prop.type}}</td>
                                     <td>{{prop.format}}</td>
                                     <td>{{prop.enum}}</td>
+                                    <td>{{prop.description}}</td>
+                                    <td>{{prop.example}}</td>
                                   {% endfor %}
                                 </tr>
                               {% endfor %}
