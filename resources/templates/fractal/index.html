@@ -4222,6 +4222,7 @@
                                     {% endif %}
 
                                     {% if opval.produces|not-empty? %}
+
                                       <h4>Produces</h4>
                                       <ul>
                                          {% for produce in opval.produces %}
@@ -4255,7 +4256,7 @@
                         </div>
                     </section>
                     <div class="content">
-                        <h4>This section contains the specification for the api contracts.</h4>
+                        <p>This section contains the specification for the api contracts.</p>
                     </div>
                 </div>
             </section>
@@ -4268,17 +4269,28 @@
                                 <h2>{{definition|key|name}}</h2>
                             </div>
                         </section>
-
-                        {% with definitionval=definition|val %}
-                          {% for property in definitionval.properties %}
-                              <div class="content">
-                                  <h4>{{property|first|name}}</h4>
-                              </div>
-                             {% for prop in property|rest %}
-                               {{prop}}
-                             {% endfor %}
-                          {% endfor %}
-                        {% endwith %}
+                        <table>
+                            <thead>
+                              <th>Name</th>
+                              <th>Type</th>
+                              <th>Format</th>
+                              <th>Enum</th>
+                            </thead>
+                            <tbody>
+                            {% with definitionval=definition|val %}
+                              {% for property in definitionval.properties %}
+                                <tr>
+                                  <td>{{property|first|name}}</td>
+                                  {% for prop in property|rest %}
+                                    <td>{{prop.type}}</td>
+                                    <td>{{prop.format}}</td>
+                                    <td>{{prop.enum}}</td>
+                                  {% endfor %}
+                                </tr>
+                              {% endfor %}
+                            {% endwith %}
+                            </tbody>
+                        </table>
                     </div>
                 </section>
             {% endfor %}
