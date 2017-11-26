@@ -14,14 +14,14 @@
          :url "http://petstore.swagger.io/v2/swagger.json"
          :generators-visible? true
          :expanded? false
-         :generators [{:title "HTML" :ext ".html" :content-type "text/html"}
-                      {:title "Markdown" :ext ".md" :content-type "application/markdown"}
-                      {:title "Yaml" :ext ".yml" :content-type "application/x-yaml"}
-                      {:title "EDN" :ext ".edn" :content-type "application/edn"}
-                      {:title "Fractal HTML" :ext ".html" :content-type "application/html" :coming-soon? true}
-                      {:title "Api Blueprint" :ext ".apib" :content-type "application/mson" :coming-soon? true}
-                      {:title "PDF" :ext ".pdf" :content-type "application/pdf" :coming-soon? true}
-                      {:title "Ascii Doc" :ext ".adoc" :content-type "text/asciidoc" :coming-soon? true}]}))
+         :generators [{:title "HTML" :ext ".html" :content-type "text/html" :template "default"}
+                      {:title "Markdown" :ext ".md" :content-type "application/markdown" :template "default"}
+                      {:title "Yaml" :ext ".yml" :content-type "application/x-yaml" :template "default"}
+                      {:title "EDN" :ext ".edn" :content-type "application/edn" :template "default"}
+                      {:title "Fractal HTML" :ext ".html" :content-type "text/html" :template "fractal"}
+                      {:title "Api Blueprint" :ext ".apib" :content-type "application/mson" :coming-soon? true :template "default"}
+                      {:title "PDF" :ext ".pdf" :content-type "application/pdf" :coming-soon? true :template "default"}
+                      {:title "Ascii Doc" :ext ".adoc" :content-type "text/asciidoc" :coming-soon? true :template "default"}]}))
 
 (defn api-url
   []
@@ -32,9 +32,9 @@
 (.-href (.-location js/window))
 
 (defn generate-handler
-  [ext content-type ev] 
+  [ext content-type template ev] 
   (when (= ev.target.status 200)
-    (swap! app-state assoc :downloadable {:ext ext :content-type content-type :data (b64/encodeString ev.currentTarget.responseText)})
+    (swap! app-state assoc :downloadable {:ext ext :template template :content-type content-type :data (b64/encodeString ev.currentTarget.responseText)})
     (->> (if (or (= content-type "application/markdown")
                  (= content-type "application/x-yaml"))
            (-> ev.currentTarget.responseText
@@ -47,15 +47,15 @@
 
 (defn generate [generator app e]
   (let [{:keys [url]} app
-        {:keys [ext content-type]} generator]
+        {:keys [ext content-type template]} generator]
     (swap! app-state assoc :loading? true)
     (doto
       (new js/XMLHttpRequest)
       (.open "POST" (str (api-url) "/documentation"))
       (.setRequestHeader "Accept" content-type)
       (.setRequestHeader "Content-Type" "application/x-www-form-urlencoded")
-      (.addEventListener "load" (partial generate-handler ext content-type))
-      (.addEventListener "error" (partial generate-handler ext content-type))
+      (.addEventListener "load" (partial generate-handler ext content-type template))
+      (.addEventListener "error" (partial generate-handler ext content-type template))
       (.send (str "url=" url)))))
 
 (defn generator 
@@ -90,7 +90,8 @@
 
 (defn preview-pane
   [{:keys [url preview loading? error? expanded? downloadable]}]
-  (let [content-type (:content-type downloadable)]
+  (let [content-type (:content-type downloadable)
+        template (:template downloadable)]
     (if preview 
       [:div 
        [:div#preview-header 
@@ -105,7 +106,7 @@
          (if expanded? 
            [:h3 "Hide"]
            [:h3 "Show More"])]
-        [:a {:href (str (api-url) "/documentation?url=" (.encodeURIComponent js/window url) "&content-type=" (.encodeURIComponent js/window content-type))} "View"]
+        [:a {:href (str (api-url) "/documentation?url=" (.encodeURIComponent js/window url) "&content-type=" (.encodeURIComponent js/window content-type) "&template=" template)} "View"]
         " | "
         [:a {:download (str "swaggerdown" (:ext downloadable)) 
              :href (str "data:" (:content-type downloadable) ";base64," (:data downloadable))} "Download"]]])))
@@ -120,7 +121,7 @@
      [:p]
      [:div#preview-header 
       [:h3 "Terminal"]]
-     [:div#preview.collapsed " curl -X POST -v -H \"Accept: " (:content-type downloadable) "\"  " (api-url) "/documentation -H \"Content-Type: application/x-www-form-urlencoded\" -d \"url=" url "\""]
+     [:div#preview.collapsed " curl -X POST -v -H \"Accept: " (:content-type downloadable) "\"  " (api-url) "/documentation -H \"Content-Type: application/x-www-form-urlencoded\" -d \"url=" url "&template=" (:template downloadable) "\""]
      [:div#preview-footer]]))
 
 (defn generators

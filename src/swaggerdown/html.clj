@@ -4,7 +4,7 @@
             [clojure.string :refer [upper-case]]))
 
 (defn ->html
-  [swagger]
+  [swagger template]
   (add-filter! :key key)
   (add-filter! :keys keys)
   (add-filter! :val val)
@@ -12,4 +12,4 @@
   (add-filter! :not-empty? (complement empty?))
   (add-filter! :rest rest)
   (add-filter! :upper upper-case)
-  (render-file "templates/fractal/index.html" swagger))
+  (render-file (str "templates/" template "/index.html") swagger))

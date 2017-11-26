@@ -17,7 +17,7 @@
    }})
 
 (defn documentation-handler
-  [url content-type ctx]
+  [url template content-type ctx]
   (case content-type
     ("application/edn") (str (swagger url true))
     ("application/x-yaml") (-> (swagger url false)
@@ -25,32 +25,31 @@
     ("application/markdown") (->> (swagger url true)
                                   ->markdown
                                   markdown->str)
-    ("text/html") (->> (swagger url true)
-                       ->markdown
-                       markdown->str
-                       md-to-html-string)
-    ("application/html") (->> (swagger url true)
-                                   ->html)
+    ("text/html") (->html (swagger url true) template)
     (assoc (:response ctx) :status 406 :body (str "Unexpected Content-Type:" content-type))))
 
 (defn documentation
-  [[url]]
+  [[url template]]
   {:methods 
    {:post 
     {:consumes "application/x-www-form-urlencoded"
      :parameters
-     {:form {(s/optional-key :url) String}}
+     {:form {(s/optional-key :url) String
+             (s/optional-key :template) String}}
      :produces #{"application/edn" "application/x-yaml" "application/markdown" "text/html" "application/html"}
      :response (fn [ctx] 
-                 (let [url (or (get-in ctx [:parameters :form :url]) url)]
-                   (documentation-handler url (yada/content-type ctx) ctx)))}
+                 (let [url (or (get-in ctx [:parameters :form :url]) url)
+                       template (or (get-in ctx [:parameters :form :template]) template)]
+                   (documentation-handler url template (yada/content-type ctx) ctx)))}
     :get 
     {:consumes "application/x-www-form-urlencoded"
      :parameters
      {:query {(s/optional-key :url) String
-              (s/optional-key :content-type) String}}
+              (s/optional-key :content-type) String
+              (s/optional-key :template) String}}
      :produces #{"application/edn" "application/x-yaml" "application/markdown" "text/html" "application/html"}
      :response (fn [ctx] 
                  (let [url (or (get-in ctx [:parameters :query :url]) url)
+                       template (or (get-in ctx [:parameters :query :template]) url)
                        content-type (get-in ctx [:parameters :query :content-type])]
-                   (documentation-handler url content-type ctx)))}}})
+                   (documentation-handler url template content-type ctx)))}}})

@@ -15,7 +15,7 @@
                   ["api/" 
                    [
                     ["documentation" 
-                     (-> ["http://petstore.swagger.io/v2/swagger.json"] 
+                     (-> ["http://petstore.swagger.io/v2/swagger.json" "default"] 
                          documentation
                          (merge access-control)
                          resource)]]]
