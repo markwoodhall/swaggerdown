@@ -3655,7 +3655,6 @@
         -webkit-justify-content: center;
         -ms-justify-content: center;
         justify-content: center;
-        background-image: url("images/overlay.png"), url("images/pattern-size1.svg");
         background-position: top left, center center;
         background-attachment: fixed, fixed;
         background-size: auto, cover;
@@ -4162,6 +4161,10 @@
         }
 
     }
+
+    .no-border {
+      border-bottom: none;
+    }
         </style>
     </head>
     <body id="top">
@@ -4178,6 +4181,19 @@
                 </div>
                 <div class="image phone"><div class="inner"><img src="images/screen.jpg" alt="" /></div></div>
             </header>
+
+            <section  class="wrapper no-border">
+                <div class="inner alt">
+                    <section class="spotlight">
+                        <div class="content">
+                          <h2>Endpoints</h2>
+                        </div>
+                    </section>
+                    <div class="content">
+                        <h4>This section contains the specification for the api endpoints and includes information such as the endpoint path, what kind of data is produced and consumed, and what status codes are returned.</h4>
+                    </div>
+                </div>
+            </section>
 
             {% for path in paths %}
                 <section  class="wrapper">
@@ -4230,6 +4246,45 @@
                     </div>
                 </section>
             {% endfor %}
+
+            <section  class="wrapper no-border">
+                <div class="inner alt">
+                    <section class="spotlight">
+                        <div class="content">
+                          <h2>Definitions</h2>
+                        </div>
+                    </section>
+                    <div class="content">
+                        <h4>This section contains the specification for the api contracts.</h4>
+                    </div>
+                </div>
+            </section>
+
+            {% for definition in definitions %}
+                <section  class="wrapper">
+                    <div class="inner alt">
+                        <section class="spotlight">
+                            <div class="content">
+                                <h2>{{definition|key|name}}</h2>
+                            </div>
+                        </section>
+
+                        {% with definitionval=definition|val %}
+                          {% for property in definitionval.properties %}
+                              <div class="content">
+                                  <h4>{{property|first|name}}</h4>
+                              </div>
+                             {% for prop in property|rest %}
+                               {{prop}}
+                             {% endfor %}
+                          {% endfor %}
+                        {% endwith %}
+                    </div>
+                </section>
+            {% endfor %}
+
+
+            {% debug %}
 
             <!-- Footer -->
             <footer id="footer">
