@@ -2,7 +2,6 @@
   (:require [swaggerdown.swagger :refer [swagger]]
             [swaggerdown.markdown :refer [->markdown markdown->str]]
             [swaggerdown.html :refer [->html]]
-            [markdown.core :refer [md-to-html-string]]
             [schema.core :as s]
             [yaml.core :as y]
             [yada.yada :as yada]))

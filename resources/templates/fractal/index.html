@@ -4173,7 +4173,7 @@
             <header id="header">
                 <div class="content">
                     <h1><a href="#">{{info.title}}</a></h1>
-                    <p>{{info.description}}</p>
+                    <p>{{info.description|markdown|safe}}</p>
                     <ul class="actions">
                         <li><a href="mailto:{{info.contact.email}}" class="button special icon fa-download">Contact</a></li>
                         <li><a href="{{info.termsOfService}}" class="button icon fa-chevron-down scrolly">Terms</a></li>
@@ -4190,7 +4190,7 @@
                         </div>
                     </section>
                     <div class="content">
-                        <h4>This documentation generator is currently in alpha phase, there may be elements missing or incorrect.</h4>
+                        <h4>This documentation generator is currently in alpha phase, there may be elements that are missing or incorrect.</h4>
                     </div>
                 </div>
             </section>
@@ -4221,7 +4221,15 @@
                             {% with opval=op|val %}
                                 <div class="content">
                                     <h3>{{op|key|name|upper}}</h3>
-                                    <h4>{{opval.operationId}}</h4>
+                                    <h4><code>{{opval.operationId}}</code></h4>
+
+                                    {% if opval.tags|not-empty? %}
+                                      <h4>Tags</h4>
+                                        {% for tag in opval.tags %}
+                                          <h5><code>{{tag}}</code></h5>
+                                        {% endfor %}
+                                    {% endif %}
+
                                     <h4>{{opval.summary}}</h4>
                                     <p>{{opval.description}}</p>
 
@@ -4272,6 +4280,52 @@
                                         </tbody>
                                       </table>
                                     {% endif %}
+
+                                    {% if opval.parameters|not-empty? %}
+                                      <h4>Parameters</h4>
+                                      <table>
+                                        <thead>
+                                          <th>Name</th>
+                                          <th>Description</th>
+                                          <th>Type</th>
+                                          <th>Items</th>
+                                          <th>Format</th>
+                                          <th>Schema</th>
+                                          <th>In</th>
+                                          <th>Maximum</th>
+                                          <th>Minimum</th>
+                                        </thead>
+                                        <tbody>
+                                             {% for param in opval.parameters %}
+                                               <tr>
+                                                 <td>{{param.name}}</td> 
+                                                 <td>{{param.description}}</td>
+                                                 <td>{{param.type}}</td>
+                                                 <td>{{param.format}}</td>
+                                                 <td>
+                                                 {% if param.items.enum|not-empty? %}
+                                                   {% for en in param.items.enum %}
+                                                     <code>{{en}}</code><br />
+                                                   {% endfor %}
+                                                 {% endif %}
+                                                 </td>
+                                                 <td>
+                                                     {% if param.schema|not-nil? %}
+                                                     <code>
+                                                         {{param.schema.$ref}}
+                                                         {{param.schema.items.$ref}}
+                                                     </code>
+                                                     {% endif %}
+                                                 </td>
+                                                 </td>
+                                                 <td>{{param.in}}</td>
+                                                 <td>{{param.maximum}}</td>
+                                                 <td>{{param.minimum}}</td>
+                                               </tr>
+                                             {% endfor %}
+                                        </tbody>
+                                      </table>
+                                    {% endif %}
                                 </div>
                             {% endwith %}
                         {% endfor %}
@@ -4317,7 +4371,11 @@
                                   {% for prop in property|rest %}
                                     <td>{{prop.type}}</td>
                                     <td>{{prop.format}}</td>
-                                    <td>{{prop.enum}}</td>
+                                    <td>
+                                    {% for en in prop.enum %}
+                                      <code>{{en}}</code><br />
+                                    {% endfor %}
+                                    </td>
                                     <td>{{prop.description}}</td>
                                     <td>{{prop.example}}</td>
                                   {% endfor %}
@@ -4333,9 +4391,7 @@
             <!-- Footer -->
             <footer id="footer">
                 <ul class="icons">
-                    <li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
-                    <li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
-                    <li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
+                    <li>This documentation was generated using <a href="http://swaggerdown.io" title="Swaggerdown">Swaggerdown</a></li>.
                 </ul>
                 <p class="copyright">&copy; Untitled. Credits: <a href="http://html5up.net">HTML5 UP</a></p>
             </footer>
