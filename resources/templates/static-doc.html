@@ -161,7 +161,11 @@
                                     <tbody>
                                          {% for param in opval.parameters %}
                                            <tr>
-                                             <td>{{param.name}}</td> 
+                                             <td>{{param.name}}
+                                                {% if param.required %} 
+                                                <code>Required</code>
+                                                {% endif %}
+                                             </td> 
                                              <td>{{param.description}}</td>
                                              <td>{{param.type}}</td>
                                              <td>{{param.format}}</td>
