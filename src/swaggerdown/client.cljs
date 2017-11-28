@@ -14,12 +14,12 @@
          :url "http://petstore.swagger.io/v2/swagger.json"
          :generators-visible? true
          :expanded? false
-         :generators [{:title "HTML" :ext ".html" :content-type "text/html" :template "default"}
-                      {:title "Fractal HTML" :ext ".html" :content-type "text/html" :template "fractal"}
-                      {:title "Fractal-Red HTML" :ext ".html" :content-type "text/html" :template "fractal-red"}
-                      {:title "Markdown" :ext ".md" :content-type "application/markdown" :template "default"}
-                      {:title "Yaml" :ext ".yml" :content-type "application/x-yaml" :template "default"}
-                      {:title "EDN" :ext ".edn" :content-type "application/edn" :template "default"}
+         :generators [{:title "HTML" :description "Generate HTML with no formatting" :img "img/html.png" :ext ".html" :content-type "text/html" :template "default"}
+                      {:title "Fractal" :description "Generate HTML using the fractal template" :img "img/fractal.png" :ext ".html" :content-type "text/html" :template "fractal"}
+                      {:title "Fractal Red" :description "Generate HTML using a red fractal template" :img "img/fractal-red.png" :ext ".html" :content-type "text/html" :template "fractal-red"}
+                      {:title "Markdown" :img "img/markdown.png" :ext ".md" :content-type "application/markdown" :template "default"}
+                      {:title "Yaml" :img "img/yaml.png" :ext ".yml" :content-type "application/x-yaml" :template "default"}
+                      {:title "EDN" :img "img/edn.png" :ext ".edn" :content-type "application/edn" :template "default"}
                       {:title "Api Blueprint" :ext ".apib" :content-type "application/mson" :coming-soon? true :template "default"}
                       {:title "PDF" :ext ".pdf" :content-type "application/pdf" :coming-soon? true :template "default"}
                       {:title "Ascii Doc" :ext ".adoc" :content-type "text/asciidoc" :coming-soon? true :template "default"}]}))
@@ -61,13 +61,14 @@
 
 (defn generator 
   [app g]
-  (let [{:keys [title content-type]} g]
+  (let [{:keys [title content-type img template description ] 
+         :or {description (str "Generate " title " with " template " template") img "img/swagger.png"}} g]
     (if (:coming-soon? g)
       [:div.generator.coming {:id title :key title}
        [:img {:src "img/s.png" :title (str title " Coming Soon") :width "80px" :height "80px"}]
        [:div (str title)]]
       [:div.generator {:id title :key title :on-click (partial generate g app)}
-       [:img {:src "img/swagger.png":title (str "Generate " title " Coming Soon")  :width "80px" :height "80px"}]
+       [:img {:src img :title description  :width "80px" :height "80px"}]
        [:div
         (str title)]])))
 
