@@ -11,6 +11,7 @@
   (add-filter! :val val)
   (add-filter! :vals vals)
   (add-filter! :not-empty? (complement empty?))
+  (add-filter! :nil? nil?)
   (add-filter! :not-nil? (complement nil?))
   (add-filter! :rest rest)
   (add-filter! :upper upper-case)

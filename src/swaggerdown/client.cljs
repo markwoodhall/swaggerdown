@@ -15,10 +15,11 @@
          :generators-visible? true
          :expanded? false
          :generators [{:title "HTML" :ext ".html" :content-type "text/html" :template "default"}
+                      {:title "Fractal HTML" :ext ".html" :content-type "text/html" :template "fractal"}
+                      {:title "Fractal-Red HTML" :ext ".html" :content-type "text/html" :template "fractal-red"}
                       {:title "Markdown" :ext ".md" :content-type "application/markdown" :template "default"}
                       {:title "Yaml" :ext ".yml" :content-type "application/x-yaml" :template "default"}
                       {:title "EDN" :ext ".edn" :content-type "application/edn" :template "default"}
-                      {:title "Fractal HTML" :ext ".html" :content-type "text/html" :template "fractal"}
                       {:title "Api Blueprint" :ext ".apib" :content-type "application/mson" :coming-soon? true :template "default"}
                       {:title "PDF" :ext ".pdf" :content-type "application/pdf" :coming-soon? true :template "default"}
                       {:title "Ascii Doc" :ext ".adoc" :content-type "text/asciidoc" :coming-soon? true :template "default"}]}))
