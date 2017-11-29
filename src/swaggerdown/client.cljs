@@ -68,7 +68,7 @@
        [:img {:src "img/s.png" :title (str title " Coming Soon") :width "80px" :height "80px"}]
        [:div (str title)]]
       [:div.generator {:id title :key title :on-click (partial generate g app)}
-       [:img {:src img :title description  :width "80px" :height "80px"}]
+       [:a {:href "#preview-header"} [:img {:src img :title description  :width "80px" :height "80px"}]]
        [:div
         (str title)]])))
 

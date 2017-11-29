@@ -203,7 +203,7 @@ svg > path {
   text-align: center;
   margin-left: -11px;
 }
-.generator > img {
+.generator > a > img, .generator > img {
   border-radius: 60px 60px 60px 60px;
 }
 
