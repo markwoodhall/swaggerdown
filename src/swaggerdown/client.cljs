@@ -30,8 +30,6 @@
     "http://localhost:3080/api"
     (str (.-origin (.-location js/window)) "/api")))
 
-(.-href (.-location js/window))
-
 (defn generate-handler
   [ext content-type template ev] 
   (when (= ev.target.status 200)
