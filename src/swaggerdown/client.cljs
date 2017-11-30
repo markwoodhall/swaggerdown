@@ -20,6 +20,7 @@
                       {:title "Markdown" :img "img/markdown.png" :ext ".md" :content-type "application/markdown" :template "default"}
                       {:title "Yaml" :img "img/yaml.png" :ext ".yml" :content-type "application/x-yaml" :template "default"}
                       {:title "EDN" :img "img/edn.png" :ext ".edn" :content-type "application/edn" :template "default"}
+                      {:title "Clojure Spec" :img "img/clj-spec.png" :ext ".clj" :content-type "text/clojure" :coming-soon? true :template "default"}
                       {:title "Api Blueprint" :ext ".apib" :content-type "application/mson" :coming-soon? true :template "default"}
                       {:title "PDF" :ext ".pdf" :content-type "application/pdf" :coming-soon? true :template "default"}
                       {:title "Ascii Doc" :ext ".adoc" :content-type "text/asciidoc" :coming-soon? true :template "default"}]}))
@@ -35,7 +36,9 @@
   (when (= ev.target.status 200)
     (swap! app-state assoc :downloadable {:ext ext :template template :content-type content-type :data (b64/encodeString ev.currentTarget.responseText)})
     (->> (if (or (= content-type "application/markdown")
-                 (= content-type "application/x-yaml"))
+                 (= content-type "application/x-yaml")
+                 (= content-type "text/clojure")
+                 (= content-type "application/edn"))
            (-> ev.currentTarget.responseText
                (s/replace  " " "&nbsp;")
                (s/replace "\n" "<br />"))

@@ -1,0 +1,7 @@
+(ns generated.spec
+  (:require [clojure.spec :as s]))
+
+{% for definition in definitions %}
+ (def {{definition|key|name}} 
+   (s/keys :req [{% with definitionval=definition|val %}{% for property in definitionval.properties %}::{{property|first|name}} {% endfor %}{% endwith %}]))
+{% endfor %}
