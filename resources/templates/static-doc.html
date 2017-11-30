@@ -17,11 +17,15 @@
             <div class="inner alt">
                 <section class="spotlight">
                     <div class="content">
-                      <h2>Notice!</h2>
+                      <h2>Introduction</h2>
                     </div>
                 </section>
                 <div class="content">
-                    <h4>This documentation generator is currently in alpha phase, there may be elements that are missing or incorrect.</h4>
+                    <h5>This documentation describes the operations supported at the following addresses:
+                    <p></p>
+                    {% for scheme in schemes %}
+                      <code><a href="{{scheme}}://{{host}}{{basePaht}}">{{scheme}}://{{host}}{{basePath}}</a></code>
+                    {% endfor %}
                 </div>
             </div>
         </section>
@@ -59,7 +63,8 @@
                     </div>
                 </section>
                 <div class="content">
-                    <h4>This section contains the specification for the api endpoints and includes information such as the endpoint path, what kind of data is produced and consumed, and what status codes are returned.</h4>
+                    <h4>This section contains the specification for the api endpoints available at 
+                    and includes information such as the endpoint path, what kind of data is produced and consumed, and what status codes are returned.</h4>
                 </div>
             </div>
         </section>
