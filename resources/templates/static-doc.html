@@ -10,7 +10,6 @@
                     <li><a href="{{info.termsOfService}}" class="button icon fa-chevron-down scrolly">Terms</a></li>
                 </ul>
             </div>
-            <div class="image phone"><div class="inner"><img src="images/screen.jpg" alt="" /></div></div>
         </header>
 
         <section  class="wrapper no-border">
@@ -21,7 +20,7 @@
                     </div>
                 </section>
                 <div class="content">
-                    <h5>This documentation describes the operations supported at the following addresses:
+                    <h4>This documentation describes the operations supported at the following addresses:</h4>
                     <p></p>
                     {% for scheme in schemes %}
                       <code><a href="{{scheme}}://{{host}}{{basePaht}}">{{scheme}}://{{host}}{{basePath}}</a></code>
@@ -231,6 +230,7 @@
                           <th>Format</th>
                           <th>Enum</th>
                           <th>Description</th>
+                          <th>Default</th>
                           <th>Example</th>
                         </thead>
                         <tbody>
@@ -247,6 +247,7 @@
                                 {% endfor %}
                                 </td>
                                 <td>{{prop.description}}</td>
+                                <td>{{prop.default}}</td>
                                 <td>{{prop.example}}</td>
                               {% endfor %}
                             </tr>

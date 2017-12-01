@@ -4,9 +4,9 @@
             [clojure.string :refer [upper-case]]))
 
 (defn ->clojure
-  [swagger template]
+  [swagger template code-generator]
   (add-filter! :key key)
   (add-filter! :keys keys)
   (add-filter! :val val)
   (add-filter! :vals vals)
-  (render-file (str "templates/code-generation/clojure/clj-spec/" template ".edn") swagger))
+  (render-file (str "templates/code-generation/" code-generator "/" template ".edn") swagger))
