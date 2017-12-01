@@ -19,11 +19,7 @@
                       {:title "Fractal Red" :description "Generate HTML using a red fractal template" :img "img/fractal-red.png" :ext ".html" :content-type "text/html" :template "fractal-red"}
                       {:title "Markdown" :img "img/markdown.png" :ext ".md" :content-type "application/markdown" :template "default"}
                       {:title "Yaml" :img "img/yaml.png" :ext ".yml" :content-type "application/x-yaml" :template "default"}
-                      {:title "EDN" :img "img/edn.png" :ext ".edn" :content-type "application/edn" :template "default"}
-                      {:title "Clojure Spec" :img "img/clj-spec.png" :ext ".clj" :content-type "text/clojure" :coming-soon? true :code-generator "clojure/clj-spec" :template "default"}
-                      {:title "Api Blueprint" :ext ".apib" :content-type "application/mson" :coming-soon? true :template "default"}
-                      {:title "PDF" :ext ".pdf" :content-type "application/pdf" :coming-soon? true :template "default"}
-                      {:title "Ascii Doc" :ext ".adoc" :content-type "text/asciidoc" :coming-soon? true :template "default"}]}))
+                      {:title "EDN" :img "img/edn.png" :ext ".edn" :content-type "application/edn" :template "default"}]}))
 
 (defn api-url
   []
@@ -32,9 +28,9 @@
     (str (.-origin (.-location js/window)) "/api")))
 
 (defn generate-handler
-  [ext content-type template code-generator ev] 
+  [ext content-type template ev] 
   (when (= ev.target.status 200)
-    (swap! app-state assoc :downloadable {:ext ext :template template :code-generator code-generator :content-type content-type :data (b64/encodeString ev.currentTarget.responseText)})
+    (swap! app-state assoc :downloadable {:ext ext :template template :content-type content-type :data (b64/encodeString ev.currentTarget.responseText)})
     (->> (if (or (= content-type "application/markdown")
                  (= content-type "application/x-yaml")
                  (= content-type "text/clojure")
@@ -49,27 +45,27 @@
 
 (defn generate [generator app e]
   (let [{:keys [url]} app
-        {:keys [ext content-type template code-generator]} generator]
+        {:keys [ext content-type template]} generator]
     (swap! app-state assoc :loading? true)
     (doto
       (new js/XMLHttpRequest)
       (.open "POST" (str (api-url) "/documentation"))
       (.setRequestHeader "Accept" content-type)
       (.setRequestHeader "Content-Type" "application/x-www-form-urlencoded")
-      (.addEventListener "load" (partial generate-handler ext content-type template code-generator))
-      (.addEventListener "error" (partial generate-handler ext content-type template code-generator))
-      (.send (str "url=" url "&code-generator=" code-generator)))))
+      (.addEventListener "load" (partial generate-handler ext content-type template))
+      (.addEventListener "error" (partial generate-handler ext content-type template))
+      (.send (str "url=" url)))))
 
 (defn generator 
   [app g]
-  (let [{:keys [title content-type img template code-generator description] 
+  (let [{:keys [title content-type img template description] 
          :or {description (str "Generate " title " with " template " template") img "img/swagger.png"}} g]
     (if (:coming-soon? g)
       [:div.generator.coming {:id title :key title}
        [:img {:src "img/s.png" :title (str title " Coming Soon") :width "80px" :height "80px"}]
        [:div (str title)]]
       [:div.generator {:id title :key title :on-click (partial generate g app)}
-       [:a {:href "#preview-header"} [:img {:src img :title description  :width "80px" :height "80px"}]]
+       [:img {:src img :title description  :width "80px" :height "80px"}]
        [:div
         (str title)]])))
 
@@ -94,8 +90,7 @@
 (defn preview-pane
   [{:keys [url preview loading? error? expanded? downloadable]}]
   (let [content-type (:content-type downloadable)
-        template (:template downloadable)
-        code-generator (:code-generator downloadable)]
+        template (:template downloadable)]
     (if preview 
       [:div 
        [:div#preview-header 
@@ -110,7 +105,7 @@
          (if expanded? 
            [:h3 "Hide"]
            [:h3 "Show More"])]
-        [:a {:href (str (api-url) "/documentation?url=" (.encodeURIComponent js/window url) "&content-type=" (.encodeURIComponent js/window content-type) "&template=" template "&code-generator=" code-generator)} "View"]
+        [:a {:href (str (api-url) "/documentation?url=" (.encodeURIComponent js/window url) "&content-type=" (.encodeURIComponent js/window content-type) "&template=" template)} "View"]
         " | "
         [:a {:download (str "swaggerdown" (:ext downloadable)) 
              :href (str "data:" (:content-type downloadable) ";base64," (:data downloadable))} "Download"]]])))
@@ -125,7 +120,7 @@
      [:p]
      [:div#preview-header 
       [:h3 "Terminal"]]
-     [:div#preview.collapsed " curl -X POST -v -H \"Accept: " (:content-type downloadable) "\"  " (api-url) "/documentation -H \"Content-Type: application/x-www-form-urlencoded\" -d \"url=" url "&template=" (:template downloadable) "&code-generator=" (:code-generator downloadable) "\""]
+     [:div#preview.collapsed " curl -X POST -v -H \"Accept: " (:content-type downloadable) "\"  " (api-url) "/documentation -H \"Content-Type: application/x-www-form-urlencoded\" -d \"url=" url "&template=" (:template downloadable) "\""]
      [:div#preview-footer]]))
 
 (defn generators
