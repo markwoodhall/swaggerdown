@@ -40,11 +40,10 @@ svg > path {
   padding: 8px;
 }
 
-.swagger, #profile, #help, #cog {
+.swagger, #profile, #help, #cog, #paypal {
   border-radius: 80px;
   margin-left: auto;
   margin-right: auto;
-  border: 8px solid #fff;
 }
 
 #intro {
