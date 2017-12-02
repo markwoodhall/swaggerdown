@@ -73,7 +73,7 @@ svg > path {
 }
 
 .logo {
-  width: 600px;
+  width: 400px;
   height: 150px;
   background-image: url('../img/s.png');
   background-position: center;
@@ -175,6 +175,9 @@ svg > path {
     width: fit-content;
     width: -moz-fit-content;
     margin-left: auto;
+  }
+  .logo {
+      width: 600px;
   }
 }
 
