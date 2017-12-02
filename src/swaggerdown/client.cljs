@@ -113,7 +113,7 @@
 (defn api-pane
   [{:keys [preview url downloadable]}]
   (if preview 
-    [:div.outro.grey
+    [:div.outro.blue
      [:img#help {:src "img/api.png" :width "120px" :height "120px"}]
      [:h3 "Use the API!"]
      [:p "If you need to convert your swagger json in a more automated fashion or don't want to use this interface then you can make use of the api."]
@@ -134,7 +134,7 @@
 (defn start 
   [app]
   [:div
-   [:div#main
+   [:div#main.blue
     (url-input @app)
     [:div#generators-container 
      [:div#generators 

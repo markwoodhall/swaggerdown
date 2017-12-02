@@ -22,13 +22,12 @@ svg > path {
   float: left;
   width: 100%;
   font-size:2.3em;
-  background-color: #677;
+  background-color: #1A262F;
   color: #fff;
   padding: 8px;
   padding-bottom: 40px;
   margin: 0;
   text-align: center;
-  background-color: #333;
 }
 
 .header > h3 {
@@ -40,31 +39,13 @@ svg > path {
   padding: 8px;
 }
 
-.swagger, #profile, #help, #cog, #paypal {
+.swagger, #profile, #help, #cog, #paypal, .logo {
   border-radius: 80px;
   margin-left: auto;
   margin-right: auto;
 }
 
-#intro {
-  width: 100%;
-  background-color: #333;
-  color: #fff;
-  padding: 10px;
-  min-height: 490px;
-  margin-left: auto;
-  margin-right: auto;
-  text-align: center;
-}
-
-#intro > h3, .outro > h3 {
-  font-size: 2.1em;
-  color: #fff;
-  text-align: center;
-  padding: 8px;
-}
-
-#intro > p, .outro > p, .what-is-swagger > p, .what-is-it > p {
+.outro > p, .what-is-swagger > p, .what-is-it > p {
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
@@ -87,8 +68,16 @@ svg > path {
   text-align: center;
 }
 
-.what-is-swagger {
-  padding-top: 30px;
+.what-is-it {
+  background-color: #1A262F;
+}
+
+.logo {
+  width: 600px;
+  height: 150px;
+  background-image: url('../img/s.png');
+  background-position: center;
+  background-size: cover;
 }
 
 .error {
@@ -100,7 +89,6 @@ svg > path {
 #main {
   margin-top: -10px;
   padding-top: 40px;
-  background-color: #444;
   min-height: 120px;
 }
 
@@ -156,6 +144,10 @@ svg > path {
   overflow: hidden;
   font-family: "Courier New", Courier, monospace;
   color: #333;
+}
+
+#preview a {
+  color: #444;
 }
 
 .expanded {
@@ -238,6 +230,7 @@ svg > path {
 
 .dark-grey {
   background-color: #333;
+  background-color: #1A262F;
 }
 
 .clojure, .clojurescript, .swagger, #cog {
