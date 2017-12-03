@@ -1,5 +1,7 @@
 # Swaggerdown
 
+![Logo](https://raw.githubusercontent.com/markwoodhall/swaggerdown/master/resources/public/img/s.png)
+
 ## Overview
 
 Swaggerdown is an open source tool for converting swagger json definitions to static 
