@@ -21,31 +21,37 @@ svg > path {
 .header {
   float: left;
   width: 100%;
-  font-size:2.3em;
   background-color: #1A262F;
   color: #fff;
   padding: 8px;
   padding-bottom: 40px;
   margin: 0;
+  margin-bottom: 40px;
   text-align: center;
 }
 
-.header > h3 {
-  font-size: 1.7em;
+.header > h1 {
+  font-size: 3.9em;
   color: #eeeeee;
   text-align: center;
   margin-left: auto;
   margin-right: auto;
   padding: 8px;
+  margin-bottom: 70px;
 }
 
-.swagger, #profile, #help, #cog, #paypal, .logo {
+.swagger, #profile, #help, #cog, #paypal, .logo, .brace {
   border-radius: 80px;
   margin-left: auto;
   margin-right: auto;
 }
 
-.outro > p, .what-is-swagger > p, .what-is-it > p {
+.brace {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.outro > p, .header > p{
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;

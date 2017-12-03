@@ -127,7 +127,7 @@
   [app]
   (if (:generators-visible? app)
     (map (partial generator app) (:generators app))
-    [:div.error.grey 
+    [:div.error.blue 
      [:img {:src "img/error.png" :height "90px" :width "90px"}]
      [:h4 "Enter a valid swagger json url to generate documentation!"]]))
 
