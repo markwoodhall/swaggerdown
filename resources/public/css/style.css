@@ -40,15 +40,10 @@ svg > path {
   margin-bottom: 70px;
 }
 
-.swagger, #profile, #help, #cog, #paypal, .logo, .brace {
+.swagger, #profile, #help, #cog, #paypal, .logo {
   border-radius: 80px;
   margin-left: auto;
   margin-right: auto;
-}
-
-.brace {
-  margin-top: 10px;
-  margin-bottom: 10px;
 }
 
 .outro > p, .header > p{

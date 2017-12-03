@@ -1,6 +1,6 @@
 # Swaggerdown
 
-![Logo](https://raw.githubusercontent.com/markwoodhall/swaggerdown/master/resources/public/img/s.png)
+[![Logo](https://raw.githubusercontent.com/markwoodhall/swaggerdown/master/resources/public/img/s.png)](http://swaggerdown.io)
 
 ## Overview
 
@@ -9,9 +9,9 @@ documentation formats such as markdown.
 
 You can use it for free at [swaggerdown.io](http://swaggerdown.io). Common use cases include:
 
-1. Generate static markdown from a swagger.json.
-2. Generate static html from a swagger.json.
-3. Generate yaml from a swagger.json.
+1. Generate static markdown from a swagger.json [Example](https://github.com/markwoodhall/swaggerdown/blob/master/samples/markdown.md).
+2. Generate static html from a swagger.json. [Example](http://www.swaggerdown.io/api/documentation?url=http%3A%2F%2Fpetstore.swagger.io%2Fv2%2Fswagger.json&content-type=text%2Fhtml&template=fractal)
+3. Generate yaml from a swagger.json. [Example](https://github.com/markwoodhall/swaggerdown/blob/master/samples/yaml.yml).
   + It is easy to import yaml into other api documentation tools such as [apiary](http://apiary.io).
 
 ## Thanks
