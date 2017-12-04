@@ -38,6 +38,7 @@ svg > path {
   margin-right: auto;
   padding: 8px;
   margin-bottom: 70px;
+  max-width: 900px;
 }
 
 .swagger, #profile, #help, #cog, #paypal, .logo {
@@ -90,12 +91,13 @@ svg > path {
 #main {
   margin-top: -10px;
   padding-top: 40px;
-  min-height: 120px;
+  min-height: 250px;
 }
 
 #url {
   display: block;
   width: 80%;
+  max-width: 1000px;
   margin-left: auto;
   margin-right: auto;
   height: 50px;
@@ -110,6 +112,7 @@ svg > path {
 #preview-header, #preview-footer {
   clear: both;
   width: 80%;
+  max-width: 1000px;
   margin-left: auto;
   margin-right: auto;
   padding: 2px;
@@ -136,6 +139,7 @@ svg > path {
 
 #preview {
   width: 80%;
+  max-width: 1000px;
   margin-top:-2px;
   margin-left: auto;
   margin-right: auto;
