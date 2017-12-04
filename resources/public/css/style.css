@@ -163,7 +163,6 @@ svg > path {
   max-height: 400px;
 }
 
-
 #generators {
   width: 300px;
   width: fit-content;
@@ -172,6 +171,11 @@ svg > path {
   margin-left: 40px;
   margin-top: 40px;
   margin-bottom: 20px;
+}
+
+#generators img:hover {
+  border: 2px solid #1A262F;
+  transform: scale(1.3); 
 }
 
 @media (min-width: 550px) { 
