@@ -116,7 +116,7 @@
     [:div.outro.blue
      [:img#help {:src "img/api.png" :width "120px" :height "120px"}]
      [:h3 "Use the API!"]
-     [:p "If you need to convert your swagger json in a more automated fashion or don't want to use this interface then you can make use of the api."]
+     [:p "If you need to convert your OpenAPI or Swagger specification in a more automated fashion or don't want to use this user interface then you can make use of the api."]
      [:p]
      [:div#preview-header 
       [:h3 "Terminal"]]
