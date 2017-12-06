@@ -6,9 +6,9 @@
             [yada.resources.classpath-resource :refer [new-classpath-resource]])
   (:gen-class))
 
-(defrecord Server [port]
+(defrecord Server [port features]
   component/Lifecycle
-  (start [{:keys [port] :as this}]
+  (start [{:keys [port features] :as this}]
     (println "Starting server on port" port)
     (let [srv (listener
                 ["/"
@@ -24,8 +24,8 @@
                   ["js" (new-classpath-resource "public/js")]
                   ["img" (new-classpath-resource "public/img")]
                   ["css" (new-classpath-resource "public/css")]
-                  ["index.html" (resource (home this))]
-                  ["" (resource (home this))]
+                  ["index.html" (resource (home features))]
+                  ["" (resource (home features))]
                  ]]
                  {:port port})]
       (assoc this :server srv)))
@@ -35,10 +35,15 @@
       (close))
     (assoc this :server nil)))
 
+(defn new-server
+  []
+  (component/using (map->Server {}) [:features]))
+
 (defn new-system
   []
   (component/system-map
-    :server (map->Server {})))
+    :server (new-server)
+    :features {}))
 
 (defn configure
   [system profile]
@@ -47,8 +52,7 @@
 
 (defn -main
   [& args]
-  (let [system (-> (new-system)
-                   (configure :prod))]
+  (let [system (configure (new-system) :prod)]
     (component/start system)
     (loop [input (read-line)]
       (if (= input "Q")

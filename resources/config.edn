@@ -1,5 +1,5 @@
 {:server {:port #profile {:prod #long #or [#env PORT 8080]
-                          :dev 3080}
-          :features {:donations? true
-                     :analytics? #profile {:prod true
-                                           :dev false}}}}
+                          :dev 3080}}
+ :features {:donations? true
+            :analytics? #profile {:prod true
+                                  :dev false}}}

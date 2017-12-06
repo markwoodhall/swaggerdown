@@ -13,7 +13,7 @@
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 
-    {% if features.analytics? %}
+    {% if analytics? %}
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-56746791-3"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -38,7 +38,7 @@
            <img class="swagger" style="animation: pulse 1s ease-out;animation-iteration-count:infinite;margin-top:50px;" src="img/brace.jpg" width="120px" height="120px" />
          </div>
        </div>
-       {% if features.donations? %}
+       {% if donations? %}
        <div class="outro dark-grey">
          <img id="paypal" src="img/paypal.png" width="120px" height="120px" />
          <h3>Support Swaggerdown</h3>
