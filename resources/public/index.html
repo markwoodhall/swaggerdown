@@ -13,6 +13,7 @@
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 
+    {% if features.analytics? %}
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-56746791-3"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -21,6 +22,7 @@
 
       gtag('config', 'UA-56746791-3');
     </script>
+    {% endif %}
   </head>
   <body>
     <div>
@@ -36,6 +38,7 @@
            <img class="swagger" style="animation: pulse 1s ease-out;animation-iteration-count:infinite;margin-top:50px;" src="img/brace.jpg" width="120px" height="120px" />
          </div>
        </div>
+       {% if features.donations? %}
        <div class="outro dark-grey">
          <img id="paypal" src="img/paypal.png" width="120px" height="120px" />
          <h3>Support Swaggerdown</h3>
@@ -43,6 +46,7 @@
          <p>If Swaggerdown has been useful to you then please consider making a 
          <a href="https://www.paypal.me/mrwoodhall/5">£5</a>, <a href="https://www.paypal.me/mrwoodhall/10">£10</a>, or even a <a href="https://www.paypal.me/mrwoodhall/20">£20</a> donation.</p>
        </div> 
+       {% endif %}
        <div class="outro blue">
          <img id="profile" src="img/profile.jpeg" width="120px" height="120px" />
          <h3>Who created this?</h3>

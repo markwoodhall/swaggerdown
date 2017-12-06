@@ -39,11 +39,12 @@
                 ;; will cause figwheel to inject the figwheel client
                 ;; into your build
                 :figwheel {:on-jsload "swaggerdown.client/on-js-reload"
+                           :websocket-host :js-client-host
                            ;; :open-urls will pop open your application
                            ;; in the default browser once Figwheel has
                            ;; started and compiled your application.
                            ;; Comment this out once it no longer serves you.
-                           :open-urls ["http://localhost:3449/index.html"]}
+                           :open-urls ["http://localhost:3080/index.html"]}
 
                 :compiler {:main swaggerdown.client
                            :asset-path "js/compiled/out"

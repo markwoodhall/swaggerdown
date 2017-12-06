@@ -1,7 +1,7 @@
 (ns swaggerdown.app
   (:require [aero.core :refer [read-config]]
             [com.stuartsierra.component :as component]
-            [swaggerdown.resources :refer [documentation access-control]]
+            [swaggerdown.resources :refer [documentation home access-control]]
             [yada.yada :refer [listener resource as-resource redirect]]
             [yada.resources.classpath-resource :refer [new-classpath-resource]])
   (:gen-class))
@@ -24,7 +24,8 @@
                   ["js" (new-classpath-resource "public/js")]
                   ["img" (new-classpath-resource "public/img")]
                   ["css" (new-classpath-resource "public/css")]
-                  ["" (as-resource (clojure.java.io/resource "public/index.html"))]
+                  ["index.html" (resource (home this))]
+                  ["" (resource (home this))]
                  ]]
                  {:port port})]
       (assoc this :server srv)))

@@ -2,6 +2,7 @@
   (:require [swaggerdown.swagger :refer [swagger]]
             [swaggerdown.markdown :refer [->markdown markdown->str]]
             [swaggerdown.html :refer [->html]]
+            [selmer.parser :refer [render-file]]
             [schema.core :as s]
             [yaml.core :as y]
             [yada.yada :as yada]))
@@ -52,3 +53,11 @@
                        template (or (get-in ctx [:parameters :query :template]) url)
                        content-type (get-in ctx [:parameters :query :content-type])]
                    (documentation-handler url template content-type ctx)))}}})
+
+(defn home
+  [home-map]
+  {:methods 
+   {:get 
+    {:produces #{"text/html"}
+     :response (fn [ctx]
+                 (render-file "public/index.html" home-map))}}})

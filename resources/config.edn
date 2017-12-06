@@ -1,2 +1,5 @@
 {:server {:port #profile {:prod 8080
-                          :dev 3080}}}
+                          :dev 3080}
+          :features {:donations? true
+                     :analytics? #profile {:prod true
+                                           :dev false}}}}
