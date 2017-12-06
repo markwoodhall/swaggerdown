@@ -47,10 +47,10 @@
 
 (defn -main
   [& args]
-  (let [system (component/start 
-                 (-> (new-system)
-                     (configure :prod)))]
-  (loop [input (read-line)]
-    (if (= input "Q")
-      (component/stop-system system)
-      (recur (read-line))))))
+  (let [system (-> (new-system)
+                   (configure :prod))]
+    (component/start system)
+    (loop [input (read-line)]
+      (if (= input "Q")
+        (component/stop-system system)
+        (recur (read-line))))))
