@@ -4,14 +4,14 @@
 
 ## Overview
 
-Swaggerdown is an open source tool for converting swagger json definitions to static 
+Swaggerdown is an open source tool for converting OpenAPI specifications to static 
 documentation formats such as markdown. 
 
 You can use it for free at [swaggerdown.io](http://swaggerdown.io). Common use cases include:
 
-1. Generate static markdown from a swagger.json [Example](https://github.com/markwoodhall/swaggerdown/blob/master/samples/markdown.md).
-2. Generate static html from a swagger.json. [Example](http://www.swaggerdown.io/api/documentation?url=http%3A%2F%2Fpetstore.swagger.io%2Fv2%2Fswagger.json&content-type=text%2Fhtml&template=fractal)
-3. Generate yaml from a swagger.json. [Example](https://github.com/markwoodhall/swaggerdown/blob/master/samples/yaml.yml).
+1. Generate static markdown from a OpenAPI v2 specification. [Example](https://github.com/markwoodhall/swaggerdown/blob/master/samples/markdown.md).
+2. Generate static html from a OpenAPI v2 specification. [Example](http://www.swaggerdown.io/api/documentation?url=http%3A%2F%2Fpetstore.swagger.io%2Fv2%2Fswagger.json&content-type=text%2Fhtml&template=fractal)
+3. Generate yaml from a from OpenAPI v2 specification. [Example](https://github.com/markwoodhall/swaggerdown/blob/master/samples/yaml.yml).
   + It is easy to import yaml into other api documentation tools such as [apiary](http://apiary.io).
 
 ## Thanks
