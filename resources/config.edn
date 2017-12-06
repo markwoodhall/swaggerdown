@@ -1,4 +1,4 @@
-{:server {:port #profile {:prod 80
+{:server {:port #profile {:prod #long #or [#env PORT 8080]
                           :dev 3080}
           :features {:donations? true
                      :analytics? #profile {:prod true
