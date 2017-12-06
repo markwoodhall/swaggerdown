@@ -1,5 +1,6 @@
 (ns swaggerdown.app
-  (:require [com.stuartsierra.component :as component]
+  (:require [aero.core :refer [read-config]]
+            [com.stuartsierra.component :as component]
             [swaggerdown.resources :refer [documentation access-control]]
             [yada.yada :refer [listener resource as-resource redirect]]
             [yada.resources.classpath-resource :refer [new-classpath-resource]])
@@ -34,16 +35,21 @@
     (assoc this :server nil)))
 
 (defn new-system
-  [config]
-  (let [{:keys [port]} config]
-    (component/system-map
-      :server (map->Server {:port port}))))
+  []
+  (component/system-map
+    :server (map->Server {})))
+
+(defn configure
+  [system profile]
+  (let [config (read-config (clojure.java.io/resource "config.edn") {:profile profile})]
+    (merge-with merge system config)))
 
 (defn -main
   [& args]
-  (let [system (new-system {:port (Integer/parseInt (System/getenv "PORT"))})]
-    (component/start system)
-    (loop [input (read-line)]
-      (if (= input "Q")
-        (component/stop-system system)
-        (recur (read-line))))))
+  (let [system (component/start 
+                 (-> (new-system)
+                     (configure :prod)))]
+  (loop [input (read-line)]
+    (if (= input "Q")
+      (component/stop-system system)
+      (recur (read-line))))))

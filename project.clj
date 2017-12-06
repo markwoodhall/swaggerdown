@@ -12,6 +12,7 @@
                  [yada "1.2.9"]
                  [reagent "0.7.0"]
                  [aleph "0.4.3"]
+                 [aero "1.1.2"]
                  [bidi "2.1.2"]
                  [com.stuartsierra/component "0.3.1"]
                  [cheshire "5.6.3"]
