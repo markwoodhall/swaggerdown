@@ -1,5 +1,6 @@
 <body id="top">
 
+    {% debug %}
     <!-- Header -->
         <header id="header">
             <div class="content">
@@ -23,7 +24,7 @@
                     <h4>This documentation describes the operations supported at the following addresses:</h4>
                     <p></p>
                     {% for scheme in schemes %}
-                      <code><a href="{{scheme}}://{{host}}{{basePaht}}">{{scheme}}://{{host}}{{basePath}}</a></code>
+                      <code><a href="{{scheme}}://{{host}}{{basePath}}">{{scheme}}://{{host}}{{basePath}}</a></code>
                     {% endfor %}
                 </div>
             </div>
@@ -48,6 +49,13 @@
                         <ol>
                         {% for definition in definitions %}
                         <li><a href="#/definitions/{{definition|key|name}}">{{definition|key|name|capitalize}}</a></li>
+                        {% endfor %}
+                        </ol>
+
+                        <h3>Security</h3>
+                        <ol>
+                        {% for definition in securityDefinitions %}
+                        <li><a href="#{{definition|key|name}}">{{definition|key|name}}</a></li>
                         {% endfor %}
                         </ol>
                     </div>
@@ -257,6 +265,36 @@
                     </table>
                 </div>
             </section>
+        {% endfor %}
+
+        {% for definition in securityDefinitions %}
+          {% with definitionVal=definition|val %}
+          {% ifequal definitionVal.type "apiKey" %}
+            <section  class="wrapper">
+                <div class="inner alt">
+                    <section class="spotlight">
+                        <div class="content">
+                            <h2 id="{{definition|key|name}}">{{definition|key|name}}</h2>
+                        </div>
+                    </section>
+                    <table>
+                        <thead>
+                          <th>In</th>
+                          <th>Name</th>
+                          <th>Type</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{definitionVal.in}}</td>
+                                <td>{{definitionVal.type}}</td>
+                                <td>{{definitionVal.name}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            {% endifequal %}
+            {% endwith %}
         {% endfor %}
 
         <!-- Footer -->
