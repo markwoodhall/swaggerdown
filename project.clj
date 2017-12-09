@@ -7,18 +7,18 @@
   :min-lein-version "2.7.1"
 
   :dependencies [[org.clojure/clojure "1.9.0"]
-                 [org.clojure/clojurescript "1.9.908"]
+                 [org.clojure/clojurescript "1.9.946"]
                  [org.clojure/core.async  "0.3.443"]
                  [yada "1.2.9"]
-                 [reagent "0.7.0"]
+                 [reagent "0.7.0" :exclusions [[org.clojure/clojure] [org.clojure/clojurescript]]]
                  [aleph "0.4.3"]
                  [aero "1.1.2"]
                  [bidi "2.1.2"]
                  [com.stuartsierra/component "0.3.1"]
                  [cheshire "5.6.3"]
-                 [clova "0.35.1-SNAPSHOT"]
-                 [selmer "1.11.3"]
-                 [marge "0.10.0"]
+                 [clova "0.35.1-SNAPSHOT" :exclusions [[org.clojure/clojure] [org.clojure/clojurescript]]]
+                 [selmer "1.11.3" ]
+                 [marge "0.10.0" :exclusions [[org.clojure/clojure] [org.clojure/clojurescript]]]
                  [io.forward/yaml "1.0.6"]
                  [markdown-clj "1.0.1"]]
 
