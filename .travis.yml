@@ -2,6 +2,6 @@ before_install:
   - sudo apt-get update -qq
 language: clojure
 jdk:
-  - openjdk7
+  - openjdk8
   - oraclejdk7
   - oraclejdk8
