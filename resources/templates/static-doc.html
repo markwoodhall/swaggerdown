@@ -266,6 +266,19 @@
             </section>
         {% endfor %}
 
+        <section  class="wrapper no-border">
+            <div class="inner alt">
+                <section class="spotlight">
+                    <div class="content">
+                      <h2>Security</h2>
+                    </div>
+                </section>
+                <div class="content">
+                    <p>This section contains the specification for api security.</p>
+                </div>
+            </div>
+        </section>
+
         {% for definition in securityDefinitions %}
           {% with definitionVal=definition|val %}
           {% ifequal definitionVal.type "apiKey" %}
