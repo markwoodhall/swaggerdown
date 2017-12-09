@@ -278,14 +278,14 @@
                     </section>
                     <table>
                         <thead>
+                          <th>Type</th>
                           <th>In</th>
                           <th>Name</th>
-                          <th>Type</th>
                         </thead>
                         <tbody>
                             <tr>
-                                <td>{{definitionVal.in}}</td>
                                 <td>{{definitionVal.type}}</td>
+                                <td>{{definitionVal.in}}</td>
                                 <td>{{definitionVal.name}}</td>
                             </tr>
                         </tbody>
@@ -295,6 +295,43 @@
             {% endifequal %}
             {% endwith %}
         {% endfor %}
+
+        {% for definition in securityDefinitions %}
+          {% with definitionVal=definition|val %}
+          {% ifequal definitionVal.type "oauth2" %}
+            <section  class="wrapper">
+                <div class="inner alt">
+                    <section class="spotlight">
+                        <div class="content">
+                            <h2 id="{{definition|key|name}}">{{definition|key|name}}</h2>
+                        </div>
+                    </section>
+                    <table>
+                        <thead>
+                          <th>Type</th>
+                          <th>Authorization Url</th>
+                          <th>Flow</th>
+                          <th>Scopes</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{definitionVal.type}}</td>
+                                <td><a href="{{definitionVal.authorizationUrl}}">{{definitionVal.authorizationUrl}}</a></td>
+                                <td>{{definitionVal.flow}}</td>
+                                <td>
+                                {% for scope in definitionVal.scopes %}
+                                <p><b>{{scope|key|name}}</b>: {{scope|val}}</p>
+                                {% endfor %}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            {% endifequal %}
+            {% endwith %}
+        {% endfor %}
+
 
         <!-- Footer -->
         <footer id="footer">
