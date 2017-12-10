@@ -3,13 +3,14 @@
             [com.stuartsierra.component :as component]
             [swaggerdown.resources :refer [documentation home access-control]]
             [yada.yada :refer [listener resource as-resource redirect]]
-            [yada.resources.classpath-resource :refer [new-classpath-resource]])
+            [yada.resources.classpath-resource :refer [new-classpath-resource]]
+            [taoensso.timbre :refer [infof]])
   (:gen-class))
 
 (defrecord Server [port features]
   component/Lifecycle
   (start [{:keys [port features] :as this}]
-    (println "Starting server on port" port)
+    (infof "Starting server on port %s" port)
     (let [srv (listener
                 ["/"
                  [ 
@@ -30,7 +31,7 @@
                  {:port port})]
       (assoc this :server srv)))
   (stop [{:keys [port server] :as this}]
-    (println "Stopping server on port" port)
+    (infof "Stopping server on port %s" port)
     (if-let [close (:close server)]
       (close))
     (assoc this :server nil)))

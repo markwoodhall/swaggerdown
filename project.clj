@@ -20,7 +20,8 @@
                  [selmer "1.11.3" ]
                  [marge "0.10.0" :exclusions [[org.clojure/clojure] [org.clojure/clojurescript]]]
                  [io.forward/yaml "1.0.6"]
-                 [markdown-clj "1.0.1"]]
+                 [markdown-clj "1.0.1"]
+                 [com.taoensso/timbre "4.10.0"]]
 
   :plugins [[lein-figwheel "0.5.14"]
             [lein-cljsbuild "1.1.7" :exclusions [[org.clojure/clojure]]]]
