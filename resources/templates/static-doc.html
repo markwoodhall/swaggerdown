@@ -292,12 +292,14 @@
                     <table>
                         <thead>
                           <th>Type</th>
+                          <th>Description</th>
                           <th>In</th>
                           <th>Name</th>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>{{definitionVal.type}}</td>
+                                <td>{{definitionVal.description}}</td>
                                 <td>{{definitionVal.in}}</td>
                                 <td>{{definitionVal.name}}</td>
                             </tr>
@@ -322,14 +324,18 @@
                     <table>
                         <thead>
                           <th>Type</th>
+                          <th>Description</th>
                           <th>Authorization Url</th>
+                          <th>Token Url</th>
                           <th>Flow</th>
                           <th>Scopes</th>
                         </thead>
                         <tbody>
                             <tr>
                                 <td>{{definitionVal.type}}</td>
+                                <td>{{definitionVal.description}}</td>
                                 <td><a href="{{definitionVal.authorizationUrl}}">{{definitionVal.authorizationUrl}}</a></td>
+                                <td><a href="{{definitionVal.tokenUrl}}">{{definitionVal.tokenUrl}}</a></td>
                                 <td>{{definitionVal.flow}}</td>
                                 <td>
                                 {% for scope in definitionVal.scopes %}
