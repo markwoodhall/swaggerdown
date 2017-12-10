@@ -16,7 +16,7 @@
                  [bidi "2.1.2"]
                  [com.stuartsierra/component "0.3.1"]
                  [cheshire "5.6.3"]
-                 [clova "0.35.1-SNAPSHOT" :exclusions [[org.clojure/clojure] [org.clojure/clojurescript]]]
+                 [clova "0.35.2"]
                  [selmer "1.11.3" ]
                  [marge "0.10.0" :exclusions [[org.clojure/clojure] [org.clojure/clojurescript]]]
                  [io.forward/yaml "1.0.6"]
