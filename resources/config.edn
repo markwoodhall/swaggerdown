@@ -1,5 +1,7 @@
 {:server {:port #profile {:prod #long #or [#env PORT 8080]
                           :dev 3080}}
+ :selmer {:template-caching? #profile {:prod true
+                                       :dev false}}
  :features {:donations? true
             :analytics? #profile {:prod true
                                   :dev false}}}

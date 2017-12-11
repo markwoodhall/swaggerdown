@@ -25,6 +25,11 @@
                     {% for scheme in schemes %}
                       <code><a href="{{scheme}}://{{host}}{{basePath}}">{{scheme}}://{{host}}{{basePath}}</a></code>
                     {% endfor %}
+
+                    {% if externalDocs %}
+                    <p></p>
+                    <p>You can find additional documentation about this API <a href="{{externalDocs.url}}">here</a></p>
+                    {% endif %}
                 </div>
             </div>
         </section>
@@ -354,9 +359,10 @@
 
         <!-- Footer -->
         <footer id="footer">
-            <ul class="icons">
-                <li>This documentation was generated using <a href="http://swaggerdown.io" title="Swaggerdown">Swaggerdown</a></li>.
-            </ul>
+            {% if info.license %}
+            <p>This API is released under the following license <a href="{{info.license.url}}" title="License">{{info.license.name}}</a></p>.
+            {% endif %}
+            <p>This documentation was generated using <a href="http://swaggerdown.io" title="Swaggerdown">Swaggerdown</a></p>.
             <p class="copyright">&copy; Untitled. Credits: <a href="http://html5up.net">HTML5 UP</a></p>
         </footer>
 </body>

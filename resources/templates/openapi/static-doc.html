@@ -46,7 +46,7 @@
 
                         <h3>Definitions</h3>
                         <ol>
-                        {% for definition in definitions %}
+                        {% for definition in components.schemas %}
                         <li><a href="#/definitions/{{definition|key|name}}">{{definition|key|name|capitalize}}</a></li>
                         {% endfor %}
                         </ol>

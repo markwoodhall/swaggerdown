@@ -1,6 +1,7 @@
 (ns swaggerdown.app
   (:require [aero.core :refer [read-config]]
             [com.stuartsierra.component :as component]
+            [swaggerdown.selmer :refer [new-selmer]]
             [swaggerdown.resources :refer [documentation home access-control]]
             [yada.yada :refer [listener resource as-resource redirect]]
             [yada.resources.classpath-resource :refer [new-classpath-resource]]
@@ -44,6 +45,7 @@
   []
   (component/system-map
     :server (new-server)
+    :selmer (new-selmer)
     :features {}))
 
 (defn configure
