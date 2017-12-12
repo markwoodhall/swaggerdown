@@ -2,7 +2,7 @@
   (:require [swaggerdown.swagger :refer [swagger]]
             [swaggerdown.markdown :refer [->markdown markdown->str]]
             [swaggerdown.html :refer [->html]]
-            [swaggerdown.logger :refer [info]]
+            [swaggerdown.logger :refer [info wrap]]
             [selmer.parser :refer [render-file]]
             [schema.core :as s]
             [yaml.core :as y]
@@ -30,7 +30,7 @@
     (assoc (:response ctx) :status 406 :body (str "Unexpected Content-Type:" content-type))))
 
 (defn documentation
-  [logger]
+  [[url template] logger]
   {:methods 
    {:post 
     {:consumes "application/x-www-form-urlencoded"
@@ -38,11 +38,14 @@
      {:form {(s/optional-key :url) String
              (s/optional-key :template) String}}
      :produces #{"application/edn" "application/x-yaml" "application/markdown" "text/html" "application/html"}
-     :response (fn [ctx] 
-                 (let [url (get-in ctx [:parameters :form :url])
-                       template (get-in ctx [:parameters :form :template])]
-                   (info logger "Handling documentation request for %s" url)
-                   (documentation-handler url template (yada/content-type ctx) ctx)))}
+     :response (wrap 
+                 logger
+                 (fn [ctx] 
+                   (let [url (or (get-in ctx [:parameters :form :url]) url)
+                         template (or (get-in ctx [:parameters :form :template]) template)]
+                     (info logger "Handling documentation request for %s" url)
+                     (throw (Exception. "Probz"))
+                     (documentation-handler url template (yada/content-type ctx) ctx))))}
     :get 
     {:consumes "application/x-www-form-urlencoded"
      :parameters
@@ -50,12 +53,14 @@
               (s/optional-key :content-type) String
               (s/optional-key :template) String}}
      :produces #{"application/edn" "application/x-yaml" "application/markdown" "text/html" "application/html"}
-     :response (fn [ctx] 
-                 (let [url (get-in ctx [:parameters :query :url])
-                       template (get-in ctx [:parameters :query :template])
-                       content-type (get-in ctx [:parameters :query :content-type])]
-                   (info logger "Handling documentation request for %s" url)
-                   (documentation-handler url template content-type ctx)))}}})
+     :response (wrap 
+                 logger
+                 (fn [ctx] 
+                   (let [url (or (get-in ctx [:parameters :query :url]) url)
+                         template (or (get-in ctx [:parameters :query :template]) template)
+                         content-type (get-in ctx [:parameters :query :content-type])]
+                     (info logger "Handling documentation request for %s" url)
+                     (documentation-handler url template content-type ctx))))}}})
 
 (defn home
   [home-map]

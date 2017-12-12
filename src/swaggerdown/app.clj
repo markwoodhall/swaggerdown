@@ -21,9 +21,10 @@
           ["api/" 
            [
             ["documentation" 
-             (-> (documentation logger)
-                 (merge access-control)
-                 resource)]]]
+             (-> ["http://petstore.swagger.io/v2/swagger.json" "default"] 
+                   (documentation logger)
+                   (merge access-control)
+                   resource)]]]
           ["ping" (as-resource {:status :ok})]
           ["js" (new-classpath-resource "public/js")]
           ["img" (new-classpath-resource "public/img")]
