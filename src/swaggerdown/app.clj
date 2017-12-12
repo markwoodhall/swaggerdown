@@ -1,17 +1,17 @@
 (ns swaggerdown.app
   (:require [aero.core :refer [read-config]]
             [com.stuartsierra.component :as component]
+            [swaggerdown.logger :refer [new-logger info]]
             [swaggerdown.selmer :refer [new-selmer]]
             [swaggerdown.resources :refer [documentation home access-control]]
             [yada.yada :refer [listener resource as-resource redirect]]
-            [yada.resources.classpath-resource :refer [new-classpath-resource]]
-            [taoensso.timbre :refer [infof]])
+            [yada.resources.classpath-resource :refer [new-classpath-resource]])
   (:gen-class))
 
-(defrecord Server [port features]
+(defrecord Server [port features logger]
   component/Lifecycle
   (start [this]
-    (infof "Starting server on port %s" port)
+    (info logger "Starting server on port %s" port)
     (assoc 
       this 
       :listener 
@@ -34,18 +34,19 @@
           ]]
         {:port port})))
   (stop [{:keys [port listener] :as this}]
-    (infof "Stopping server on port %s" port)
+    (info logger "Stopping server on port %s" port)
     (if-let [close (:close listener)]
       (close))
     (assoc this :listener nil)))
 
 (defn new-server []
-  (component/using (map->Server {}) [:features]))
+  (component/using (map->Server {}) [:features :logger]))
 
 (defn new-system []
   (component/system-map
     :server (new-server)
-    :selmer (new-selmer)
+    :selmer (component/using (new-selmer) [:logger])
+    :logger  (new-logger)
     :features {}))
 
 (defn configure
