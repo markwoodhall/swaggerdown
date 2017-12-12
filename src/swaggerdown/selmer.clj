@@ -5,7 +5,7 @@
 
 (defrecord Selmer [template-caching?]
   component/Lifecycle
-  (start [{:keys [template-caching?]}]
+  (start [this]
     (infof "Starting selmer templating with template-caching? %s" template-caching?)
     (if template-caching? 
       (cache-on!)

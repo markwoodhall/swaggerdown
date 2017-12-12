@@ -10,39 +10,39 @@
 
 (defrecord Server [port features]
   component/Lifecycle
-  (start [{:keys [port features] :as this}]
+  (start [this]
     (infof "Starting server on port %s" port)
-    (let [srv (listener
-                ["/"
-                 [ 
-                  ["api/" 
-                   [
-                    ["documentation" 
-                     (-> ["http://petstore.swagger.io/v2/swagger.json" "default"] 
-                         documentation
-                         (merge access-control)
-                         resource)]]]
-                  ["ping" (as-resource {:status :ok})]
-                  ["js" (new-classpath-resource "public/js")]
-                  ["img" (new-classpath-resource "public/img")]
-                  ["css" (new-classpath-resource "public/css")]
-                  ["index.html" (resource (home features))]
-                  ["" (resource (home features))]
-                 ]]
-                 {:port port})]
-      (assoc this :server srv)))
-  (stop [{:keys [port server] :as this}]
+    (assoc 
+      this 
+      :listener 
+      (listener
+        ["/"
+         [ 
+          ["api/" 
+           [
+            ["documentation" 
+             (-> ["http://petstore.swagger.io/v2/swagger.json" "default"] 
+                 documentation
+                 (merge access-control)
+                 resource)]]]
+          ["ping" (as-resource {:status :ok})]
+          ["js" (new-classpath-resource "public/js")]
+          ["img" (new-classpath-resource "public/img")]
+          ["css" (new-classpath-resource "public/css")]
+          ["index.html" (resource (home features))]
+          ["" (resource (home features))]
+          ]]
+        {:port port})))
+  (stop [{:keys [port listener] :as this}]
     (infof "Stopping server on port %s" port)
-    (if-let [close (:close server)]
+    (if-let [close (:close listener)]
       (close))
-    (assoc this :server nil)))
+    (assoc this :listener nil)))
 
-(defn new-server
-  []
+(defn new-server []
   (component/using (map->Server {}) [:features]))
 
-(defn new-system
-  []
+(defn new-system []
   (component/system-map
     :server (new-server)
     :selmer (new-selmer)
