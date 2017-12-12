@@ -25,5 +25,3 @@
 
 (defn new-logger []
   (map->TimbreLogger {}))
-
-(info (new-logger) "Hello")
