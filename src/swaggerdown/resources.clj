@@ -44,7 +44,6 @@
                    (let [url (or (get-in ctx [:parameters :form :url]) url)
                          template (or (get-in ctx [:parameters :form :template]) template)]
                      (info logger "Handling documentation request for %s" url)
-                     (throw (Exception. "Probz"))
                      (documentation-handler url template (yada/content-type ctx) ctx))))}
     :get 
     {:consumes "application/x-www-form-urlencoded"
