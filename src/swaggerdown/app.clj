@@ -21,8 +21,7 @@
           ["api/" 
            [
             ["documentation" 
-             (-> ["http://petstore.swagger.io/v2/swagger.json" "default"] 
-                 documentation
+             (-> (documentation logger)
                  (merge access-control)
                  resource)]]]
           ["ping" (as-resource {:status :ok})]
