@@ -20,13 +20,19 @@
 (defn documentation-handler
   [url template content-type ctx]
   (case content-type
-    ("application/edn") (str (swagger url true))
-    ("application/x-yaml") (-> (swagger url false)
+    ("application/edn") (-> url
+                            (swagger {:keywords? true})
+                            str) 
+    ("application/x-yaml") (-> url 
+                               (swagger {:keywords? false})
                                (y/generate-string :dumper-options {:flow-style :block}))
-    ("application/markdown") (->> (swagger url true)
+    ("application/markdown") (-> url
+                                  (swagger {:keywords? true})
                                   ->markdown
                                   markdown->str)
-    ("text/html") (->html (swagger url true) template)
+    ("text/html") (-> url
+                      (swagger {:keywords? true})
+                      (->html template))
     (assoc (:response ctx) :status 406 :body (str "Unexpected Content-Type:" content-type))))
 
 (defn documentation
