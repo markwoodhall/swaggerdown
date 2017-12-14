@@ -18,6 +18,7 @@
                       {:title "Fractal" :description "Generate HTML using the fractal template" :img "img/fractal.png" :ext ".html" :content-type "text/html" :template "fractal"}
                       {:title "Fractal Red" :description "Generate HTML using a red fractal template" :img "img/fractal-red.png" :ext ".html" :content-type "text/html" :template "fractal-red"}
                       {:title "Markdown" :img "img/markdown.png" :ext ".md" :content-type "application/markdown" :template "default"}
+                      {:title "JSON" :img "img/json.png" :ext ".json" :content-type "application/javascript" :template "default"}
                       {:title "Yaml" :img "img/yaml.png" :ext ".yml" :content-type "application/x-yaml" :template "default"}
                       {:title "EDN" :img "img/edn.png" :ext ".edn" :content-type "application/edn" :template "default"}]}))
 
@@ -34,7 +35,8 @@
     (->> (if (or (= content-type "application/markdown")
                  (= content-type "application/x-yaml")
                  (= content-type "text/clojure")
-                 (= content-type "application/edn"))
+                 (= content-type "application/edn")
+                 (= content-type "application/javascript"))
            (-> ev.currentTarget.responseText
                (s/replace  " " "&nbsp;")
                (s/replace "\n" "<br />"))

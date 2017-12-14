@@ -4,6 +4,7 @@
             [swaggerdown.html :refer [->html]]
             [swaggerdown.logger :refer [info wrap]]
             [selmer.parser :refer [render-file]]
+            [cheshire.core :refer [generate-string]]
             [schema.core :as s]
             [yaml.core :as y]
             [yada.yada :as yada]))
@@ -20,6 +21,9 @@
 (defn documentation-handler
   [url template content-type ctx]
   (case content-type
+    ("application/javascript") (-> url
+                                   (swagger {:keywords? true})
+                                   (generate-string {:pretty true}))
     ("application/edn") (-> url
                             (swagger {:keywords? true})
                             str) 
@@ -43,7 +47,7 @@
      :parameters
      {:form {(s/optional-key :url) String
              (s/optional-key :template) String}}
-     :produces #{"application/edn" "application/x-yaml" "application/markdown" "text/html" "application/html"}
+     :produces #{"application/javascript" "application/edn" "application/x-yaml" "application/markdown" "text/html" "application/html"}
      :response (wrap 
                  logger
                  (fn [ctx] 
@@ -57,7 +61,7 @@
      {:query {(s/optional-key :url) String
               (s/optional-key :content-type) String
               (s/optional-key :template) String}}
-     :produces #{"application/edn" "application/x-yaml" "application/markdown" "text/html" "application/html"}
+     :produces #{"application/javascript" "application/edn" "application/x-yaml" "application/markdown" "text/html" "application/html"}
      :response (wrap 
                  logger
                  (fn [ctx] 
