@@ -149,5 +149,4 @@
 (generate (first (:generators @app-state)) @app-state nil)
 
 (reagent/render-component [start app-state]
-                          (. js/document (getElementById "app")))
-
+                          (.getElementById js/document "app"))
