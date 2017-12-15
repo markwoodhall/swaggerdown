@@ -17,16 +17,19 @@
   (add-filter! :markdown md-to-html-string))
 
 (defn- swagger2
-  [swagger template]
+  [m template]
   (render-file (str "templates/" template "/index.html") swagger))
 
 (defn- swagger3
-  [swagger template]
+  [m template]
   (render-file (str "templates/openapi/" template "/index.html") swagger))
 
 (defn ->html
-  [swagger template]
+  "Takes a map (m) and looks at the `:swagger` key to try and figure out
+  the OpenAPI spec version, using this version and the supplied `template`
+  renders the map to html."
+  [m template]
   (add-filters!)
-  (if (= (:swagger swagger) "2.0")
-    (swagger2 swagger template)
-    (swagger3 swagger template)))
+  (if (= (:swagger m) "2.0")
+    (swagger2 m template)
+    (swagger3 m template)))
