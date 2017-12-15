@@ -5,6 +5,9 @@
  :logger {:log-level #profile {:prod :info
                                :dev :debug}}
  :features {:donations? true
+            :webmaster-tools {:bing {:enabled? #profile {:prod true
+                                                         :dev false} 
+                                     :id "31960CA2772C24718747D9C51DE76586"}}
             :analytics {:enabled? #profile {:prod true
-                                            :dev true}
+                                            :dev false}
                         :id "UA-56746791-3"}}}
