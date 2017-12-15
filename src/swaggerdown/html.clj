@@ -17,11 +17,11 @@
   (add-filter! :markdown md-to-html-string))
 
 (defn- swagger2
-  [m template]
+  [swagger template]
   (render-file (str "templates/" template "/index.html") swagger))
 
 (defn- swagger3
-  [m template]
+  [swagger template]
   (render-file (str "templates/openapi/" template "/index.html") swagger))
 
 (defn ->html
