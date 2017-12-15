@@ -1,12 +1,8 @@
 (ns swaggerdown.resources
-  (:require [swaggerdown.http :refer [read-swagger]]
-            [swaggerdown.markdown :refer [->markdown markdown->str]]
-            [swaggerdown.html :refer [->html]]
+  (:require [swaggerdown.generate :refer [->html ->markdown ->yaml ->edn ->javascript]]
             [swaggerdown.logger :refer [info wrap]]
             [selmer.parser :refer [render-file]]
-            [cheshire.core :refer [generate-string]]
             [schema.core :as s]
-            [yaml.core :as y]
             [yada.yada :as yada]))
 
 (def access-control
@@ -20,22 +16,11 @@
 (defn documentation-handler
   [url template content-type ctx]
   (case content-type
-    ("application/javascript") (-> url
-                                   (read-swagger {:keywords? true})
-                                   (generate-string {:pretty true}))
-    ("application/edn") (-> url
-                            (read-swagger {:keywords? true})
-                            str)
-    ("application/x-yaml") (-> url
-                               (read-swagger {:keywords? false})
-                               (y/generate-string :dumper-options {:flow-style :block}))
-    ("application/markdown") (-> url
-                                 (read-swagger {:keywords? true})
-                                 ->markdown
-                                 markdown->str)
-    ("text/html") (-> url
-                      (read-swagger {:keywords? true})
-                      (->html template))
+    ("application/javascript") (->javascript url)
+    ("application/edn") (->edn url)
+    ("application/x-yaml") (->yaml url)
+    ("application/markdown") (->markdown url)
+    ("text/html") (->html url template)
     (assoc (:response ctx) :status 406 :body (str "Unexpected Content-Type:" content-type))))
 
 (defn documentation
