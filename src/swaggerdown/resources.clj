@@ -48,8 +48,7 @@
                     (info logger "Handling documentation request for %s" url)
                     (documentation-handler url template (yada/content-type ctx) ctx))))}
     :get
-    {:consumes "application/x-www-form-urlencoded"
-     :parameters
+    {:parameters
      {:query {(s/optional-key :url) String
               (s/optional-key :content-type) String
               (s/optional-key :template) String}}
