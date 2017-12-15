@@ -1,5 +1,5 @@
 (ns swaggerdown.resources
-  (:require [swaggerdown.swagger :refer [swagger]]
+  (:require [swaggerdown.http :refer [read-swagger]]
             [swaggerdown.markdown :refer [->markdown markdown->str]]
             [swaggerdown.html :refer [->html]]
             [swaggerdown.logger :refer [info wrap]]
@@ -22,20 +22,20 @@
   [url template content-type ctx]
   (case content-type
     ("application/javascript") (-> url
-                                   (swagger {:keywords? true})
+                                   (read-swagger {:keywords? true})
                                    (generate-string {:pretty true}))
     ("application/edn") (-> url
-                            (swagger {:keywords? true})
+                            (read-swagger {:keywords? true})
                             str) 
     ("application/x-yaml") (-> url 
-                               (swagger {:keywords? false})
+                               (read-swagger {:keywords? false})
                                (y/generate-string :dumper-options {:flow-style :block}))
     ("application/markdown") (-> url
-                                  (swagger {:keywords? true})
+                                  (read-swagger {:keywords? true})
                                   ->markdown
                                   markdown->str)
     ("text/html") (-> url
-                      (swagger {:keywords? true})
+                      (read-swagger {:keywords? true})
                       (->html template))
     (assoc (:response ctx) :status 406 :body (str "Unexpected Content-Type:" content-type))))
 

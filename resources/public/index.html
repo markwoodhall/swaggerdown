@@ -14,14 +14,14 @@
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 
-    {% if analytics? %}
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-56746791-3"></script>
+    {% if analytics.enabled? %}
+    <script async src="https://www.googletagmanager.com/gtag/js?{{analytics.id}}"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
 
-      gtag('config', 'UA-56746791-3');
+      gtag('config', '{{analytics.id}}');
     </script>
     {% endif %}
   </head>
