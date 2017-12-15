@@ -13,6 +13,14 @@
     :allow-methods #{:get :post}
     :allow-headers []}})
 
+(def documention-can-produce
+  #{"application/javascript"
+    "application/edn"
+    "application/x-yaml"
+    "application/markdown"
+    "text/html"
+    "application/html"})
+
 (defn documentation-handler
   [url template content-type ctx]
   (case content-type
@@ -31,7 +39,7 @@
      :parameters
      {:form {(s/optional-key :url) String
              (s/optional-key :template) String}}
-     :produces #{"application/javascript" "application/edn" "application/x-yaml" "application/markdown" "text/html" "application/html"}
+     :produces documention-can-produce
      :response (wrap
                 logger
                 (fn [ctx]
@@ -45,7 +53,7 @@
      {:query {(s/optional-key :url) String
               (s/optional-key :content-type) String
               (s/optional-key :template) String}}
-     :produces #{"application/javascript" "application/edn" "application/x-yaml" "application/markdown" "text/html" "application/html"}
+     :produces documention-can-produce
      :response (wrap
                 logger
                 (fn [ctx]
