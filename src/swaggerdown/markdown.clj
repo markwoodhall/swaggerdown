@@ -11,11 +11,11 @@
   (or (type-or-ref schema) type))
 
 (defn map-type-link
-  [t] 
+  [t]
   (if (s/includes? t "/definitions/")
     (let [short-link (str (s/replace t "/definitions/" "") "-definition")
           short-text (s/replace (s/replace short-link "#" "") "-definition" "")]
-      [:link 
+      [:link
        {:text short-text :url (s/lower-case short-link)}])
     t))
 
@@ -44,7 +44,7 @@
 
 (defn- responses
   [responses]
-  (let [response-keys (keys responses) 
+  (let [response-keys (keys responses)
         statuses (map name response-keys)
         descriptions (map #(:description (% responses)) response-keys)]
     [:h3 "Expected Response Types"
@@ -59,8 +59,8 @@
         types (flatten (map (comp map-type-link schema-or-type) col))]
     [:br
      :h3 "Parameters"
-     :table ["Name" names 
-             "In" ins 
+     :table ["Name" names
+             "In" ins
              "Description" descriptions
              "Required?" requireds
              "Type" types]]))
@@ -68,28 +68,28 @@
 (defn- verbs
   [path]
   (reduce
-    (fn [col m] 
-      (let [method-name (name m)
-            method (m path)]
-        (-> col
-            (concat [:h2 (clojure.string/upper-case method-name)
-                     :h3 (:operationId method)
-                     :p (:summary method)
-                     :p (:description method)])
-            (concat (responses (:responses (m path))))
-            (concat (params (:parameters (m path))))
-            (concat (produces (:produces (m path))))
-            (concat (consumes (:consumes (m path))))
-            (concat (secures (:security (m path))))))) []
-    (keys path)))
+   (fn [col m]
+     (let [method-name (name m)
+           method (m path)]
+       (-> col
+           (concat [:h2 (clojure.string/upper-case method-name)
+                    :h3 (:operationId method)
+                    :p (:summary method)
+                    :p (:description method)])
+           (concat (responses (:responses (m path))))
+           (concat (params (:parameters (m path))))
+           (concat (produces (:produces (m path))))
+           (concat (consumes (:consumes (m path))))
+           (concat (secures (:security (m path))))))) []
+   (keys path)))
 
 (defn- paths
   [{:keys [paths]}]
-  (reduce-kv 
-    (fn [a k v]
-      (-> a 
-          (concat [:h2 (name k)])
-          (concat (verbs v)))) [:h2 "Endpoints"] paths))
+  (reduce-kv
+   (fn [a k v]
+     (-> a
+         (concat [:h2 (name k)])
+         (concat (verbs v)))) [:h2 "Endpoints"] paths))
 
 (defn- key-or-empty
   [k m]
@@ -98,11 +98,11 @@
 (defn- properties
   [definition]
   (map
-    (fn [m] 
-      {:property (name m)
-       :type  (type-or-ref (m (:properties definition)))
-       :format  (key-or-empty :format (m (:properties definition)))}) 
-    (keys (:properties definition))))
+   (fn [m]
+     {:property (name m)
+      :type  (type-or-ref (m (:properties definition)))
+      :format  (key-or-empty :format (m (:properties definition)))})
+   (keys (:properties definition))))
 
 (defn- definition-types
   [properties]
@@ -112,25 +112,25 @@
 
 (defn- definitions
   [{:keys [definitions]}]
-  (reduce-kv 
-    (fn [a k v] 
-      (let [properties (properties v)]
-        (conj 
-          a 
-          :h3 (str (name k) " Definition") 
-          :table ["Property" (map :property properties) 
-                  "Type" (definition-types properties)
-                  "Format" (map :format properties)]))) [:h2 "Definitions"] definitions))
+  (reduce-kv
+   (fn [a k v]
+     (let [properties (properties v)]
+       (conj
+        a
+        :h3 (str (name k) " Definition")
+        :table ["Property" (map :property properties)
+                "Type" (definition-types properties)
+                "Format" (map :format properties)]))) [:h2 "Definitions"] definitions))
 
 (defn- schemes
   [{:keys [schemes]}]
-  [:h3 "Schemes" 
+  [:h3 "Schemes"
    :table ["Scheme" schemes]
    :br])
 
 (defn- security
   [{:keys [securityDefinitions]}]
-  (let [defs (vals securityDefinitions) 
+  (let [defs (vals securityDefinitions)
         types (map (partial key-or-empty :type) defs)
         flows (map (partial key-or-empty :flow) defs)
         names (map (partial key-or-empty :name) defs)
@@ -140,7 +140,7 @@
         scopes (map (partial key-or-empty :scopes) defs)
         scope-names (map #(if (keyword? %) (name %)  %) (flatten (map keys scopes)))
         scopes-combined (map #(if (empty? (keys %)) "" (clojure.string/join ", " (keys %))) scopes)
-        scope-vals (map vals scopes) ]
+        scope-vals (map vals scopes)]
     [:h2 "Security Definitions"
      :table ["Id" (map name (keys securityDefinitions))
              "Type" types
@@ -164,8 +164,8 @@
                  [:link {:text (str host basePath) :url (str "http://" host basePath) :title "API url"}]
                  "Version"
                  [version]
-                 "Contact" 
-                 [:link {:text email :url (str "mailto:" email) :title "Contact Email"}] 
+                 "Contact"
+                 [:link {:text email :url (str "mailto:" email) :title "Contact Email"}]
                  "Terms of Service"
                  [:link {:text termsOfService :url termsOfService :title "Terms of Service"}]
                  "License"

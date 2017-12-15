@@ -20,13 +20,13 @@
   (error
     [this e]
     (timbre/error e))
-  (debug 
+  (debug
     [this s]
     (debug this s nil))
   (debug [_ s a]
     (when (some #{log-level} [:debug])
       (timbre/debug (format s a))))
-  (info 
+  (info
     [this s]
     (info this s nil))
   (info

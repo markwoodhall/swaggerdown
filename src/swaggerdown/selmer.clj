@@ -7,12 +7,12 @@
   component/Lifecycle
   (start [this]
     (debug logger "Starting selmer templating with template-caching? %s" template-caching?)
-    (if template-caching? 
+    (if template-caching?
       (cache-on!)
       (cache-off!))
     this)
   (stop [this]
-      this))
+    this))
 
 (defn new-selmer []
   (map->Selmer {}))

@@ -4,15 +4,15 @@
             [yaml.core :as y]
             [cheshire.core :refer [parse-string]]))
 
-(defn- disorder [ordering-map map-fn] 
+(defn- disorder [ordering-map map-fn]
   (postwalk #(if (map? %) (into map-fn %) %) ordering-map))
 
 (defn- keywordize-keys
   [m]
-  (let [f (fn [[k v]] 
+  (let [f (fn [[k v]]
             (let [sk (if (number? k) (str k) k)]
-              (if (string? sk) 
-                [(keyword sk) v] 
+              (if (string? sk)
+                [(keyword sk) v]
                 [k v])))]
     (postwalk (fn [x] (if (map? x) (into {} (map f x)) x)) m)))
 
