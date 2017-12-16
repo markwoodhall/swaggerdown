@@ -1,5 +1,5 @@
 (ns swaggerdown.resources
-  (:require [swaggerdown.generate :refer [->html ->markdown ->yaml ->edn ->javascript]]
+  (:require [swaggerdown.generate :refer [->html ->markdown ->yaml ->edn ->json]]
             [swaggerdown.logger :refer [info wrap]]
             [selmer.parser :refer [render-file]]
             [schema.core :as s]
@@ -24,7 +24,7 @@
 (defn documentation-handler
   [url template content-type ctx]
   (case content-type
-    ("application/javascript") (->javascript url)
+    ("application/javascript") (->json url)
     ("application/edn") (->edn url)
     ("application/x-yaml") (->yaml url)
     ("application/markdown") (->markdown url)
