@@ -41,13 +41,13 @@
            <img class="swagger" style="animation: pulse 1s ease-out;animation-iteration-count:infinite;margin-top:50px;" src="img/brace.jpg" width="120px" height="120px" />
          </div>
        </div>
-       {% if donations? %}
+       {% if donations.enabled? %}
        <div class="outro dark-grey">
          <img id="paypal" src="img/paypal.png" width="120px" height="120px" />
          <h3>Support Swaggerdown</h3>
-         <p>Swaggerdown is free to use but in order to cover recurring costs we rely on users that <a href="https://www.paypal.me/mrwoodhall">make a donation</a>.</p>
+         <p>Swaggerdown is free to use but in order to cover recurring costs we rely on users that <a href="{{donations.address}}">make a donation</a>.</p>
          <p>If Swaggerdown has been useful to you then please consider making a 
-         <a href="https://www.paypal.me/mrwoodhall/5">£5</a>, <a href="https://www.paypal.me/mrwoodhall/10">£10</a>, or even a <a href="https://www.paypal.me/mrwoodhall/20">£20</a> donation.</p>
+         <a href="{{donations.address}}/5">£5</a>, <a href="{{donations.address}}/10">£10</a>, or even a <a href="{{donations.address}}/20">£20</a> donation.</p>
        </div> 
        {% endif %}
        <div class="outro blue">

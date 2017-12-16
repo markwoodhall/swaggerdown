@@ -1,13 +1,23 @@
 {:server {:port #profile {:prod #long #or [#env PORT 8080]
                           :dev 3080}}
+
  :selmer {:template-caching? #profile {:prod true
                                        :dev false}}
+
  :logger {:log-level #profile {:prod :info
                                :dev :debug}}
- :features {:donations? true
+
+ :features {;; Should a request for donation be displayed, if so
+            ;; where should it link to
+            :donations {:enabled? true
+                        :address "https://www.paypal.me/mrwoodhall"}
+
+            ;; Verification for web master tools like bing
             :webmaster-tools {:bing {:enabled? #profile {:prod true
                                                          :dev false} 
                                      :id "31960CA2772C24718747D9C51DE76586"}}
+
+            ;; Google analytics
             :analytics {:enabled? #profile {:prod true
                                             :dev false}
                         :id "UA-56746791-3"}}}

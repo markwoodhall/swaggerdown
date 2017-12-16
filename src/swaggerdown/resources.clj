@@ -22,6 +22,8 @@
     "application/html"})
 
 (defn documentation-handler
+  "Converts the specified url to a documentation format based on the
+  supplied template and content type."
   [url template content-type ctx]
   (case content-type
     ("application/javascript") (->json url)

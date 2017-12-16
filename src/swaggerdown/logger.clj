@@ -2,7 +2,12 @@
   (:require [com.stuartsierra.component :as component]
             [taoensso.timbre :as timbre]))
 
-(defprotocol Logger (error [_ e]) (debug [_ s] [_ s a]) (info [_ s] [_ s a]) (wrap [_ f]))
+(defprotocol Logger
+  (error [_ e])
+  (debug [_ s] [_ s a])
+  (info [_ s] [_ s a])
+  (wrap [_ f]))
+
 (defrecord TimbreLogger [log-level]
   component/Lifecycle Logger
   (start [this]
