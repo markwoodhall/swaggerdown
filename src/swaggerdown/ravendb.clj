@@ -16,6 +16,11 @@
                               :from "DocumentationGenerated"
                               :select [[:count 1]]
                               :project [[:count [:Sum :count]]]})
+      (rdb/put-index! client {:index "CountDocumentGenerationsByType"
+                              :from "DocumentationGenerated"
+                              :select [[:contenttype [:contenttype]] [:count 1]]
+                              :group [:contenttype]
+                              :project [[:contenttype [:Key :contenttype]] [:count [:Sum :count]]]})
       (assoc this :client client)))
   (stop [this]
     (debug logger "Stopped ravendb client for database %s at url %s" database url)
@@ -24,11 +29,11 @@
     (debug logger "Recording event in ravendb %s - %s" e m)
     (try
       (rdb/put-document!
-        client
-        (str (now))
-        (merge 
-          {:timestamp (str (now)) :metadata {:Raven-Entity-Name e}}
-          m))
+       client
+       (str (now))
+       (merge
+        {:timestamp (str (now)) :metadata {:Raven-Entity-Name e}}
+        m))
       (catch Exception e
         (error logger e)))
     this))

@@ -53,7 +53,7 @@
                     (record-event!
                      db
                      "DocumentationGenerated"
-                     {:url url :template template :content-type content-type})
+                     {:url url :template template :contenttype content-type})
                     (documentation-handler url template content-type ctx))))}
     :get
     {:parameters
@@ -71,7 +71,7 @@
                     (record-event!
                      db
                      "DocumentationGenerated"
-                     {:url url :template template :content-type content-type})
+                     {:url url :template template :contenttype content-type})
                     (documentation-handler url template content-type ctx))))}}})
 
 (defn home
