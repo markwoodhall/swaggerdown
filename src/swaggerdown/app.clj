@@ -21,7 +21,7 @@
        [["api/"
          [["documentation"
            (-> ["http://petstore.swagger.io/v2/swagger.json" "default"]
-               (documentation (:client ravendb) logger)
+               (documentation ravendb logger)
                (merge access-control)
                resource)]]]
         ["ping" (as-resource {:status :ok})]

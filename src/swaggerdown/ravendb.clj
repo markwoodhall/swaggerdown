@@ -1,10 +1,13 @@
 (ns swaggerdown.ravendb
   (:require [com.stuartsierra.component :as component]
-            [swaggerdown.logger :refer [debug]]
-            [clj-ravendb.client :as rdb]))
+            [swaggerdown.logger :refer [debug error]]
+            [clj-ravendb.client :as rdb]
+            [tick.clock :refer [now]]))
 
+(defprotocol Database (record-event! [_ e m]))
 (defrecord RavenDb [url oauth-url database api-key client logger]
   component/Lifecycle
+  Database
   (start [this]
     (debug logger "Starting ravendb client for database %s at url %s" database url)
     (let [config {:enable-oauth? true :oauth-url oauth-url :api-key api-key}
@@ -16,7 +19,19 @@
       (assoc this :client client)))
   (stop [this]
     (debug logger "Stopped ravendb client for database %s at url %s" database url)
-    (dissoc this :client)))
+    (dissoc this :client))
+  (record-event! [{:keys [client] :as this} e m]
+    (debug logger "Recording event in ravendb %s - %s" e m)
+    (try
+      (rdb/put-document!
+        client
+        (str (now))
+        (merge 
+          {:timestamp (str (now)) :metadata {:Raven-Entity-Name e}}
+          m))
+      (catch Exception e
+        (error logger e)))
+    this))
 
 (defn new-ravendb []
   (map->RavenDb {}))
