@@ -4,7 +4,7 @@
 
 (defprotocol Logger
   (error [_ e])
-  (debug [_ s] [_ s a])
+  (debug [_ s] [_ s a] [_ s a a2])
   (info [_ s] [_ s a])
   (wrap [_ f]))
 
@@ -28,9 +28,11 @@
   (debug
     [this s]
     (debug this s nil))
-  (debug [_ s a]
+  (debug [this s a]
+    (debug this s a nil))
+  (debug [_ s a a2]
     (when (some #{log-level} [:debug])
-      (timbre/debug (format s a))))
+      (timbre/debug (format s a a2))))
   (info
     [this s]
     (info this s nil))
