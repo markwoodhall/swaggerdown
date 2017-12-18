@@ -39,7 +39,11 @@
         (error logger e)))
     this)
   (count-events [{:keys [client] :as this} i]
-    (:document (first (:results (rdb/query-index client {:index i} {:max-attempts 10}))))))
+    (->> {:max-attempts 1}
+         (rdb/query-index client {:index i})
+         (:results)
+         (first)
+         (:document))))
 
 (defn new-ravendb []
   (map->RavenDb {}))
