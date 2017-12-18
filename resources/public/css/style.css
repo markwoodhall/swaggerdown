@@ -41,7 +41,7 @@ svg > path {
   max-width: 900px;
 }
 
-.swagger, #profile, #help, #cog, #paypal, .logo {
+.swagger, #profile, #help, #cog, #paypal, .logo, .counter {
   border-radius: 80px;
   margin-left: auto;
   margin-right: auto;

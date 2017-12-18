@@ -4,7 +4,7 @@
             [swaggerdown.logger :refer [new-logger info]]
             [swaggerdown.selmer :refer [new-selmer]]
             [swaggerdown.resources :refer [documentation home access-control]]
-            [swaggerdown.ravendb :refer [new-ravendb]]
+            [swaggerdown.ravendb :refer [new-ravendb count-events]]
             [yada.yada :refer [listener resource as-resource redirect]]
             [yada.resources.classpath-resource :refer [new-classpath-resource]])
   (:gen-class))
@@ -23,7 +23,10 @@
            (-> ["http://petstore.swagger.io/v2/swagger.json" "default"]
                (documentation ravendb logger)
                (merge access-control)
-               resource)]]]
+               resource)]
+          ["stats" (-> (count-events ravendb "CountDocumentGenerations")
+                       (merge access-control)
+                       (as-resource))]]]
         ["ping" (as-resource {:status :ok})]
         ["js" (new-classpath-resource "public/js")]
         ["img" (new-classpath-resource "public/img")]

@@ -1,8 +1,9 @@
 (ns swaggerdown.client
-    (:require [reagent.core :as reagent :refer [atom]]
-              [clojure.string :as s]
+    (:require [clojure.string :as s]
+              [cljs.reader :refer [read-string]]
+              [clova.core :as clova]
               [goog.crypt.base64 :as b64]
-              [clova.core :as clova]))
+              [reagent.core :as reagent :refer [atom]]))
 
 (enable-console-print!)
 
@@ -12,6 +13,7 @@
   (atom {:title "Swaggerdown" 
          :tagline "Generate documentation from your swagger!"
          :url "http://petstore.swagger.io/v2/swagger.json"
+         :stats {:count 10000}
          :generators-visible? true
          :expanded? false
          :generators [{:title "HTML" :description "Generate HTML with no formatting" :img "img/html.png" :ext ".html" :content-type "text/html" :template "default"}
@@ -127,6 +129,25 @@
      [:div#preview.collapsed " curl -X POST -v -H \"Accept: " (:content-type downloadable) "\"  " (api-url) "/documentation -H \"Content-Type: application/x-www-form-urlencoded\" -d \"url=" url "&template=" (:template downloadable) "\""]
      [:div#preview-footer]]))
 
+(defn stats-handler [ev] 
+  (swap! app-state assoc-in [:stats :count] (:count (read-string ev.currentTarget.responseText))))
+
+(defn stats []
+  (doto
+      (new js/XMLHttpRequest)
+      (.open "GET" (str (api-url) "/stats"))
+      (.addEventListener "load" (fn stats-handler [ev] (swap! app-state assoc-in [:stats :count] (:count (read-string ev.currentTarget.responseText)))))
+      (.send)))
+
+(defn stats-pane
+  [app]
+  (let [counter (get-in app [:stats :count])]
+    [:div.outro.blue
+     [:img#counter {:src "img/help.png" :width "120px" :height "120px"}]
+     [:h3 (str counter " Generations!")]
+     [:p (str "Swaggerdown has converted Swagger and OpenAPI specifications " counter " times!")]
+     [:p]]))
+
 (defn generators
   [app]
   (if (:generators-visible? app)
@@ -144,9 +165,11 @@
      [:div#generators 
       (generators @app)]]
     (preview-pane @app)
-    (api-pane @app)]])
+    (api-pane @app)
+    (stats-pane @app)]])
 
 (generate (first (:generators @app-state)) @app-state nil)
+(stats)
 
 (reagent/render-component [start app-state]
                           (.getElementById js/document "app"))
