@@ -31,37 +31,40 @@
     (str (.-origin (.-location js/window)) "/api")))
 
 (defn generate-handler
-  [ext content-type template ev] 
-  (when (= ev.target.status 200)
-    (swap! app-state assoc :downloadable {:ext ext :template template :content-type content-type :data (b64/encodeString ev.currentTarget.responseText)})
-    (->> (if (or (= content-type "application/markdown")
-                 (= content-type "application/x-yaml")
-                 (= content-type "text/clojure")
-                 (= content-type "application/edn")
-                 (= content-type "application/javascript"))
-           (-> ev.currentTarget.responseText
-               (s/replace  " " "&nbsp;")
-               (s/replace "\n" "<br />"))
-           ev.currentTarget.responseText)
-         (swap! app-state assoc :preview)))
-  (when (not= ev.target.status 200)
-    (swap! app-state assoc :preview "There was a problem generating the documentation."))
-  (swap! app-state assoc :error? (not= ev.target.status 200))
-  (swap! app-state assoc :loading? false)
-  (swap! app-state update-in [:stats :count] inc))
+  ([ext content-type template ev] 
+   (when (= ev.target.status 200)
+     (swap! app-state assoc :downloadable {:ext ext :template template :content-type content-type :data (b64/encodeString ev.currentTarget.responseText)})
+     (->> (if (or (= content-type "application/markdown")
+                  (= content-type "application/x-yaml")
+                  (= content-type "text/clojure")
+                  (= content-type "application/edn")
+                  (= content-type "application/javascript"))
+            (-> ev.currentTarget.responseText
+                (s/replace  " " "&nbsp;")
+                (s/replace "\n" "<br />"))
+            ev.currentTarget.responseText)
+          (swap! app-state assoc :preview)))
+   (when (not= ev.target.status 200)
+     (swap! app-state assoc :preview "There was a problem generating the documentation."))
+   (swap! app-state assoc :error? (not= ev.target.status 200))
+   (swap! app-state assoc :loading? false)
+   (swap! app-state update-in [:stats :count] inc)))
 
-(defn generate [generator app e]
-  (let [{:keys [url]} app
-        {:keys [ext content-type template]} generator]
-    (swap! app-state assoc :loading? true)
-    (doto
-      (new js/XMLHttpRequest)
-      (.open "POST" (str (api-url) "/documentation"))
-      (.setRequestHeader "Accept" content-type)
-      (.setRequestHeader "Content-Type" "application/x-www-form-urlencoded")
-      (.addEventListener "load" (partial generate-handler ext content-type template))
-      (.addEventListener "error" (partial generate-handler ext content-type template))
-      (.send (str "url=" url)))))
+(defn generate 
+  ([generator app e]
+   (generate app e (fn [])))
+  ([generator app e on-generated]
+   (let [{:keys [url]} app
+         {:keys [ext content-type template]} generator]
+     (swap! app-state assoc :loading? true)
+     (doto
+       (new js/XMLHttpRequest)
+       (.open "POST" (str (api-url) "/documentation"))
+       (.setRequestHeader "Accept" content-type)
+       (.setRequestHeader "Content-Type" "application/x-www-form-urlencoded")
+       (.addEventListener "load" (comp on-generated (partial generate-handler ext content-type template)))
+       (.addEventListener "error" (partial generate-handler ext content-type template))
+       (.send (str "url=" url))))))
 
 (defn generator 
   [app g]
@@ -169,8 +172,12 @@
     (api-pane @app)
     (stats-pane @app)]])
 
-(generate (first (:generators @app-state)) @app-state nil)
-(stats)
+(defn render [] 
+  (reagent/render-component [start app-state]
+                            (.getElementById js/document "app")))
 
-(reagent/render-component [start app-state]
-                          (.getElementById js/document "app"))
+(-> (:generators @app-state)
+    first
+    (generate @app-state nil render))
+
+(stats)
