@@ -65,7 +65,7 @@
                 :source-paths ["src"]
                 :compiler {:output-to "resources/public/js/compiled/swaggerdown.js"
                            :main swaggerdown.client
-                           :optimizations :advanced
+                           :optimizations :simple
                            :pretty-print false}}]}
 
   :figwheel {;; :http-server-root "public" ;; default and assumes "resources"
