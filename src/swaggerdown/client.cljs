@@ -47,7 +47,8 @@
   (when (not= ev.target.status 200)
     (swap! app-state assoc :preview "There was a problem generating the documentation."))
   (swap! app-state assoc :error? (not= ev.target.status 200))
-  (swap! app-state assoc :loading? false))
+  (swap! app-state assoc :loading? false)
+  (swap! app-state update-in [:stats :count] inc))
 
 (defn generate [generator app e]
   (let [{:keys [url]} app
