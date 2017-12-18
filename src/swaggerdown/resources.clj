@@ -1,7 +1,7 @@
 (ns swaggerdown.resources
   (:require [swaggerdown.generate :refer [->html ->markdown ->yaml ->edn ->json]]
             [swaggerdown.logger :refer [info wrap error]]
-            [swaggerdown.ravendb :refer [record-event!]]
+            [swaggerdown.ravendb :refer [record-event! count-events]]
             [selmer.parser :refer [render-file]]
             [schema.core :as s]
             [yada.yada :as yada]))
@@ -81,3 +81,13 @@
     {:produces #{"text/html"}
      :response (fn [ctx]
                  (render-file "public/index.html" home-map))}}})
+
+(defn stats
+  [db logger]
+  {:methods
+   {:get
+    {:produces #{"application/edn"}
+     :response (wrap
+                logger
+                (fn [ctx]
+                  (count-events db "CountDocumentGenerations")))}}})

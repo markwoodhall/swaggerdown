@@ -3,8 +3,8 @@
             [com.stuartsierra.component :as component]
             [swaggerdown.logger :refer [new-logger info]]
             [swaggerdown.selmer :refer [new-selmer]]
-            [swaggerdown.resources :refer [documentation home access-control]]
-            [swaggerdown.ravendb :refer [new-ravendb count-events]]
+            [swaggerdown.resources :refer [stats documentation home access-control]]
+            [swaggerdown.ravendb :refer [new-ravendb]]
             [yada.yada :refer [listener resource as-resource redirect]]
             [yada.resources.classpath-resource :refer [new-classpath-resource]])
   (:gen-class))
@@ -24,9 +24,9 @@
                (documentation ravendb logger)
                (merge access-control)
                resource)]
-          ["stats" (-> (count-events ravendb "CountDocumentGenerations")
+          ["stats" (-> (stats ravendb logger)
                        (merge access-control)
-                       (as-resource))]]]
+                       resource)]]]
         ["ping" (as-resource {:status :ok})]
         ["js" (new-classpath-resource "public/js")]
         ["img" (new-classpath-resource "public/img")]
