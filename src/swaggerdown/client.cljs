@@ -51,20 +51,18 @@
    (swap! app-state update-in [:stats :count] inc))
 
 (defn generate 
-  ([generator app e]
-   (generate generator app e (fn [i] i)))
-  ([generator app e on-generated]
-   (let [{:keys [url]} app
-         {:keys [ext content-type template]} generator]
-     (swap! app-state assoc :loading? true)
-     (doto
-       (new js/XMLHttpRequest)
-       (.open "POST" (str (api-url) "/documentation"))
-       (.setRequestHeader "Accept" content-type)
-       (.setRequestHeader "Content-Type" "application/x-www-form-urlencoded")
-       (.addEventListener "load" (comp on-generated (partial generate-handler ext content-type template)))
-       (.addEventListener "error" (partial generate-handler ext content-type template))
-       (.send (str "url=" url))))))
+  [generator app on-generated e]
+  (let [{:keys [url]} app
+        {:keys [ext content-type template]} generator]
+    (swap! app-state assoc :loading? true)
+    (doto
+      (new js/XMLHttpRequest)
+      (.open "POST" (str (api-url) "/documentation"))
+      (.setRequestHeader "Accept" content-type)
+      (.setRequestHeader "Content-Type" "application/x-www-form-urlencoded")
+      (.addEventListener "load" (comp on-generated (partial generate-handler ext content-type template)))
+      (.addEventListener "error" (partial generate-handler ext content-type template))
+      (.send (str "url=" url)))))
 
 (defn generator 
   [app g]
@@ -74,7 +72,7 @@
       [:div.generator.coming {:id title :key title}
        [:img {:src "img/s.png" :title (str title " Coming Soon") :width "80px" :height "80px"}]
        [:div (str title)]]
-      [:div.generator {:id title :key title :on-click (partial generate g app)}
+      [:div.generator {:id title :key title :on-click (partial generate g app (fn [_]))}
        [:img {:src img :title description  :width "80px" :height "80px"}]
        [:div
         (str title)]])))
@@ -178,6 +176,6 @@
 
 (-> (:generators @app-state)
     first
-    (generate @app-state nil render))
+    (generate @app-state render nil))
 
 (stats)
