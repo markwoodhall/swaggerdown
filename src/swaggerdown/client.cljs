@@ -52,7 +52,7 @@
 
 (defn generate 
   ([generator app e]
-   (generate app e (fn [])))
+   (generate generator app e (fn [i] i)))
   ([generator app e on-generated]
    (let [{:keys [url]} app
          {:keys [ext content-type template]} generator]
@@ -172,7 +172,7 @@
     (api-pane @app)
     (stats-pane @app)]])
 
-(defn render [] 
+(defn render [_] 
   (reagent/render-component [start app-state]
                             (.getElementById js/document "app")))
 
