@@ -31,24 +31,24 @@
     (str (.-origin (.-location js/window)) "/api")))
 
 (defn generate-handler
-  ([ext content-type template ev] 
-   (when (= ev.target.status 200)
-     (swap! app-state assoc :downloadable {:ext ext :template template :content-type content-type :data (b64/encodeString ev.currentTarget.responseText)})
-     (->> (if (or (= content-type "application/markdown")
-                  (= content-type "application/x-yaml")
-                  (= content-type "text/clojure")
-                  (= content-type "application/edn")
-                  (= content-type "application/javascript"))
-            (-> ev.currentTarget.responseText
-                (s/replace  " " "&nbsp;")
-                (s/replace "\n" "<br />"))
-            ev.currentTarget.responseText)
-          (swap! app-state assoc :preview)))
-   (when (not= ev.target.status 200)
-     (swap! app-state assoc :preview "There was a problem generating the documentation."))
-   (swap! app-state assoc :error? (not= ev.target.status 200))
-   (swap! app-state assoc :loading? false)
-   (swap! app-state update-in [:stats :count] inc)))
+  [ext content-type template ev] 
+  (when (= ev.target.status 200)
+    (swap! app-state assoc :downloadable {:ext ext :template template :content-type content-type :data (b64/encodeString ev.currentTarget.responseText)})
+    (->> (if (or (= content-type "application/markdown")
+                 (= content-type "application/x-yaml")
+                 (= content-type "text/clojure")
+                 (= content-type "application/edn")
+                 (= content-type "application/javascript"))
+           (-> ev.currentTarget.responseText
+               (s/replace  " " "&nbsp;")
+               (s/replace "\n" "<br />"))
+           ev.currentTarget.responseText)
+         (swap! app-state assoc :preview)))
+  (when (not= ev.target.status 200)
+    (swap! app-state assoc :preview "There was a problem generating the documentation."))
+  (swap! app-state assoc :error? (not= ev.target.status 200))
+  (swap! app-state assoc :loading? false)
+  (swap! app-state update-in [:stats :count] inc))
 
 (defn generate 
   ([generator app e]
