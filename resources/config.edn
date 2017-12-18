@@ -7,14 +7,14 @@
  :logger {:log-level #profile {:prod :info
                                :dev :debug}}
 
- :ravendb #profile {:prod {:url "https://markwoodhall-wafc.ravenhq.com"
-                           :oauth-url "https://amazon-useast-2-oauth.ravenhq.com"
-                           :database "swaggerdown"
-                           :api-key #env RAVEN_API_KEY}
-                    :dev {:url "https://markwoodhall-02fa.ravenhq.com"
-                          :oauth-url "https://amazon-useast-2-oauth.ravenhq.com"
-                          :database "swaggerdown-dev"
-                          :api-key "1ce633f3-c01c-4992-a8ad-46bc153acdaf"}}
+ :db #profile {:prod {:url "https://markwoodhall-wafc.ravenhq.com"
+                      :oauth-url "https://amazon-useast-2-oauth.ravenhq.com"
+                      :database "swaggerdown"
+                      :api-key #env RAVEN_API_KEY}
+               :dev {:url "https://markwoodhall-02fa.ravenhq.com"
+                     :oauth-url "https://amazon-useast-2-oauth.ravenhq.com"
+                     :database "swaggerdown-dev"
+                     :api-key "1ce633f3-c01c-4992-a8ad-46bc153acdaf"}}
 
  :features {;; Should a request for donation be displayed, if so
             ;; where should it link to

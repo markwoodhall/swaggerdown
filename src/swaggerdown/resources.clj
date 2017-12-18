@@ -1,7 +1,7 @@
 (ns swaggerdown.resources
   (:require [swaggerdown.generate :refer [->html ->markdown ->yaml ->edn ->json]]
             [swaggerdown.logger :refer [info wrap error]]
-            [swaggerdown.ravendb :refer [record-event! count-events]]
+            [swaggerdown.db :refer [record-event! count-events]]
             [selmer.parser :refer [render-file]]
             [schema.core :as s]
             [yada.yada :as yada]))
