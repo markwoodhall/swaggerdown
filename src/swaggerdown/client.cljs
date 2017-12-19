@@ -144,11 +144,10 @@
 (defn stats-pane
   [app]
   (let [counter (get-in app [:stats :count])]
-    [:div.outro.blue
-     [:img#counter {:src "img/help.png" :width "120px" :height "120px"}]
+    [:div.outro.dark-grey
+     [:img#counter {:src "img/cog.png" :width "120px" :height "120px"}]
      [:h3 (str counter " Generations!")]
-     [:p (str "Swaggerdown has converted Swagger and OpenAPI specifications " counter " times!")]
-     [:p]]))
+     [:p (str "Swaggerdown has converted Swagger and OpenAPI specifications " counter " times!")]]))
 
 (defn generators
   [app]
