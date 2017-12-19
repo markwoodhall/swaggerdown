@@ -82,7 +82,7 @@
        [:div
         (str title)
         (when (= template "default") 
-          [:div.count 
+          [:div.count {:title (str "Used " counter " times")}
            (cond
              (> counter 99999) "100k"
              (> counter 9999) "10k+"
