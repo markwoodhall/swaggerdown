@@ -59,7 +59,6 @@ svg > path {
 }
 
 .outro, .error, .what-is-swagger, .what-is-it{
-  width: ;
   background-color: #444;
   color: #fff;
   padding: 10px;
@@ -68,6 +67,7 @@ svg > path {
   padding-top: 60px;
   padding-bottom: 60px;
   text-align: center;
+  margin-top: -1px;
 }
 
 .what-is-it {
