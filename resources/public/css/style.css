@@ -47,6 +47,15 @@ svg > path {
   margin-right: auto;
 }
 
+.count {
+  margin-top: -100px;
+  float: right;
+  background-color: red;
+  border-radius: 10px;
+  font-size: 11px;
+  padding: 2px;
+}
+
 .outro > p, .header > p{
   max-width: 600px;
   margin-left: auto;

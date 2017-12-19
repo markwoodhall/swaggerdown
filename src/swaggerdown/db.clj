@@ -4,7 +4,7 @@
             [clj-ravendb.client :as rdb]
             [tick.clock :refer [now]]))
 
-(defprotocol Database (record-event! [_ e m]) (count-events [_ i]))
+(defprotocol Database (record-event! [_ e m]) (events [_ i]))
 
 (defrecord RavenDb [url oauth-url database api-key client logger]
   component/Lifecycle
@@ -38,12 +38,11 @@
       (catch Exception e
         (error logger e)))
     this)
-  (count-events [{:keys [client] :as this} i]
+  (events [{:keys [client] :as this} i]
     (->> {:max-attempts 1}
          (rdb/query-index client {:index i})
          (:results)
-         (first)
-         (:document))))
+         (map :document))))
 
 (defn new-ravendb []
   (map->RavenDb {}))

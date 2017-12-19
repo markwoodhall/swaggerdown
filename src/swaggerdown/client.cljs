@@ -13,7 +13,7 @@
   (atom {:title "Swaggerdown" 
          :tagline "Generate documentation from your swagger!"
          :url "http://petstore.swagger.io/v2/swagger.json"
-         :stats {:count 10000}
+         :stats {:count 10000 :content-counts []}
          :generators-visible? true
          :expanded? false
          :generators [{:title "HTML" :description "Generate HTML with no formatting" :img "img/html.png" :ext ".html" :content-type "text/html" :template "default"}
@@ -67,7 +67,12 @@
 (defn generator 
   [app g]
   (let [{:keys [title content-type img template description] 
-         :or {description (str "Generate " title " with " template " template") img "img/swagger.png"}} g]
+         :or {description (str "Generate " title " with " template " template") img "img/swagger.png"}} g
+        counter (->> (get-in app [:stats :content-counts])
+                     flatten
+                     (partition-by #{content-type})
+                     (last)
+                     (first))]
     (if (:coming-soon? g)
       [:div.generator.coming {:id title :key title}
        [:img {:src "img/s.png" :title (str title " Coming Soon") :width "80px" :height "80px"}]
@@ -75,7 +80,14 @@
       [:div.generator {:id title :key title :on-click (partial generate g app (fn [_]))}
        [:img {:src img :title description  :width "80px" :height "80px"}]
        [:div
-        (str title)]])))
+        (str title)
+        (when (= template "default") 
+          [:div.count 
+           (cond
+             (> counter 99999) "100k"
+             (> counter 9999) "10k+"
+             (> counter 999) "1k+"
+             :else counter)])]])))
 
 (defn url-input
   [{:keys [url loading?]}]
@@ -132,13 +144,17 @@
      [:div#preview-footer]]))
 
 (defn stats-handler [ev] 
-  (swap! app-state assoc-in [:stats :count] (:count (read-string ev.currentTarget.responseText))))
+  (let [mapper (juxt :contenttype :count)
+        content-counts (map mapper (read-string ev.currentTarget.responseText))
+        all (reduce + (map second content-counts))]
+    (swap! app-state assoc-in [:stats :count] all)
+    (swap! app-state assoc-in [:stats :content-counts] content-counts)))
 
 (defn stats []
   (doto
       (new js/XMLHttpRequest)
       (.open "GET" (str (api-url) "/stats"))
-      (.addEventListener "load" (fn stats-handler [ev] (swap! app-state assoc-in [:stats :count] (:count (read-string ev.currentTarget.responseText)))))
+      (.addEventListener "load" stats-handler)
       (.send)))
 
 (defn stats-pane

@@ -1,7 +1,7 @@
 (ns swaggerdown.resources
   (:require [swaggerdown.generate :refer [->html ->markdown ->yaml ->edn ->json]]
             [swaggerdown.logger :refer [info wrap error]]
-            [swaggerdown.db :refer [record-event! count-events]]
+            [swaggerdown.db :refer [record-event! events]]
             [selmer.parser :refer [render-file]]
             [schema.core :as s]
             [yada.yada :as yada]))
@@ -90,4 +90,4 @@
      :response (wrap
                 logger
                 (fn [ctx]
-                  (count-events db "CountDocumentGenerations")))}}})
+                  (events db "CountDocumentGenerationsByType")))}}})
