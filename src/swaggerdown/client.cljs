@@ -42,12 +42,13 @@
             (-> ev.currentTarget.responseText
                 (s/replace  " " "&nbsp;")
                 (s/replace "\n" "<br />"))
-            ev.currentTarget.responseText)
+            (re-find #"(?is)<body.*body>" ev.currentTarget.responseText))
           (swap! app-state assoc :preview)))
    (when (not= ev.target.status 200)
      (swap! app-state assoc :preview "There was a problem generating the documentation."))
    (swap! app-state assoc :error? (not= ev.target.status 200))
    (swap! app-state assoc :loading? false)
+   (swap! app-state update-in [:stats :count] inc)
    (->> (remove (fn [g] (and (= (:content-type g) content-type)
                             (= (:template g) template))) (:generators @app-state))
         (cons (update-in g [:count] inc))
@@ -64,7 +65,7 @@
       (.setRequestHeader "Content-Type" "application/x-www-form-urlencoded")
       (.addEventListener "load" (comp on-generated (partial generate-handler generator)))
       (.addEventListener "error" (partial generate-handler generator))
-      (.send (str "url=" url)))))
+      (.send (str "url=" url "&template=" (:template generator))))))
 
 (defn generator 
   [app g]
