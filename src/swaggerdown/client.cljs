@@ -13,16 +13,16 @@
   (atom {:title "Swaggerdown" 
          :tagline "Generate documentation from your swagger!"
          :url "http://petstore.swagger.io/v2/swagger.json"
-         :stats {:count 10000 :content-counts []}
+         :stats {:count 10000}
          :generators-visible? true
          :expanded? false
-         :generators [{:title "HTML" :description "Generate HTML with no formatting" :img "img/html.png" :ext ".html" :content-type "text/html" :template "default"}
-                      {:title "Fractal" :description "Generate HTML using the fractal template" :img "img/fractal.png" :ext ".html" :content-type "text/html" :template "fractal"}
-                      {:title "Fractal Red" :description "Generate HTML using a red fractal template" :img "img/fractal-red.png" :ext ".html" :content-type "text/html" :template "fractal-red"}
-                      {:title "Markdown" :img "img/markdown.png" :ext ".md" :content-type "application/markdown" :template "default"}
-                      {:title "JSON" :img "img/json.png" :ext ".json" :content-type "application/javascript" :template "default"}
-                      {:title "Yaml" :img "img/yaml.png" :ext ".yml" :content-type "application/x-yaml" :template "default"}
-                      {:title "EDN" :img "img/edn.png" :ext ".edn" :content-type "application/edn" :template "default"}]}))
+         :generators [{:order 1 :title "HTML" :description "Generate HTML with no formatting" :img "img/html.png" :ext ".html" :content-type "text/html" :template "default"}
+                      {:order 2 :title "Fractal" :description "Generate HTML using the fractal template" :img "img/fractal.png" :ext ".html" :content-type "text/html" :template "fractal"}
+                      {:order 3 :title "Fractal Red" :description "Generate HTML using a red fractal template" :img "img/fractal-red.png" :ext ".html" :content-type "text/html" :template "fractal-red"}
+                      {:order 4 :title "Markdown" :img "img/markdown.png" :ext ".md" :content-type "application/markdown" :template "default"}
+                      {:order 5 :title "JSON" :img "img/json.png" :ext ".json" :content-type "application/javascript" :template "default"}
+                      {:order 6 :title "Yaml" :img "img/yaml.png" :ext ".yml" :content-type "application/x-yaml" :template "default"}
+                      {:order 7 :title "EDN" :img "img/edn.png" :ext ".edn" :content-type "application/edn" :template "default"}]}))
 
 (defn api-url
   []
@@ -31,7 +31,7 @@
     (str (.-origin (.-location js/window)) "/api")))
 
 (defn generate-handler
-  [ext content-type template ev] 
+  [{:keys [ext content-type template] :as g} ev] 
    (when (= ev.target.status 200)
      (swap! app-state assoc :downloadable {:ext ext :template template :content-type content-type :data (b64/encodeString ev.currentTarget.responseText)})
      (->> (if (or (= content-type "application/markdown")
@@ -48,46 +48,43 @@
      (swap! app-state assoc :preview "There was a problem generating the documentation."))
    (swap! app-state assoc :error? (not= ev.target.status 200))
    (swap! app-state assoc :loading? false)
-   (swap! app-state update-in [:stats :count] inc))
+   (->> (remove (fn [g] (and (= (:content-type g) content-type)
+                            (= (:template g) template))) (:generators @app-state))
+        (cons (update-in g [:count] inc))
+        (swap! app-state assoc :generators)))
 
 (defn generate 
   [generator app on-generated e]
-  (let [{:keys [url]} app
-        {:keys [ext content-type template]} generator]
+  (let [{:keys [url]} app]
     (swap! app-state assoc :loading? true)
     (doto
       (new js/XMLHttpRequest)
       (.open "POST" (str (api-url) "/documentation"))
-      (.setRequestHeader "Accept" content-type)
+      (.setRequestHeader "Accept" (:content-type generator))
       (.setRequestHeader "Content-Type" "application/x-www-form-urlencoded")
-      (.addEventListener "load" (comp on-generated (partial generate-handler ext content-type template)))
-      (.addEventListener "error" (partial generate-handler ext content-type template))
+      (.addEventListener "load" (comp on-generated (partial generate-handler generator)))
+      (.addEventListener "error" (partial generate-handler generator))
       (.send (str "url=" url)))))
 
 (defn generator 
   [app g]
   (let [{:keys [title content-type img template description] 
          :or {description (str "Generate " title " with " template " template") img "img/swagger.png"}} g
-        counter (->> (get-in app [:stats :content-counts])
-                     flatten
-                     (partition-by #{content-type})
-                     (last)
-                     (first))]
+        counter (:count g)]
     (if (:coming-soon? g)
       [:div.generator.coming {:id title :key title}
        [:img {:src "img/s.png" :title (str title " Coming Soon") :width "80px" :height "80px"}]
        [:div (str title)]]
       [:div.generator {:id title :key title :on-click (partial generate g app (fn [_]))}
-       [:img {:src img :title description  :width "80px" :height "80px"}]
+       [:img {:src img :title description :width "80px" :height "80px"}]
        [:div
         (str title)
-        (when (= template "default") 
-          [:div.count {:title (str "Used " counter " times")}
-           (cond
-             (> counter 99999) "100k"
-             (> counter 9999) "10k+"
-             (> counter 999) "1k+"
-             :else counter)])]])))
+        [:div.count {:title (str "Used " counter " times")}
+         (cond
+           (> counter 99999) "100k"
+           (> counter 9999) "10k+"
+           (> counter 999) "1k+"
+           :else counter)]]])))
 
 (defn url-input
   [{:keys [url loading?]}]
@@ -143,18 +140,30 @@
      [:div#preview.collapsed " curl -X POST -v -H \"Accept: " (:content-type downloadable) "\"  " (api-url) "/documentation -H \"Content-Type: application/x-www-form-urlencoded\" -d \"url=" url "&template=" (:template downloadable) "\""]
      [:div#preview-footer]]))
 
-(defn stats-handler [ev] 
-  (let [mapper (juxt :contenttype :count)
-        content-counts (map mapper (read-string ev.currentTarget.responseText))
-        all (reduce + (map second content-counts))]
-    (swap! app-state assoc-in [:stats :count] all)
-    (swap! app-state assoc-in [:stats :content-counts] content-counts)))
+(defn add-stats [stats g]
+  (assoc 
+    g 
+    :count
+    (-> (fn [{:keys [contenttype template]}]
+          (and (= contenttype (:content-type g))
+               (= template (:template g))))
+        (filter stats)
+        first
+        :count)))
 
-(defn stats []
+(defn stats-handler [{:keys [generators]} ev] 
+  (let [mapper #(select-keys % [:contenttype :template :count])
+        stats (map mapper (read-string ev.currentTarget.responseText))
+        all (reduce + (map :count stats))
+        generators-and-stats (map (partial add-stats stats) generators)]
+    (swap! app-state assoc-in [:stats :count] all)
+    (swap! app-state assoc :generators generators-and-stats)))
+
+(defn stats [app]
   (doto
       (new js/XMLHttpRequest)
       (.open "GET" (str (api-url) "/stats"))
-      (.addEventListener "load" stats-handler)
+      (.addEventListener "load" (partial stats-handler app))
       (.send)))
 
 (defn stats-pane
@@ -168,7 +177,7 @@
 (defn generators
   [app]
   (if (:generators-visible? app)
-    (map (partial generator app) (:generators app))
+    (map (partial generator app) (sort-by :order (:generators app)))
     [:div.error.blue 
      [:img {:src "img/error.png" :height "90px" :width "90px"}]
      [:h4 "Enter a valid swagger json url to generate documentation!"]]))
@@ -186,6 +195,7 @@
     (stats-pane @app)]])
 
 (defn render [_] 
+  (stats @app-state)
   (reagent/render-component [start app-state]
                             (.getElementById js/document "app")))
 
@@ -193,4 +203,3 @@
     first
     (generate @app-state render nil))
 
-(stats)

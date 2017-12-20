@@ -13,15 +13,15 @@
     (debug logger "Starting ravendb client for database %s at url %s" database url)
     (let [config {:enable-oauth? true :oauth-url oauth-url :api-key api-key}
           client (rdb/client url database config)]
-      (rdb/put-index! client {:index "CountDocumentGenerations"
-                              :from "DocumentationGenerated"
-                              :select [[:count 1]]
-                              :project [[:count [:Sum :count]]]})
       (rdb/put-index! client {:index "CountDocumentGenerationsByType"
                               :from "DocumentationGenerated"
-                              :select [[:contenttype [:contenttype]] [:count 1]]
-                              :group [:contenttype]
-                              :project [[:contenttype [:Key :contenttype]] [:count [:Sum :count]]]})
+                              :select [[:contenttype [:contenttype]]
+                                       [:template [:template]]
+                                       [:count 1]]
+                              :group [:contenttype :template]
+                              :project [[:contenttype [:Key :contenttype]]
+                                        [:template [:Key :template]]
+                                        [:count [:Sum :count]]]})
       (assoc this :client client)))
   (stop [this]
     (debug logger "Stopped ravendb client for database %s at url %s" database url)
