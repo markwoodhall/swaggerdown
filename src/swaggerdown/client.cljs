@@ -42,7 +42,7 @@
             (-> ev.currentTarget.responseText
                 (s/replace  " " "&nbsp;")
                 (s/replace "\n" "<br />"))
-            (re-find #"(?is)<body.*body>" ev.currentTarget.responseText))
+            (last (s/split ev.currentTarget.responseText #"<body.*>")))
           (swap! app-state assoc :preview)))
    (when (not= ev.target.status 200)
      (swap! app-state assoc :preview "There was a problem generating the documentation."))
