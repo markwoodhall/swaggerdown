@@ -10,9 +10,7 @@
 (defonce url-validation [:url clova/required? clova/url?])
 
 (defonce app-state 
-  (atom {:title "Swaggerdown" 
-         :tagline "Generate documentation from your swagger!"
-         :url "http://petstore.swagger.io/v2/swagger.json"
+  (atom {:url "http://petstore.swagger.io/v2/swagger.json"
          :stats {:count 10000}
          :generators-visible? true
          :expanded? false
