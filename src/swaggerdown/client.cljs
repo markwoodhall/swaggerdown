@@ -30,19 +30,23 @@
     "http://localhost:3080/api"
     (str (.-origin (.-location js/window)) "/api")))
 
+(defn clean-response [content-type response]
+  (if (or (= content-type "application/markdown")
+          (= content-type "application/x-yaml")
+          (= content-type "text/clojure")
+          (= content-type "application/edn")
+          (= content-type "application/javascript"))
+    (-> response
+        (s/replace  " " "&nbsp;")
+        (s/replace "\n" "<br />"))
+    (last (s/split response #"<body.*>"))))
+
 (defn generate-handler
   [{:keys [ext content-type template] :as g} ev] 
    (when (= ev.target.status 200)
      (swap! app-state assoc :downloadable {:ext ext :template template :content-type content-type :data (b64/encodeString ev.currentTarget.responseText)})
-     (->> (if (or (= content-type "application/markdown")
-                  (= content-type "application/x-yaml")
-                  (= content-type "text/clojure")
-                  (= content-type "application/edn")
-                  (= content-type "application/javascript"))
-            (-> ev.currentTarget.responseText
-                (s/replace  " " "&nbsp;")
-                (s/replace "\n" "<br />"))
-            (last (s/split ev.currentTarget.responseText #"<body.*>")))
+     (->> ev.currentTarget.responseText
+          (clean-response content-type)
           (swap! app-state assoc :preview)))
    (when (not= ev.target.status 200)
      (swap! app-state assoc :preview "There was a problem generating the documentation."))
