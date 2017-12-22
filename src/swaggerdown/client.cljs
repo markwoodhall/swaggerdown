@@ -39,8 +39,17 @@
         (s/replace "\n" "<br />"))
     (last (s/split response #"<body.*>"))))
 
+(defn by-content-type-and-template [content-type template g]
+  (and (= (:content-type g) content-type)
+       (= (:template g) template)))
+
+(defn update-stats [{:keys [content-type template] :as generator} state]
+  (->> state
+       (remove (partial by-content-type-and-template content-type template))
+       (cons (update-in generator [:count] inc))))
+
 (defn generate-handler
-  [{:keys [ext content-type template] :as g} ev] 
+  [{:keys [ext content-type template] :as generator} ev] 
    (when (= ev.target.status 200)
      (swap! app-state assoc :downloadable {:ext ext :template template :content-type content-type :data (b64/encodeString ev.currentTarget.responseText)})
      (->> ev.currentTarget.responseText
@@ -51,10 +60,7 @@
    (swap! app-state assoc :error? (not= ev.target.status 200))
    (swap! app-state assoc :loading? false)
    (swap! app-state update-in [:stats :count] inc)
-   (->> (remove (fn [g] (and (= (:content-type g) content-type)
-                            (= (:template g) template))) (:generators @app-state))
-        (cons (update-in g [:count] inc))
-        (swap! app-state assoc :generators)))
+   (swap! app-state update :generators (partial update-stats generator)))
 
 (defn generate 
   [generator app on-generated e]
