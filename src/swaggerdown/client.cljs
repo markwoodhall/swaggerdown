@@ -83,33 +83,6 @@
                             (swap! app-state assoc :url entered-url)
                             (swap! app-state assoc :generators-visible? generators-visible)))}))])
 
-(defn expand-preview
-  [e]
-  (swap! app-state update :expanded? not))
-
-(defn preview-pane
-  [{:keys [api-url url preview loading? error? expanded? downloadable]}]
-  (let [content-type (:content-type downloadable)
-        template (:template downloadable)]
-    (if preview 
-      [:div 
-       [:div#preview-header 
-        {:on-click expand-preview}
-        [:h3 (if loading?  "Loading..." (if error? "Error Loading" "Preview"))]]
-       (if expanded? 
-         [:div#preview.expanded [:div {:style {:width "10000px"} :dangerouslySetInnerHTML {:__html preview}}]]
-         [:div#preview.collapsed [:div {:style {:width "10000px"} :dangerouslySetInnerHTML {:__html preview}}]])
-       [:div#preview-footer 
-        [:div 
-         {:on-click expand-preview}
-         (if expanded? 
-           [:h3 "Hide"]
-           [:h3 "Show More"])]
-        [:a {:href (str api-url "/documentation?url=" (.encodeURIComponent js/window url) "&content-type=" (.encodeURIComponent js/window content-type) "&template=" template)} "View"]
-        " | "
-        [:a {:download (str "swaggerdown" (:ext downloadable)) 
-             :href (str "data:" (:content-type downloadable) ";base64," (:data downloadable))} "Download"]]])))
-
 (defn add-stats [stats g]
   (assoc 
     g 
@@ -154,7 +127,7 @@
     [:div#generators-container 
      [:div#generators 
       (c/generators @app)]]
-    (preview-pane @app)
+    (c/preview-pane @app)
     (c/api-pane @app)
     (c/stats-pane @app)]])
 
@@ -173,5 +146,8 @@
 
 (go-loop 
   []
-  (generate (<! c/generator-chan) @app-state (fn [_]))
+  (let [{:keys [event data]} (<! c/event-chan)]
+    (case event
+      :generator-clicked (generate data @app-state (fn [_]))
+      :preview-clicked (swap! app-state update :expanded? not)))
   (recur))

@@ -1,7 +1,7 @@
 (ns swaggerdown.components
   (:require [cljs.core.async :refer [put! chan]]))
 
-(defonce generator-chan (chan))
+(defonce event-chan (chan))
 
 (defn generator 
   [app g]
@@ -12,7 +12,7 @@
       [:div.generator.coming {:id title :key title}
        [:img {:src "img/s.png" :title (str title " Coming Soon") :width "80px" :height "80px"}]
        [:div (str title)]]
-      [:div.generator {:id title :key title :on-click (fn [_] (put! generator-chan g))}
+      [:div.generator {:id title :key title :on-click (fn [_] (put! event-chan {:event :generator-clicked :data g}))}
        [:img {:src img :title description :width "80px" :height "80px"}]
        [:div
         (str title)
@@ -51,3 +51,27 @@
      [:img#counter {:src "img/cog.png" :width "120px" :height "120px"}]
      [:h3 (str counter " Generations!")]
      [:p (str "Swaggerdown has converted Swagger and OpenAPI specifications " counter " times!")]]))
+
+(defn preview-pane
+  [{:keys [api-url url preview loading? error? expanded? downloadable]}]
+  (let [content-type (:content-type downloadable)
+        template (:template downloadable)
+        expander (fn [_] (put! event-chan {:event :preview-clicked}))]
+    (if preview 
+      [:div 
+       [:div#preview-header 
+        {:on-click expander}
+        [:h3 (if loading?  "Loading..." (if error? "Error Loading" "Preview"))]]
+       (if expanded? 
+         [:div#preview.expanded [:div {:style {:width "10000px"} :dangerouslySetInnerHTML {:__html preview}}]]
+         [:div#preview.collapsed [:div {:style {:width "10000px"} :dangerouslySetInnerHTML {:__html preview}}]])
+       [:div#preview-footer 
+        [:div 
+         {:on-click expander}
+         (if expanded? 
+           [:h3 "Hide"]
+           [:h3 "Show More"])]
+        [:a {:href (str api-url "/documentation?url=" (.encodeURIComponent js/window url) "&content-type=" (.encodeURIComponent js/window content-type) "&template=" template)} "View"]
+        " | "
+        [:a {:download (str "swaggerdown" (:ext downloadable)) 
+             :href (str "data:" (:content-type downloadable) ";base64," (:data downloadable))} "Download"]]])))
