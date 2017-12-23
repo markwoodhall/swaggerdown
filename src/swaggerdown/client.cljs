@@ -26,7 +26,6 @@
          :generators-visible? true
          :expanded? false}))
 
-
 (defn clean-response [content-type response]
   (if (or (= content-type "application/markdown")
           (= content-type "application/x-yaml")
