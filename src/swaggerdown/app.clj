@@ -3,7 +3,7 @@
             [com.stuartsierra.component :as component]
             [swaggerdown.logger :refer [new-logger info]]
             [swaggerdown.selmer :refer [new-selmer]]
-            [swaggerdown.resources :refer [stats documentation home access-control]]
+            [swaggerdown.resources :refer [stats generators documentation home access-control]]
             [swaggerdown.db :refer [new-ravendb]]
             [yada.yada :refer [listener resource as-resource redirect]]
             [yada.resources.classpath-resource :refer [new-classpath-resource]])
@@ -26,7 +26,10 @@
                resource)]
           ["stats" (-> (stats db logger)
                        (merge access-control)
-                       resource)]]]
+                       resource)]
+          ["generators" (-> (generators logger)
+                            (merge access-control)
+                            resource)]]]
         ["ping" (as-resource {:status :ok})]
         ["js" (new-classpath-resource "public/js")]
         ["img" (new-classpath-resource "public/img")]
