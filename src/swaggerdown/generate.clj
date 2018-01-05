@@ -5,6 +5,15 @@
             [yaml.core :as y]
             [cheshire.core :refer [generate-string]]))
 
+(defn- sort-map
+  [m ks]
+  (if (empty? ks)
+    m
+    (let [k (first ks)]
+      (sort-map
+       (update-in m (if (sequential? k) k [k]) (partial into (sorted-map)))
+       (rest ks)))))
+
 (defn ->json
   "Takes swagger url, which could be to a json or yaml specification, and
   produces json."
@@ -35,6 +44,7 @@
   [url]
   (-> url
       (read-swagger {:keywords? true})
+      (sort-map [:paths :definitions])
       m/->markdown
       m/markdown->str))
 
@@ -44,4 +54,5 @@
   [url template]
   (-> url
       (read-swagger {:keywords? true})
+      (sort-map [:paths :definitions])
       (h/->html template)))
