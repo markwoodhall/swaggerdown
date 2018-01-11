@@ -27,7 +27,8 @@
           ["stats" (-> (stats db logger)
                        (merge access-control)
                        resource)]
-          ["generators" (-> (generators logger)
+          ["generators" (-> (:generators features)
+                            (generators logger)
                             (merge access-control)
                             resource)]]]
         ["ping" (as-resource {:status :ok})]
