@@ -1,6 +1,9 @@
 (ns user
   (:require
-   [figwheel-sidecar.repl-api :as f]))
+    [com.stuartsierra.component :as component]
+    [swaggerdown.app :refer [new-system configure]]
+    [reloaded.repl :refer [system init start stop go reset reset-all]]
+    [figwheel-sidecar.repl-api :as f]))
 
 ;; user is a namespace that the Clojure runtime looks for and
 ;; loads if its available
@@ -40,3 +43,5 @@
   "Launch a ClojureScript REPL that is connected to your build and host environment."
   []
   (f/cljs-repl))
+
+(reloaded.repl/set-init! #(configure (new-system) :dev))
