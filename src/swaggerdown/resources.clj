@@ -1,7 +1,6 @@
 (ns swaggerdown.resources
   (:require [swaggerdown.generate :refer [->html ->markdown ->yaml ->edn ->json]]
             [swaggerdown.logger :refer [info wrap error]]
-            [swaggerdown.generators :as g]
             [swaggerdown.db :refer [record-event! events]]
             [selmer.parser :refer [render-file]]
             [schema.core :as s]
@@ -94,11 +93,11 @@
                   (events db "CountDocumentGenerationsByType")))}}})
 
 (defn generators
-  [logger]
+  [generators-col logger]
   {:methods
    {:get
     {:produces #{"application/edn"}
      :response (wrap
                 logger
                 (fn [ctx]
-                  g/generators))}}})
+                  (filter #(not (:disabled? %)) generators-col)))}}})
