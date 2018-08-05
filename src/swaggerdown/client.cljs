@@ -11,6 +11,8 @@
 
 (enable-console-print!)
 
+(+ 1 1)
+
 (defonce url-validation [:url clova/required? clova/url?])
 
 (defn api-url
@@ -75,13 +77,14 @@
    (let [attributes (if loading? {:disabled true} {})]
      (merge attributes 
             {:type "text" 
-             :placeholder "Enter swagger.json url"
+             :placeholder "Enter url to swagger json or yaml"
              :value url
              :on-change (fn [ev] 
                           (let [entered-url (.-value (.-target ev))
                                 generators-visible (clova/valid? url-validation {:url entered-url})]
                             (swap! app-state assoc :url entered-url)
                             (swap! app-state assoc :generators-visible? generators-visible)))}))])
+
 
 (defn add-stats [stats g]
   (assoc 
