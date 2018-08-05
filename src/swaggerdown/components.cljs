@@ -29,7 +29,7 @@
     (map (partial generator app) (sort-by :order (:generators app)))
     [:div.error.blue 
      [:img {:src "img/error.png" :height "90px" :width "90px"}]
-     [:h4 "Enter a valid swagger json url to generate documentation!"]]))
+     [:h4 "Enter a valid swagger json/yaml url to generate documentation!"]]))
 
 (defn api-pane
   [{:keys [api-url preview url downloadable]}]

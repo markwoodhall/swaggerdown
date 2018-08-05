@@ -85,7 +85,6 @@
                             (swap! app-state assoc :url entered-url)
                             (swap! app-state assoc :generators-visible? generators-visible)))}))])
 
-
 (defn add-stats [stats g]
   (assoc 
     g 
