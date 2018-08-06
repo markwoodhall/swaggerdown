@@ -26,9 +26,8 @@
   "Takes swagger url, which could be to a json or yaml specification, and
   produces edn."
   [url]
-  (-> url
-      (read-swagger {:keywords? true})
-      str))
+  (let [swagger (read-swagger url {:keywords? true})]
+    (with-out-str (clojure.pprint/pprint swagger))))
 
 (defn ->yaml
   "Takes swagger url, which could be to a json or yaml specification, and
