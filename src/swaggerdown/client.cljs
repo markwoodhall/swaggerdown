@@ -11,8 +11,6 @@
 
 (enable-console-print!)
 
-(+ 1 1)
-
 (defonce url-validation [:url clova/required? clova/url?])
 
 (defn api-url
