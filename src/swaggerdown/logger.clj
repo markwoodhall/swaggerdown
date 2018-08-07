@@ -5,7 +5,7 @@
 (defprotocol Logger
   (error [_ e])
   (debug [_ s] [_ s a] [_ s a a2])
-  (info [_ s] [_ s a])
+  (info [_ s] [_ s a] [_ s a a2])
   (wrap [_ f]))
 
 (defrecord TimbreLogger [log-level]
@@ -37,9 +37,12 @@
     [this s]
     (info this s nil))
   (info
-    [_ s a]
+    [this s a]
+    (info this s a nil))
+  (info
+    [_ s a a2]
     (when (some #{log-level} [:debug :info])
-      (timbre/info (format s a)))))
+      (timbre/info (format s a a2)))))
 
 (defn new-logger []
   (map->TimbreLogger {}))

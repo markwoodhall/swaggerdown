@@ -49,7 +49,10 @@
                   (let [url (or (get-in ctx [:parameters :form :url]) url)
                         template (or (get-in ctx [:parameters :form :template]) template)
                         content-type (yada/content-type ctx)]
-                    (info logger "Handling documentation request for %s" url)
+                    (info
+                     logger
+                     "Handling documentation request for %s using content-type %s"
+                     url content-type)
                     (record-event!
                      db
                      "DocumentationGenerated"
@@ -67,7 +70,10 @@
                   (let [url (or (get-in ctx [:parameters :query :url]) url)
                         template (or (get-in ctx [:parameters :query :template]) template)
                         content-type (get-in ctx [:parameters :query :content-type])]
-                    (info logger "Handling documentation request for %s" url)
+                    (info
+                     logger
+                     "Handling documentation request for %s using content-type %s"
+                     url content-type)
                     (record-event!
                      db
                      "DocumentationGenerated"
