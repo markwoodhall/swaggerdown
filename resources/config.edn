@@ -34,6 +34,6 @@
                                      :id "31960CA2772C24718747D9C51DE76586"}}
 
             ;; Google analytics
-            :analytics {:enabled? #profile {:prod true
+            :analytics {:enabled? #profile {:prod false
                                             :dev false}
                         :id "UA-56746791-3"}}}
