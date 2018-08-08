@@ -45,7 +45,11 @@
 (defn generate-handler
   [{:keys [ext content-type template] :as generator} ev] 
    (when (= ev.target.status 200)
-     (swap! app-state assoc :downloadable {:ext ext :template template :content-type content-type :data (b64/encodeString ev.currentTarget.responseText)})
+     (let [data 
+           (try 
+             (b64/encodeString ev.currentTarget.responseText)
+             (catch :default e))]
+       (swap! app-state assoc :downloadable {:ext ext :template template :content-type content-type :data data}))
      (->> ev.currentTarget.responseText
           (clean-response content-type)
           (swap! app-state assoc :preview)))

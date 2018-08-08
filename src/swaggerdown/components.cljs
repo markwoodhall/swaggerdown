@@ -72,6 +72,8 @@
            [:h3 "Hide"]
            [:h3 "Show More"])]
         [:a {:href (str api-url "/documentation?url=" (.encodeURIComponent js/window url) "&content-type=" (.encodeURIComponent js/window content-type) "&template=" template)} "View"]
-        " | "
-        [:a {:download (str "swaggerdown" (:ext downloadable)) 
-             :href (str "data:" (:content-type downloadable) ";base64," (:data downloadable))} "Download"]]])))
+        (when (:data downloadable) 
+          " | ")
+        (when (:data downloadable) 
+          [:a {:download (str "swaggerdown" (:ext downloadable)) 
+               :href (str "data:" (:content-type downloadable) ";base64," (:data downloadable))} "Download"])]])))
