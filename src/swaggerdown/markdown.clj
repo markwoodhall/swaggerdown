@@ -53,11 +53,11 @@
 
 (defn- params
   [col]
-  (let [ins (map :in col)
-        names (map :name col)
-        descriptions (map :description col)
-        requireds (map :required col)
-        types (flatten (map (comp map-type-link schema-or-type) col))]
+  (let [ins (vec (map :in col))
+        names (vec (map :name col))
+        descriptions (vec (map :description col))
+        requireds (vec (map :required col))
+        types (vec (flatten (map (comp map-type-link schema-or-type) col)))]
     [:br
      :h3 "Parameters"
      :table ["Name" names
@@ -81,7 +81,8 @@
            (concat (params (:parameters (m path))))
            (concat (produces (:produces (m path))))
            (concat (consumes (:consumes (m path))))
-           (concat (secures (:security (m path))))))) []
+           (concat (secures (:security (m path)))))))
+   []
    (keys path)))
 
 (defn- paths

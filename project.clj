@@ -18,7 +18,7 @@
                  [clova "0.35.2"]
                  [clj-ravendb "1.3.1-SNAPSHOT"]
                  [io.forward/yaml "1.0.6"]
-                 [marge "0.10.0" :exclusions [[org.clojure/clojure] [org.clojure/clojurescript]]]
+                 [marge "0.14.0" :exclusions [[org.clojure/clojure] [org.clojure/clojurescript]]]
                  [markdown-clj "1.0.1"]
                  [reagent "0.7.0" :exclusions [[org.clojure/clojure] [org.clojure/clojurescript]]]
                  [selmer "1.11.3" ]
