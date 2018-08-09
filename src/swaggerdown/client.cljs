@@ -1,13 +1,15 @@
 (ns swaggerdown.client
-  (:require-macros [cljs.core.async.macros :refer [go-loop]])
-  (:require [clojure.string :as s]
-            [cljs.core.async :refer [<!]]
-            [cljs.reader :refer [read-string]]
-            [clova.core :as clova]
-            [goog.crypt.base64 :as b64]
-            [reagent.core :as reagent :refer [atom]]
-            [swaggerdown.components :as c]
-            [swaggerdown.generators :refer [by-content-type-and-template]]))
+  (:require-macros 
+    [cljs.core.async.macros :refer [go-loop]])
+  (:require 
+    [clojure.string :as s]
+    [cljs.core.async :refer [<!]]
+    [cljs.reader :refer [read-string]]
+    [clova.core :as clova]
+    [goog.crypt.base64 :as b64]
+    [reagent.core :as reagent :refer [atom]]
+    [swaggerdown.components :as c]
+    [swaggerdown.generators :refer [by-content-type-and-template]]))
 
 (enable-console-print!)
 

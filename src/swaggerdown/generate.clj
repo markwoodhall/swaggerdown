@@ -1,9 +1,10 @@
 (ns swaggerdown.generate
-  (:require [swaggerdown.http :refer [read-swagger]]
-            [swaggerdown.html :as h]
-            [swaggerdown.markdown :as m]
-            [yaml.core :as y]
-            [cheshire.core :refer [generate-string]]))
+  (:require
+   [cheshire.core :refer [generate-string]]
+   [swaggerdown.html :as h]
+   [swaggerdown.http :refer [read-swagger]]
+   [swaggerdown.markdown :as m]
+   [yaml.core :as y]))
 
 (defn- sort-map
   [m ks]

@@ -1,8 +1,9 @@
 (ns swaggerdown.db
-  (:require [com.stuartsierra.component :as component]
-            [swaggerdown.logger :refer [debug error]]
-            [clj-ravendb.client :as rdb]
-            [tick.clock :refer [now]]))
+  (:require
+   [clj-ravendb.client :as rdb]
+   [com.stuartsierra.component :as component]
+   [swaggerdown.logger :refer [debug error]]
+   [tick.clock :refer [now]]))
 
 (defprotocol Database (record-event! [_ e m]) (events [_ i]))
 

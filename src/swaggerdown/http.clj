@@ -1,8 +1,7 @@
 (ns swaggerdown.http
-  (:require [clojure.walk :refer [postwalk]]
-            [yada.yada :refer [listener resource as-resource]]
-            [yaml.core :as y]
-            [cheshire.core :refer [parse-string]]))
+  (:require [cheshire.core :refer [parse-string]]
+            [clojure.walk :refer [postwalk]]
+            [yaml.core :as y]))
 
 (defn- disorder [ordering-map map-fn]
   (postwalk #(if (map? %) (into map-fn %) %) ordering-map))

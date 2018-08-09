@@ -1,7 +1,8 @@
 (ns swaggerdown.selmer
-  (:require [com.stuartsierra.component :as component]
-            [selmer.parser :refer [cache-on! cache-off!]]
-            [swaggerdown.logger :refer [debug]]))
+  (:require
+   [com.stuartsierra.component :as component]
+   [selmer.parser :refer [cache-off! cache-on!]]
+   [swaggerdown.logger :refer [debug]]))
 
 (defrecord Selmer [template-caching? logger]
   component/Lifecycle

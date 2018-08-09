@@ -1,8 +1,8 @@
 (ns swaggerdown.html
-  (:require [selmer.parser :refer [render-file]]
-            [selmer.filters :refer [add-filter!]]
+  (:require [clojure.string :as string]
             [markdown.core :refer [md-to-html-string]]
-            [clojure.string :as string]))
+            [selmer.filters :refer [add-filter!]]
+            [selmer.parser :refer [render-file]]))
 
 (defn- add-filters! []
   (add-filter! :key key)

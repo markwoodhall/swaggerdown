@@ -1,6 +1,7 @@
 (ns swaggerdown.logger
-  (:require [com.stuartsierra.component :as component]
-            [taoensso.timbre :as timbre]))
+  (:require
+   [com.stuartsierra.component :as component]
+   [taoensso.timbre :as timbre]))
 
 (defprotocol Logger
   (error [_ e])

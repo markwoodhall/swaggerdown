@@ -1,6 +1,7 @@
 (ns swaggerdown.markdown
-  (:require [marge.core :as marge]
-            [clojure.string :as s]))
+  (:require
+   [clojure.string :as s]
+   [marge.core :as marge]))
 
 (defn- type-or-ref
   [{:keys [$ref type]}]

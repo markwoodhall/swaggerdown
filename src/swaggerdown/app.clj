@@ -1,13 +1,15 @@
 (ns swaggerdown.app
+  (:gen-class)
   (:require [aero.core :refer [read-config]]
             [com.stuartsierra.component :as component]
-            [swaggerdown.logger :refer [new-logger info]]
-            [swaggerdown.selmer :refer [new-selmer]]
-            [swaggerdown.resources :refer [stats generators documentation home access-control]]
             [swaggerdown.db :refer [new-ravendb]]
-            [yada.yada :refer [listener resource as-resource redirect]]
-            [yada.resources.classpath-resource :refer [new-classpath-resource]])
-  (:gen-class))
+            [swaggerdown.logger :refer [info new-logger]]
+            [swaggerdown.resources
+             :refer
+             [access-control documentation generators home stats]]
+            [swaggerdown.selmer :refer [new-selmer]]
+            [yada.resources.classpath-resource :refer [new-classpath-resource]]
+            [yada.yada :refer [as-resource listener resource]]))
 
 (defrecord Server [port features logger db]
   component/Lifecycle

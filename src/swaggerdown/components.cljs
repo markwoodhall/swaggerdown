@@ -1,5 +1,6 @@
 (ns swaggerdown.components
-  (:require [cljs.core.async :refer [put! chan]]))
+  (:require 
+    [cljs.core.async :refer [put! chan]]))
 
 (defonce event-chan (chan))
 

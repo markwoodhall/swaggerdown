@@ -1,10 +1,11 @@
 (ns swaggerdown.resources
-  (:require [swaggerdown.generate :refer [->html ->markdown ->yaml ->edn ->json]]
-            [swaggerdown.logger :refer [info wrap error]]
-            [swaggerdown.db :refer [record-event! events]]
-            [selmer.parser :refer [render-file]]
-            [schema.core :as s]
-            [yada.yada :as yada]))
+  (:require
+   [schema.core :as s]
+   [selmer.parser :refer [render-file]]
+   [swaggerdown.db :refer [events record-event!]]
+   [swaggerdown.generate :refer [->edn ->html ->json ->markdown ->yaml]]
+   [swaggerdown.logger :refer [info wrap]]
+   [yada.yada :as yada]))
 
 (def access-control
   {:access-control
