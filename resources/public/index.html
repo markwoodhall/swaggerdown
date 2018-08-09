@@ -17,6 +17,13 @@
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
 
+    {% if syntax-highlighting.enabled? %}
+    <link rel="stylesheet"
+          href="css/github.css">
+    <script src="js/highlight.pack.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    {% endif %}
+
     {% if analytics.enabled? %}
     <script async src="https://www.googletagmanager.com/gtag/js?{{analytics.id}}"></script>
     <script>

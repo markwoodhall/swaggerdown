@@ -23,6 +23,7 @@
                          {:order 5 :title "JSON" :img "img/json.png" :ext ".json" :content-type "application/javascript" :template "default"}
                          {:order 6 :title "Yaml" :img "img/yaml.png" :ext ".yml" :content-type "application/x-yaml" :template "default"}
                          {:order 7 :title "EDN" :img "img/edn.png" :ext ".edn" :content-type "application/edn" :template "default"}]
+
             ;; Should a request for donation be displayed, if so
             ;; where should it link to
             :donations {:enabled? true
@@ -36,4 +37,6 @@
             ;; Google analytics
             :analytics {:enabled? #profile {:prod false
                                             :dev false}
-                        :id "UA-56746791-3"}}}
+                        :id "UA-56746791-3"}
+            
+            :syntax-highlighting {:enabled? true}}}

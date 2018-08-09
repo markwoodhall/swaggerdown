@@ -56,21 +56,29 @@
   [{:keys [api-url url preview loading? error? expanded? downloadable]}]
   (let [content-type (:content-type downloadable)
         template (:template downloadable)
-        expander (fn [_] (put! event-chan {:event :preview-clicked}))]
+        expander (fn [_] (put! event-chan {:event :preview-clicked}))
+        language (case content-type
+                  "application/edn" "Clojure"
+                  "application/x-yaml" "YAML"
+                  "application/javascript" "json"
+                  "application/markdown" "markdown"
+                  "text/html" "html"
+                  "nohighlight")]
     (if preview 
       [:div 
        [:div#preview-header 
         {:on-click expander}
         [:h3 (if loading?  "Loading..." (if error? "Error Loading" "Preview"))]]
        (if expanded? 
-         [:div#preview.expanded [:div {:style {:width "10000px"} :dangerouslySetInnerHTML {:__html preview}}]]
-         [:div#preview.collapsed [:div {:style {:width "10000px"} :dangerouslySetInnerHTML {:__html preview}}]])
+         [:div#preview.expanded [:pre [:code {:id "code" :class language :style {:width "10000px"}} preview]]]
+         [:div#preview.collapsed [:pre [:code {:id "code" :class language :style {:width "10000px"}} preview]]])
        [:div#preview-footer 
         [:div 
          {:on-click expander}
          (if expanded? 
            [:h3 "Hide"]
            [:h3 "Show More"])]
+        [:img {:on-load (fn [_] (.alert js/window "hello") ) :style {:display "none"}}]
         [:a {:href (str api-url "/documentation?url=" (.encodeURIComponent js/window url) "&content-type=" (.encodeURIComponent js/window content-type) "&template=" template)} "View"]
         (when (:data downloadable) 
           " | ")

@@ -26,17 +26,6 @@
          :generators-visible? true
          :expanded? false}))
 
-(defn clean-response [content-type response]
-  (if (or (= content-type "application/markdown")
-          (= content-type "application/x-yaml")
-          (= content-type "text/clojure")
-          (= content-type "application/edn")
-          (= content-type "application/javascript"))
-    (-> response
-        (s/replace  " " "&nbsp;")
-        (s/replace "\n" "<br />"))
-    (last (s/split response #"<body.*>"))))
-
 (defn update-stats [{:keys [content-type template] :as generator} state]
   (->> state
        (remove (partial by-content-type-and-template content-type template))
@@ -51,7 +40,6 @@
              (catch :default e))]
        (swap! app-state assoc :downloadable {:ext ext :template template :content-type content-type :data data}))
      (->> ev.currentTarget.responseText
-          (clean-response content-type)
           (swap! app-state assoc :preview)))
    (when (not= ev.target.status 200)
      (swap! app-state assoc :preview "There was a problem generating the documentation."))
@@ -123,6 +111,10 @@
       (.addEventListener "load" (comp on-load (partial stats-handler app)))
       (.send)))
 
+(defn highlight [_]
+  (when (exists? js/hljs) 
+    (js/setTimeout #(.highlightBlock js/hljs (.getElementById js/document "code")) 400)))
+  
 (defn start 
   [app]
   [:div
@@ -146,12 +138,14 @@
       @app-state 
       (fn [_] (-> (:generators @app-state)
                   first
-                  (generate @app-state render))))))
+                  (generate @app-state (comp highlight render)))))))
 
 (go-loop 
   []
   (let [{:keys [event data]} (<! c/event-chan)]
     (case event
-      :generator-clicked (generate data @app-state (fn [_]))
-      :preview-clicked (swap! app-state update :expanded? not)))
+      :generator-clicked (generate data @app-state highlight)
+      :preview-clicked (do
+                         (swap! app-state update :expanded? not)
+                         (highlight data))))
   (recur))
