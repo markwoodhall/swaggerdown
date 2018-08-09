@@ -154,11 +154,18 @@ svg > path {
   margin-right: auto;
   border: 1px solid #333;
   padding: 8px;
-  background-color: #fff;
+  background-color: #f8f8f8;
   overflow: hidden;
   font-family: "Courier New", Courier, monospace;
   color: #333;
 }
+
+#preview pre {
+  border: none;
+  background-color: #f8f8f8;
+  padding: 0;
+}
+
 
 #preview a {
   color: #444;
