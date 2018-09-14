@@ -7,9 +7,9 @@
  :logger {:log-level #profile {:prod :info
                                :dev :debug}}
 
- :db #profile {:prod {:url "https://markwoodhall-wafc.ravenhq.com"
+ :db #profile {:prod {:url "https://markwoodhall-3rbp.ravenhq.com"
                       :oauth-url "https://amazon-useast-2-oauth.ravenhq.com"
-                      :database "swaggerdown"
+                      :database "swaggerdown-prod"
                       :api-key #env RAVEN_API_KEY}
                :dev {:url "https://markwoodhall-02fa.ravenhq.com"
                      :oauth-url "https://amazon-useast-2-oauth.ravenhq.com"
