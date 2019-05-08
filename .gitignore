@@ -1,4 +1,6 @@
 .cljs_rhino_repl
+.cljs_nashorn_repl
+nashorn_code_cache
 /resources/public/js/compiled/**
 figwheel_server.log
 pom.xml
