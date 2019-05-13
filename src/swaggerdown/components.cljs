@@ -17,12 +17,13 @@
        [:img {:src img :title description :width "80px" :height "80px"}]
        [:div
         (str title)
-        [:div.count {:title (str "Used " counter " times")}
-         (cond
-           (> counter 99999) "100k"
-           (> counter 9999) "10k+"
-           (> counter 999) "1k+"
-           :else counter)]]])))
+        (when (pos? counter)
+          [:div.count {:title (str "Used " counter " times")}
+           (cond
+             (> counter 99999) "100k"
+             (> counter 9999) "10k+"
+             (> counter 999) "1k+"
+             :else counter)])]])))
 
 (defn generators
   [app]
