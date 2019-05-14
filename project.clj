@@ -113,7 +113,7 @@
 ;; https://github.com/bhauman/lein-figwheel/wiki/Using-the-Figwheel-REPL-within-NRepl
 :profiles {:dev {:dependencies [[binaryage/devtools "0.9.4"]
                                 [figwheel-sidecar "0.5.18"]
-                                [cider/piggieback "0.4.1-SNAPSHOT"]
+                                [cider/piggieback "0.4.1"]
                                 [reloaded.repl "0.2.3"]
                                 [org.clojure/tools.namespace "0.2.11"]]
                  :uberjar {:aot :all}
