@@ -25,7 +25,7 @@
                  [tick "0.3.5"]
                  [yada "1.2.9"]]
 
-  :plugins [[lein-figwheel "0.5.16"]
+  :plugins [[lein-figwheel "0.5.18"]
             [lein-cljsbuild "1.1.7" :exclusions [[org.clojure/clojure]]]]
 
   :main swaggerdown.app
@@ -112,8 +112,8 @@
 ;; Please see:
 ;; https://github.com/bhauman/lein-figwheel/wiki/Using-the-Figwheel-REPL-within-NRepl
 :profiles {:dev {:dependencies [[binaryage/devtools "0.9.4"]
-                                [figwheel-sidecar "0.5.16"]
-                                [cider/piggieback "0.4.0"]
+                                [figwheel-sidecar "0.5.18"]
+                                [cider/piggieback "0.4.1-SNAPSHOT"]
                                 [reloaded.repl "0.2.3"]
                                 [org.clojure/tools.namespace "0.2.11"]]
                  :uberjar {:aot :all}
@@ -122,7 +122,7 @@
                  ;; for CIDER
                  ;; :plugins [[cider/cider-nrepl "0.12.0"]]
                  :repl-options {:nrepl-middleware [cider.piggieback/wrap-cljs-repl]
-                                :timeout 120000}
+                                :timeout 1200000}
                  ;; need to add the compliled assets to the :clean-targets
                  :clean-targets ^{:protect false} ["resources/public/js/compiled"
                                                    :target-path]}
