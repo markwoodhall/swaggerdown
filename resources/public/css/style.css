@@ -31,14 +31,27 @@ svg > path {
 }
 
 .header > h1 {
-  font-size: 3.9em;
+  font-size: 2.9em;
   color: #eeeeee;
   text-align: center;
   margin-left: auto;
   margin-right: auto;
   padding: 8px;
   margin-bottom: 70px;
-  max-width: 900px;
+  max-width: 700px;
+}
+
+@media (min-width: 750px) { 
+  .header > h1 {
+    font-size: 3.9em;
+    color: #eeeeee;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 8px;
+    margin-bottom: 70px;
+    max-width: 900px;
+  }
 }
 
 .swagger, #profile, #help, #cog, #paypal, .logo, .counter {
@@ -84,7 +97,6 @@ svg > path {
 }
 
 .logo {
-  width: 400px;
   height: 150px;
   background-image: url('../img/s.png');
   background-position: center;
@@ -184,7 +196,7 @@ svg > path {
   width: fit-content;
   width: -moz-fit-content;
   margin-right: auto;
-  margin-left: 40px;
+  margin-left: 30px;
   margin-top: 40px;
   margin-bottom: 20px;
 }
@@ -194,7 +206,19 @@ svg > path {
   transform: scale(1.3); 
 }
 
-@media (min-width: 550px) { 
+@media (min-width: 450px) { 
+  #generators {
+    width: 300px;
+    width: fit-content;
+    width: -moz-fit-content;
+    margin-right: auto;
+    margin-left: 50px;
+    margin-top: 40px;
+    margin-bottom: 20px;
+  }
+}
+
+@media (min-width: 750px) { 
   #generators {
     width: 50%;
     width: fit-content;
