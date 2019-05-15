@@ -1,6 +1,7 @@
 (ns swaggerdown.http
   (:require [cheshire.core :refer [parse-string]]
             [clojure.walk :refer [postwalk]]
+            [clojure.string :as s]
             [yaml.core :as y]))
 
 (defn- disorder [ordering-map map-fn]
@@ -24,7 +25,7 @@
   [raw-string keywords?]
   (if (json? raw-string)
     (parse-string raw-string keywords?)
-    (keywordize-keys (disorder (y/parse-string raw-string false) {}))))
+    (keywordize-keys (disorder (y/parse-string (s/replace raw-string #"\t" "  ") false) {}))))
 
 (defn read-swagger
   [url {:keys [keywords?]}]
