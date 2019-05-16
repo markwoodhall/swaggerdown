@@ -13,12 +13,13 @@
 
 (defn map-type-link
   [t]
-  (if (s/includes? t "/definitions/")
-    (let [short-link (str (s/replace t "/definitions/" "") "-definition")
-          short-text (s/replace (s/replace short-link "#" "") "-definition" "")]
-      [:link
-       {:text short-text :url (s/lower-case short-link)}])
-    t))
+  (when t
+    (if (s/includes? t "/definitions/")
+      (let [short-link (str (s/replace t "/definitions/" "") "-definition")
+            short-text (s/replace (s/replace short-link "#" "") "-definition" "")]
+        [:link
+         {:text short-text :url (s/lower-case short-link)}])
+      t)))
 
 (defn cols-or-none
   [col]
