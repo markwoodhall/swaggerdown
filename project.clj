@@ -16,7 +16,7 @@
                  [com.taoensso/timbre "4.10.0"]
                  [cheshire "5.6.3"]
                  [clova "0.35.2"]
-                 [clj-ravendb "1.3.1-SNAPSHOT"]
+                 [clj-ravendb "1.3.1"]
                  [io.forward/yaml "1.0.6"]
                  [marge "0.14.0" :exclusions [[org.clojure/clojure] [org.clojure/clojurescript]]]
                  [markdown-clj "1.0.1"]
