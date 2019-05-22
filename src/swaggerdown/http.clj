@@ -2,7 +2,8 @@
   (:require [cheshire.core :refer [parse-string]]
             [clojure.walk :refer [postwalk]]
             [clojure.string :as s]
-            [yaml.core :as y]))
+            [yaml.core :as y])
+  (:import [java.net UnknownHostException]))
 
 (defn- disorder [ordering-map map-fn]
   (postwalk #(if (map? %) (into map-fn %) %) ordering-map))
@@ -46,6 +47,14 @@
 
 (defn read-swagger
   [url {:keys [keywords?]}]
-  (let [raw-response (slurp url)
-        parsed (yaml-or-json raw-response keywords?)]
-    parsed))
+  (try
+    (let [raw-response (slurp url)
+          parsed (yaml-or-json raw-response keywords?)]
+      parsed)
+    (catch UnknownHostException e
+      (throw 
+        (ex-info 
+          (str  "Unable to load data from " 
+               url \newline 
+               "Are you sure you entered the right url? If you are trying to use localhost then it will not work.")
+          {:cause :host-unknown})))))

@@ -37,8 +37,8 @@
       (assoc (:response ctx) :status 406 :body (str "Unexpected Content-Type:" content-type)))
     (catch Exception e
       (error logger e)
-      (if (= :ctype-unknown (-> e ex-data :cause))
-        (assoc (:response ctx) :status 400 :body (.getMessage e))
+      (case (-> e ex-data :cause)
+        (:ctype-unknown :host-unknown) (assoc (:response ctx) :status 400 :body (.getMessage e))
         (assoc (:response ctx) :status 500 :body "There was a problem generating the documentation.")))))
 
 (defn documentation
