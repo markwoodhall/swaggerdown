@@ -25,11 +25,11 @@
 (defn- c-type
   [content]
   (cond
-    (and 
+    (and
       (clojure.string/starts-with? content "{")
       (clojure.string/ends-with? content "}")) :json
-    
-    (try 
+
+    (try
       (y/parse-string (s/replace content #"\t" "  ") false)
       (catch Exception _)) :yaml
 
@@ -40,8 +40,8 @@
   (case (c-type raw-string)
     :json (parse-string raw-string keywords?)
     :yaml (keywordize-keys (disorder (y/parse-string (s/replace raw-string #"\t" "  ") false) {}))
-    (throw 
-      (ex-info 
+    (throw
+      (ex-info
         "Unable to determine type of swagger definition, it doesn't look like the url entered produces JSON or yaml."
         {:cause :ctype-unknown}))))
 
@@ -52,9 +52,9 @@
           parsed (yaml-or-json raw-response keywords?)]
       parsed)
     (catch UnknownHostException e
-      (throw 
-        (ex-info 
-          (str  "Unable to load data from " 
-               url \newline 
+      (throw
+        (ex-info
+          (str  "Unable to load data from "
+               url \newline
                "Are you sure you entered the right url? If you are trying to use localhost then it will not work.")
           {:cause :host-unknown})))))
