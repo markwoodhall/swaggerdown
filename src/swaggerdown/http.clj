@@ -21,11 +21,28 @@
   (and (clojure.string/starts-with? raw-string "{")
        (clojure.string/ends-with? raw-string "}")))
 
+(defn- c-type
+  [content]
+  (cond
+    (and 
+      (clojure.string/starts-with? content "{")
+      (clojure.string/ends-with? content "}")) :json
+    
+    (try 
+      (y/parse-string (s/replace content #"\t" "  ") false)
+      (catch Exception _)) :yaml
+
+    :else :unknown))
+
 (defn- yaml-or-json
   [raw-string keywords?]
-  (if (json? raw-string)
-    (parse-string raw-string keywords?)
-    (keywordize-keys (disorder (y/parse-string (s/replace raw-string #"\t" "  ") false) {}))))
+  (case (c-type raw-string)
+    :json (parse-string raw-string keywords?)
+    :yaml (keywordize-keys (disorder (y/parse-string (s/replace raw-string #"\t" "  ") false) {}))
+    (throw 
+      (ex-info 
+        "Unable to determine type of swagger definition, it doesn't look like the url entered produces JSON or yaml."
+        {:cause :ctype-unknown}))))
 
 (defn read-swagger
   [url {:keys [keywords?]}]

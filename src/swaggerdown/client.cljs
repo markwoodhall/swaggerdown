@@ -44,7 +44,7 @@
      (->> ev.currentTarget.responseText
           (swap! app-state assoc :preview)))
    (when (not= ev.target.status 200)
-     (swap! app-state assoc :preview "There was a problem generating the documentation."))
+     (swap! app-state assoc :preview ev.target.responseText))
    (swap! app-state assoc :error? (not= ev.target.status 200))
    (swap! app-state assoc :loading? false)
    (swap! app-state update-in [:stats :count] inc)

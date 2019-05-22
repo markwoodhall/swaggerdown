@@ -4,7 +4,7 @@
    [selmer.parser :refer [render-file]]
    [swaggerdown.db :refer [events record-event!]]
    [swaggerdown.generate :refer [->edn ->html ->json ->markdown ->yaml]]
-   [swaggerdown.logger :refer [info wrap]]
+   [swaggerdown.logger :refer [info error wrap]]
    [yada.yada :as yada]))
 
 (def access-control
@@ -26,14 +26,20 @@
 (defn documentation-handler
   "Converts the specified url to a documentation format based on the
   supplied template and content type."
-  [url template content-type ctx]
-  (case content-type
-    ("application/javascript") (->json url)
-    ("application/edn") (->edn url)
-    ("application/x-yaml") (->yaml url)
-    ("application/markdown") (->markdown url)
-    ("text/html") (->html url template)
-    (assoc (:response ctx) :status 406 :body (str "Unexpected Content-Type:" content-type))))
+  [url template content-type ctx logger]
+  (try 
+    (case content-type
+      ("application/javascript") (->json url)
+      ("application/edn") (->edn url)
+      ("application/x-yaml") (->yaml url)
+      ("application/markdown") (->markdown url)
+      ("text/html") (->html url template)
+      (assoc (:response ctx) :status 406 :body (str "Unexpected Content-Type:" content-type)))
+    (catch Exception e
+      (error logger e)
+      (if (= :ctype-unknown (-> e ex-data :cause))
+        (assoc (:response ctx) :status 400 :body (.getMessage e))
+        (assoc (:response ctx) :status 500 :body "There was a problem generating the documentation.")))))
 
 (defn documentation
   [[url template] db logger]
@@ -58,7 +64,7 @@
                      db
                      "DocumentationGenerated"
                      {:url url :template template :contenttype content-type})
-                    (documentation-handler url template content-type ctx))))}
+                    (documentation-handler url template content-type ctx logger))))}
     :get
     {:parameters
      {:query {(s/optional-key :url) String
