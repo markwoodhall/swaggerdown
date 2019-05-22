@@ -27,7 +27,7 @@
   "Converts the specified url to a documentation format based on the
   supplied template and content type."
   [url template content-type ctx logger]
-  (try 
+  (try
     (case content-type
       ("application/javascript") (->json url)
       ("application/edn") (->edn url)
