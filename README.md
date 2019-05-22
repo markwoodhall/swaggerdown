@@ -28,6 +28,6 @@ Swaggerdown is built on top of a number of Clojure and ClojureScript open source
 
 ## License
 
-Copyright © 2017 Mark Woodhall
+Copyright © 2019 Mark Woodhall
 
 https://opensource.org/licenses/MIT
