@@ -85,7 +85,7 @@
                      db
                      "DocumentationGenerated"
                      {:url url :template template :contenttype content-type})
-                    (documentation-handler url template content-type ctx))))}}})
+                    (documentation-handler url template content-type ctx logger))))}}})
 
 (defn home
   [home-map]
