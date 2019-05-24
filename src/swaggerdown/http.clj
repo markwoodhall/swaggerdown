@@ -2,7 +2,9 @@
   (:require [cheshire.core :refer [parse-string]]
             [clojure.walk :refer [postwalk]]
             [clojure.string :as s]
-            [yaml.core :as y])
+            [yaml.core :as y]
+            [aleph.http :as ahttp]
+            [byte-streams :as bs])
   (:import [java.net UnknownHostException]))
 
 (defn- disorder [ordering-map map-fn]
@@ -48,7 +50,9 @@
 (defn read-swagger
   [url {:keys [keywords?]}]
   (try
-    (let [raw-response (slurp url)
+    (let [raw-response (-> @(ahttp/get url)
+                           :body
+                           bs/to-string)
           parsed (yaml-or-json raw-response keywords?)]
       parsed)
     (catch UnknownHostException e
