@@ -23,7 +23,7 @@
                     <h4>This documentation describes the operations supported at the following addresses:</h4>
                     <p></p>
                     {% for server in servers %}
-                      {{server.description}}<code><a href="{{server.url}}">{{server.url}}</a></code>
+                      {{server.description|markdown|safe}}<code><a href="{{server.url}}">{{server.url}}</a></code>
                     {% endfor %}
                 </div>
             </div>
@@ -98,7 +98,7 @@
                                 {% endif %}
 
                                 <h4>{{opval.summary}}</h4>
-                                <p>{{opval.description}}</p>
+                                <p>{{opval.description|markdown|safe}}</p>
 
                                 {% if opval.consumes|not-empty? %}
 
@@ -141,7 +141,7 @@
                                            {% with responseval=response|val %}
                                            <tr>
                                              <td>{{response|key|name}}</td> 
-                                             <td>{{responseval.description}}</td>
+                                             <td>{{responseval.description|markdown|safe}}</td>
                                              <td>
                                              {% if responseval.schema|not-nil? %}
                                                <a href="{{responseval.schema.$ref}}">{{responseval.schema.$ref}}</a>
@@ -177,7 +177,7 @@
                                                 <code>Required</code>
                                                 {% endif %}
                                              </td> 
-                                             <td>{{param.description}}</td>
+                                             <td>{{param.description|markdown|safe}}</td>
                                              <td>{{param.type}}</td>
                                              <td>{{param.format}}</td>
                                              <td>
@@ -253,7 +253,7 @@
                                   <code>{{en}}</code><br />
                                 {% endfor %}
                                 </td>
-                                <td>{{prop.description}}</td>
+                                <td>{{prop.description|markdown|safe}}</td>
                                 <td>{{prop.default}}</td>
                                 <td>{{prop.example}}</td>
                               {% endfor %}
@@ -299,7 +299,7 @@
                         <tbody>
                             <tr>
                                 <td>{{definitionVal.type}}</td>
-                                <td>{{definitionVal.description}}</td>
+                                <td>{{definitionVal.description|markdown|safe}}</td>
                                 <td>{{definitionVal.in}}</td>
                                 <td>{{definitionVal.name}}</td>
                             </tr>
@@ -333,7 +333,7 @@
                         <tbody>
                             <tr>
                                 <td>{{definitionVal.type}}</td>
-                                <td>{{definitionVal.description}}</td>
+                                <td>{{definitionVal.description|markdown|safe}}</td>
                                 <td><a href="{{definitionVal.authorizationUrl}}">{{definitionVal.authorizationUrl}}</a></td>
                                 <td><a href="{{definitionVal.tokenUrl}}">{{definitionVal.tokenUrl}}</a></td>
                                 <td>{{definitionVal.flow}}</td>
