@@ -3,4 +3,3 @@ before_install:
 language: clojure
 jdk:
   - openjdk8
-  - oraclejdk8
