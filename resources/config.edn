@@ -27,7 +27,7 @@
             ;; Should a request for donation be displayed, if so
             ;; where should it link to
             :donations {:enabled? true
-                        :address "https://www.paypal.me/mrwoodhall"}
+                        :address "https://www.monzo.me/markwoodhall"}
 
             ;; Verification for web master tools like bing
             :webmaster-tools {:bing {:enabled? #profile {:prod true

@@ -29,14 +29,14 @@
   [app]
   (if (:generators-visible? app)
     (map (partial generator app) (sort-by :order (:generators app)))
-    [:div.error.blue 
+    [:div.error.dark-grey 
      [:img {:src "img/error.png" :height "90px" :width "90px"}]
      [:h4 "Enter a valid swagger json/yaml url to generate documentation!"]]))
 
 (defn api-pane
   [{:keys [api-url preview url downloadable]}]
   (if preview 
-    [:div.outro.blue
+    [:div.outro.dark-grey
      [:img#help {:src "img/api.png" :width "120px" :height "120px"}]
      [:h3 "Use the API!"]
      [:p "If you need to convert your OpenAPI or Swagger specification in a more automated fashion or don't want to use this user interface then you can make use of the api."]
@@ -49,7 +49,7 @@
 (defn stats-pane
   [app]
   (let [counter (get-in app [:stats :count])]
-    [:div.outro.dark-grey
+    [:div.outro.blue
      [:img#counter {:src "img/cog.png" :width "120px" :height "120px"}]
      [:h3 (str counter " Generations!")]
      [:p (str "Swaggerdown has converted Swagger and OpenAPI specifications " counter " times!")]]))

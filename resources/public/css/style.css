@@ -21,7 +21,6 @@ svg > path {
 .header {
   float: left;
   width: 100%;
-  background-color: #1A262F;
   color: #fff;
   padding: 8px;
   padding-bottom: 40px;
@@ -151,6 +150,7 @@ svg > path {
   border-radius: 0px 0px 5px 5px;
   cursor: hand;
   cursor: pointer;
+  margin-bottom: 60px;
 }
 
 #preview-header > h3, #preview-footer > div > h3 {

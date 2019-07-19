@@ -120,7 +120,7 @@
 (defn start 
   [app]
   [:div
-   [:div#main.blue
+   [:div#main.dark-grey
     (url-input @app)
     [:div#generators-container 
      [:div#generators 
