@@ -138,7 +138,6 @@
         flows (map (partial key-or-empty :flow) defs)
         names (map (partial key-or-empty :name) defs)
         ins (map (partial key-or-empty :in) defs)
-        token-urls (map (partial key-or-empty :tokenUrl) defs)
         auth-urls (map (partial key-or-empty :authorizationUrl) defs)
         scopes (map (partial key-or-empty :scopes) defs)
         scope-names (map #(if (keyword? %) (name %)  %) (flatten (map keys scopes)))

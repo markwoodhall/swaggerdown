@@ -27,9 +27,7 @@
 (defn- c-type
   [content]
   (cond
-    (and
-      (clojure.string/starts-with? content "{")
-      (clojure.string/ends-with? content "}")) :json
+    (json? content) :json
 
     (try
       (y/parse-string (s/replace content #"\t" "  ") false)

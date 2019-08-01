@@ -39,7 +39,7 @@
       (catch Exception e
         (error logger e)))
     this)
-  (events [{:keys [client] :as this} i]
+  (events [{:keys [client] :as _} i]
     (->> {:max-attempts 1}
          (rdb/query-index client {:index i})
          (:results)

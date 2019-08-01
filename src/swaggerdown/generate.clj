@@ -1,10 +1,11 @@
 (ns swaggerdown.generate
   (:require
-   [cheshire.core :refer [generate-string]]
-   [swaggerdown.html :as h]
-   [swaggerdown.http :refer [read-swagger]]
-   [swaggerdown.markdown :as m]
-   [yaml.core :as y]))
+    [clojure.pprint :as pprint]
+    [cheshire.core :refer [generate-string]]
+    [swaggerdown.html :as h]
+    [swaggerdown.http :refer [read-swagger]]
+    [swaggerdown.markdown :as m]
+    [yaml.core :as y]))
 
 (defn- sort-map
   [m ks]
@@ -28,7 +29,7 @@
   produces edn."
   [url]
   (let [swagger (read-swagger url {:keywords? true})]
-    (with-out-str (clojure.pprint/pprint swagger))))
+    (with-out-str (pprint/pprint swagger))))
 
 (defn ->yaml
   "Takes swagger url, which could be to a json or yaml specification, and
